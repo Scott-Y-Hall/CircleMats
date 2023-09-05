@@ -47,6 +47,11 @@ var svg = d3.select('body').append('svg')
         + ' ' +  matCtrl.width + ' ' + matCtrl.height
     );
 svgFullScreen();
+svg.append("path")
+    .attr('id','matpath2')
+    .attr('fill', 'none')
+    .attr('stroke', '#EE3333')
+    .attr('stroke-width','5');
 var path = svg.append("path")
     .attr('id','matpath')
     .attr('fill', 'none')
@@ -340,8 +345,17 @@ function updateMat() {
     } else {
         showControlPoints(mat, []);
     }
+    var matpath2 = d3.select('#matpath2');
     var matpath = d3.select('#matpath');
-    matpath.attr('d', knotpoints.map( d => createPointString(d) ).toString() );
+    if (knotpoints[knotpoints.length - 2].mode == 'end2') {
+        matpath2.attr('d', knotpoints.map( d => createPointString(d) ).toString() );
+        knotpoints[knotpoints.length - 2].mode = 'end';
+        knotpoints.splice(knotpoints.length - 1);
+        matpath.attr('d', knotpoints.map( d => createPointString(d) ).toString() );
+    } else {
+        matpath2.attr('d', '');
+        matpath.attr('d', knotpoints.map( d => createPointString(d) ).toString() );
+    }
     PAL = [];
     //var pathX = path_intersections(matpath);
     if ( control_flags['Int'] ) { 
@@ -350,9 +364,12 @@ function updateMat() {
     var data = d3.select('#sliders').selectAll('g').data();
     var show = data.filter(d => d.name == "Segments")[0];
     if ( show['value'] == show['max']) {
+        matpath2.attr("stroke-dasharray", "");
         matpath.attr("stroke-dasharray", "");
         if ( control_flags['UnderOver'] ) { 
-            matpath.attr("stroke-dasharray", create_dasharray(path_intersections(matpath)));
+            let dasharray = create_dasharray(path_intersections(matpath));
+            matpath2.attr("stroke-dasharray", dasharray);
+            matpath.attr("stroke-dasharray", dasharray);
         }
     }
     //if (d3.select("#intersect").property("checked")){ draw_intersections(pathX); } else { highlights.selectAll("circle").remove(); }
@@ -666,7 +683,10 @@ function createYetterKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
+    if ( nodepoints.length != c.show ) {
+        nodepoints.splice(c.show + 1);
+        nodepoints[nodepoints.length - 2].mode = "end2";
+    }
     nodepoints[0].mode = "start";
     nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
