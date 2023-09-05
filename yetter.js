@@ -190,7 +190,7 @@ function path_intersections(path) {
                 pt.p1 = getPAL(path, pt.i1);
                 pt.p2 = getPAL(path, pt.i2);
                 pts.push(pt);
-                console.log(pt);
+                //console.log(pt);
                 //draw_intersections(pts);
             }
         }}
@@ -226,7 +226,7 @@ function adjust_point(pt, path) {
                 minDist = curDist;
                 minI1 = i;
                 minI2 = j;
-                console.log( curDist, i,pt.i1,j,pt.i2 ); 
+                //console.log( curDist, i,pt.i1,j,pt.i2 ); 
             }
         }
     }
@@ -570,20 +570,30 @@ function createKnotPoints_old() {
     return createYetterKnot();
 }
 function createKnotPoints() {
-    if (matType == 'K') { return createKringleKnot(); }
-    if (matType == 'Y') { return createYetterKnot(); }
-    if (matType == 'YPlus') { return createYetterPlusKnot(); }
-    if (matType == 'Pi') { return createPitonKnot(); }
-    if (matType == 'Pe') { return createPeesoKnot(); }
-    if (matType == 'R') { return createRattanKnot(); }
-    if (matType == 'Ra') { return createRadianceKnot(); }
-    if (matType == 'S') { return createStruktorKnot(); }
-    if (matType == 'W') { return createWarlowKnot(); }
-    if (matType == 'W2') { return createWarlow2Knot(); }
-    if (matType == 'Sa') { return createSardinaKnot(); }
-    if (matType == 'Saa') { return createSardinaAltKnot(); }
-    if (matType == 'S2') { return createSardina2Knot(); }
-    return createYetterPlusKnot();
+    let nodepoints = [];
+    if (matType == 'K') { nodepoints = createKringleKnot(); }
+    if (matType == 'Y') { nodepoints = createYetterKnot(); }
+    if (matType == 'YPlus') { nodepoints = createYetterPlusKnot(); }
+    if (matType == 'Pi') { nodepoints = createPitonKnot(); }
+    if (matType == 'Pe') { nodepoints = createPeesoKnot(); }
+    if (matType == 'R') { nodepoints = createRattanKnot(); }
+    if (matType == 'Ra') { nodepoints = createRadianceKnot(); }
+    if (matType == 'S') { nodepoints = createStruktorKnot(); }
+    if (matType == 'W') { nodepoints = createWarlowKnot(); }
+    if (matType == 'W2') { nodepoints = createWarlow2Knot(); }
+    if (matType == 'Sa') { nodepoints = createSardinaKnot(); }
+    if (matType == 'Saa') { nodepoints = createSardinaAltKnot(); }
+    if (matType == 'S2') { nodepoints = createSardina2Knot(); }
+    if (nodepoints.length == 0 ) { nodepoints = createYetterPlusKnot(); }
+    let data = d3.select('#sliders').selectAll('g').data();
+    let show = data.filter(d => d.name == "Segments")[0]['value'];
+    if ( nodepoints.length != show ) {
+        nodepoints.splice(show + 1);
+        nodepoints[nodepoints.length - 2].mode = "end2";
+    }
+    nodepoints[0].mode = "start";
+    nodepoints[nodepoints.length - 1].mode = "end";
+    return nodepoints;
 }
 
 function createWarlowKnot() {
@@ -596,9 +606,6 @@ function createWarlowKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + ( 180 - c.angle / 4 ), c.startcp, c.startcp));
     }
     nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -612,9 +619,6 @@ function createWarlow2Knot() {
         nodepoints.push(createPoint(300, -x * c.angle + 180 - 3 * c.angle / 4, -c.midcp, -c.startcp));
     }
     nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, -c.startcp, -c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -631,9 +635,6 @@ function createRadianceKnot() {
         nodepoints.push(createPoint(c.smallCircle, x * c.angle +  7 * c.angle / 4, -c.midcp, -c.startcp, c.tilt));
     }
     nodepoints.push(createPoint(c.largeCircle, (c.knots - 1) * c.angle + c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -651,9 +652,6 @@ function createStruktorKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + 45, 50, c.startcp / 3));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -667,9 +665,6 @@ function createKringleKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -683,12 +678,6 @@ function createYetterKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    if ( nodepoints.length != c.show ) {
-        nodepoints.splice(c.show + 1);
-        nodepoints[nodepoints.length - 2].mode = "end2";
-    }
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -707,9 +696,6 @@ function createYetterPlusKnot() {
         nodepoints.push(createPoint(390, -x * c.angle + 3 * c.angle / 16, -c.angle * 2, -c.angle * 2, c.tilt));
     }
     nodepoints.push(createPoint(c.middleCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -727,9 +713,6 @@ function createSardinaKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -747,9 +730,6 @@ function createSardinaAltKnot() {
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -763,9 +743,6 @@ function createSardina2Knot() {
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 3, -c.midcp, -c.startcp / 3));
     }
     nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -777,9 +754,6 @@ function createPeesoKnot() {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + 180, c.midcp, c.midcp));
     }
     nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -791,9 +765,6 @@ function createPitonKnot() {
         nodepoints.push(createPoint(c.largeCircle, 180 + (4 - c.knots) * x * c.angle, -c.midcp, -c.midcp));
     }
     nodepoints.push(createPoint(c.smallCircle, 180 + 4 * (c.knots - 1) * c.angle + c.angle * 2, -c.startcp, -c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
@@ -805,9 +776,6 @@ function createRattanKnot() {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + 180, -c.midcp, -c.midcp));
     }
     nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, -c.startcp, -c.startcp));
-    nodepoints.splice(c.show);
-    nodepoints[0].mode = "start";
-    nodepoints[nodepoints.length - 1].mode = "end";
     return nodepoints;
 }
 
