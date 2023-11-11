@@ -11,6 +11,7 @@ var matName = {
     Sa: 'Sardina',
     //Saa: 'Sardina Alt',
     S2: 'Sardina2',
+    S3: 'Sardina3',
     W: 'Warlow',
     W2: 'Warlow2',
     V: 'Vainovska'
@@ -585,6 +586,7 @@ function createKnotPoints() {
     if (matType == 'Sa') { nodepoints = createSardinaKnot(); }
     if (matType == 'Saa') { nodepoints = createSardinaAltKnot(); }
     if (matType == 'S2') { nodepoints = createSardina2Knot(); }
+    if (matType == 'S3') { nodepoints = createSardina3Knot(); }
     if (matType == 'V') { nodepoints = createVainovskaKnot(); }
     if (nodepoints.length == 0 ) { nodepoints = createYetterPlusKnot(); }
     let data = d3.select('#sliders').selectAll('g').data();
@@ -768,6 +770,18 @@ function createSardina2Knot() {
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 3, -c.midcp, -c.startcp / 3));
     }
     nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
+    if (c.single) {nodepoints.splice(c.show);}
+    return nodepoints;
+}
+
+function createSardina3Knot() {
+    var c = getControls(2);
+    var nodepoints = [];
+    for ( var x = 0; x < c.knots; x++ ) {
+        nodepoints.push(createPoint(-c.smallCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
+        nodepoints.push(createPoint(c.largeCircle, -x * c.angle + 180, c.midcp, c.midcp));
+    }
+    nodepoints.push(createPoint(-c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
     if (c.single) {nodepoints.splice(c.show);}
     return nodepoints;
 }
@@ -1618,6 +1632,56 @@ function definePresets() {
                 { value: 22 }, // Start Control Points
                 { value: 51 }, // Middle Control Points
                 { value: 25, max: 25 } // Segments to show
+            ]
+        },
+        S3:{
+            mat: [ 
+                { min: 6, max: 9 }, // Knots
+                { min: 100, max: 300 }, // Large Circle
+                { min: 10, max: 200 }, // Small Circle
+                { min: 0, max: 70 }, // Start Control Points
+                { min: 0, max: 80 }, // Middle Control Points
+                { min: 2, max: 17 } // Segments to show
+            ],
+            6: [
+                { value: 6 }, // Knots
+                { value: 298 }, // Large Circle
+                { value: 39 }, // Small Circle
+                { value: 39 }, // Start Control Points
+                { value: 23 }, // Middle Control Points
+                { value: 13, max: 13 } // Segments to show
+            ],
+            7: [
+                { value: 7 }, // Knots
+                { value: 298 }, // Large Circle
+                { value: 39 }, // Small Circle
+                { value: 32 }, // Start Control Points
+                { value: 23 }, // Middle Control Points
+                { value: 15, max: 15 } // Segments to show
+            ],
+            8: [
+                { value: 8 }, // Knots
+                { value: 298 }, // Large Circle
+                { value: 54 }, // Small Circle
+                { value: 30 }, // Start Control Points
+                { value: 23 }, // Middle Control Points
+                { value: 17, max: 17 } // Segments to show
+            ],
+            9: [
+                { value: 9 }, // Knots
+                { value: 298 }, // Large Circle
+                { value: 54 }, // Small Circle
+                { value: 22 }, // Start Control Points
+                { value: 23 }, // Middle Control Points
+                { value: 19, max: 19 } // Segments to show
+            ],
+            'x10': [
+                { value: 10 }, // Knots
+                { value: 298 }, // Large Circle
+                { value: 74 }, // Small Circle
+                { value: 22 }, // Start Control Points
+                { value: 23 }, // Middle Control Points
+                { value: 21, max: 21 } // Segments to show
             ]
         },
         K:{
