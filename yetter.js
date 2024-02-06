@@ -813,12 +813,12 @@ function createSardina5Knot() {
     var c = getControls(4);
     var nodepoints = [];
     for ( var x = 0; x < c.knots; x++ ) {
-        nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
+        nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, c.startcp / 2, c.startcp / 2));
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 5, c.angle, c.midcp / 2));
-        nodepoints.push(createPoint(c.smallCircle, -x * c.angle + 180, c.midcp, c.midcp));
+        nodepoints.push(createPoint(c.smallCircle, -x * c.angle + 180, -c.angle * 3, -c.angle * 3));
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
-    nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp, c.startcp));
+    nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp / 2, c.startcp / 2));
     if (c.single) {nodepoints.splice(c.show);}
     return nodepoints;
 }
@@ -1767,74 +1767,74 @@ function definePresets() {
             mat: [ 
                 { min: 3, max: 9 }, // Knots
                 { min: 100, max: 300 }, // Large Circle
-                { min: 10, max: 200 }, // Small Circle
-                { min: 0, max: 70 }, // Start Control Points
-                { min: 0, max: 80 }, // Middle Control Points
+                { min: 100, max: 400 }, // Small Circle
+                { min: 0, max: 50 }, // Start Control Points
+                { min: 0, max: 150 }, // Middle Control Points
                 { min: 2, max: 17 } // Segments to show
             ],
             3: [
                 { value: 3 }, // Knots
-                { value: 175 }, // Large Circle
-                { value: 50 }, // Small Circle
-                { value: 10 }, // Start Control Points
-                { value: 23 }, // Middle Control Points
+                { value: 187 }, // Large Circle
+                { value: 379 }, // Small Circle
+                { value: 21 }, // Start Control Points
+                { value: 100 }, // Middle Control Points
+                { value: 13, max: 13 } // Segments to show
+            ],
+            '3a': [
+                { value: 3 }, // Knots
+                { value: 161 }, // Large Circle
+                { value: 271 }, // Small Circle
+                { value: 16 }, // Start Control Points
+                { value: 67 }, // Middle Control Points
                 { value: 13, max: 13 } // Segments to show
             ],
             4: [
                 { value: 4 }, // Knots
-                { value: 200 }, // Large Circle
-                { value: 50 }, // Small Circle
-                { value: 10 }, // Start Control Points
-                { value: 26 }, // Middle Control Points
+                { value: 153 }, // Large Circle
+                { value: 302 }, // Small Circle
+                { value: 23 }, // Start Control Points
+                { value: 75 }, // Middle Control Points
                 { value: 17, max: 17 } // Segments to show
             ],
             5: [
                 { value: 5 }, // Knots
-                { value: 200 }, // Large Circle
-                { value: 50 }, // Small Circle
-                { value: 10 }, // Start Control Points
-                { value: 26 }, // Middle Control Points
+                { value: 172 }, // Large Circle
+                { value: 346 }, // Small Circle
+                { value: 20 }, // Start Control Points
+                { value: 80 }, // Middle Control Points
                 { value: 21, max: 21 } // Segments to show
             ],
             6: [
                 { value: 6 }, // Knots
-                { value: 200 }, // Large Circle
-                { value: 75 }, // Small Circle
-                { value: 10 }, // Start Control Points
-                { value: 26 }, // Middle Control Points
+                { value: 233 }, // Large Circle
+                { value: 347 }, // Small Circle
+                { value: 20 }, // Start Control Points
+                { value: 65 }, // Middle Control Points
                 { value: 25, max: 25 } // Segments to show
             ],
             7: [
                 { value: 7 }, // Knots
-                { value: 222 }, // Large Circle
-                { value: 75 }, // Small Circle
-                { value: 8 }, // Start Control Points
-                { value: 27 }, // Middle Control Points
+                { value: 178 }, // Large Circle
+                { value: 335 }, // Small Circle
+                { value: 14 }, // Start Control Points
+                { value: 62 }, // Middle Control Points
                 { value: 29, max: 29 } // Segments to show
             ],
             8: [
                 { value: 8 }, // Knots
-                { value: 261 }, // Large Circle
-                { value: 76 }, // Small Circle
-                { value: 7 }, // Start Control Points
-                { value: 31 }, // Middle Control Points
+                { value: 237 }, // Large Circle
+                { value: 320 }, // Small Circle
+                { value: 19 }, // Start Control Points
+                { value: 39 }, // Middle Control Points
                 { value: 33, max: 33 } // Segments to show
             ],
             9: [
                 { value: 9 }, // Knots
-                { value: 261 }, // Large Circle
-                { value: 87 }, // Small Circle
-                { value: 7 }, // Start Control Points
-                { value: 31 }, // Middle Control Points
+                { value: 217 }, // Large Circle
+                { value: 360 }, // Small Circle
+                { value: 13 }, // Start Control Points
+                { value: 59 }, // Middle Control Points
                 { value: 37, max: 37 } // Segments to show
-            ],
-            x10: [
-                { value: 10 }, // Knots
-                { value: 261 }, // Large Circle
-                { value: 99 }, // Small Circle
-                { value: 7 }, // Start Control Points
-                { value: 31 }, // Middle Control Points
-                { value: 41, max: 41 } // Segments to show
             ]
         },
         K:{
