@@ -810,12 +810,14 @@ function createSardina4Knot() {
 }
 
 function createSardina5Knot() {
-    var c = getControls(4);
+    var c = getControls(6);
     var nodepoints = [];
     for ( var x = 0; x < c.knots; x++ ) {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, c.startcp / 2, c.startcp / 2));
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 5, c.angle, c.midcp / 2));
-        nodepoints.push(createPoint(c.smallCircle, -x * c.angle + 180, -c.angle * 3, -c.angle * 3));
+        nodepoints.push(createPoint(c.smallCircle, -x * c.angle - 90 - c.angle / 5, c.angle, c.angle, c.angle / 5));
+        nodepoints.push(createPoint(250 + c.smallCircle, -x * c.angle + 180, -c.angle * 3, -c.angle * 3));
+        nodepoints.push(createPoint(c.smallCircle, -x * c.angle + 90 + c.angle / 5, c.angle, c.angle, -c.angle / 5));
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 5, c.midcp / 2, c.angle));
     }
     nodepoints.push(createPoint(c.largeCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp / 2, c.startcp / 2));
@@ -1770,7 +1772,7 @@ function definePresets() {
                 { min: 100, max: 400 }, // Small Circle
                 { min: 0, max: 50 }, // Start Control Points
                 { min: 0, max: 150 }, // Middle Control Points
-                { min: 2, max: 17 } // Segments to show
+                { min: 2, max: 100 } // Segments to show
             ],
             3: [
                 { value: 3 }, // Knots
@@ -1778,7 +1780,7 @@ function definePresets() {
                 { value: 379 }, // Small Circle
                 { value: 21 }, // Start Control Points
                 { value: 100 }, // Middle Control Points
-                { value: 13, max: 13 } // Segments to show
+                { value: 19, max: 19 } // Segments to show
             ],
             '3a': [
                 { value: 3 }, // Knots
@@ -1786,7 +1788,7 @@ function definePresets() {
                 { value: 271 }, // Small Circle
                 { value: 16 }, // Start Control Points
                 { value: 67 }, // Middle Control Points
-                { value: 13, max: 13 } // Segments to show
+                { value: 19, max: 19 } // Segments to show
             ],
             4: [
                 { value: 4 }, // Knots
@@ -1794,7 +1796,7 @@ function definePresets() {
                 { value: 302 }, // Small Circle
                 { value: 23 }, // Start Control Points
                 { value: 75 }, // Middle Control Points
-                { value: 17, max: 17 } // Segments to show
+                { value: 25, max: 25 } // Segments to show
             ],
             5: [
                 { value: 5 }, // Knots
@@ -1802,7 +1804,7 @@ function definePresets() {
                 { value: 346 }, // Small Circle
                 { value: 20 }, // Start Control Points
                 { value: 80 }, // Middle Control Points
-                { value: 21, max: 21 } // Segments to show
+                { value: 31, max: 31 } // Segments to show
             ],
             6: [
                 { value: 6 }, // Knots
@@ -1810,7 +1812,7 @@ function definePresets() {
                 { value: 347 }, // Small Circle
                 { value: 20 }, // Start Control Points
                 { value: 65 }, // Middle Control Points
-                { value: 25, max: 25 } // Segments to show
+                { value: 37, max: 37 } // Segments to show
             ],
             7: [
                 { value: 7 }, // Knots
@@ -1818,7 +1820,7 @@ function definePresets() {
                 { value: 335 }, // Small Circle
                 { value: 14 }, // Start Control Points
                 { value: 62 }, // Middle Control Points
-                { value: 29, max: 29 } // Segments to show
+                { value: 43, max: 43 } // Segments to show
             ],
             8: [
                 { value: 8 }, // Knots
@@ -1826,7 +1828,7 @@ function definePresets() {
                 { value: 320 }, // Small Circle
                 { value: 19 }, // Start Control Points
                 { value: 39 }, // Middle Control Points
-                { value: 33, max: 33 } // Segments to show
+                { value: 49, max: 49 } // Segments to show
             ],
             9: [
                 { value: 9 }, // Knots
@@ -1834,7 +1836,7 @@ function definePresets() {
                 { value: 360 }, // Small Circle
                 { value: 13 }, // Start Control Points
                 { value: 59 }, // Middle Control Points
-                { value: 37, max: 37 } // Segments to show
+                { value: 55, max: 55 } // Segments to show
             ]
         },
         K:{
