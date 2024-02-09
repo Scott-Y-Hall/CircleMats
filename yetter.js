@@ -21,8 +21,8 @@ var matName = {
 var matNameArray = Object.keys(matName).map( d => ({key: d, value: matName[d]}) );
 var presets = definePresets(); 
 var presetArray = Object.keys(matName)
-    .map(d => ({key: d, value: Object.keys(presets[d])
-        .filter(d => (d != 'mat' && d != 'dev')).sort(d3.ascending)}));
+    .map(d => ({key: d, value: Object.keys(presets[d]).map(Number)
+        .filter(d => d).sort(d3.ascending)}));
 var color = d3.scaleOrdinal(d3.schemeCategory10);
 var matCtrl = { width: 800, height: 800, translate: 'translate(0,50)'};
 var sliderCtrl = { width: 800, height: 400, translate: 'translate(0,950)'};
@@ -452,6 +452,7 @@ function getSliderDefs() {
         { name: "Segments" }
     ];
 }
+
 function getSliderDevDefs() {
     return [
         { min: '3', max: '19' }, // Knots
@@ -545,7 +546,9 @@ function dragged(event, d) {
         var fullSlider = 1 + ppk * d.value;
         var g = d3.select('#sliders').selectAll('g');
         var currentData = g.data();
-        currentData[5]['max'] = currentData[5]['value'] = fullSlider;
+        var segments = currentData.find( d => d.name == 'Segments' );
+        segments.max = segments.value = fullSlider;
+        segments.y = 10;
         g.data(currentData).join('g');
         updateSliders(g);
     }
@@ -1408,7 +1411,7 @@ function definePresets() {
                 { value: 31 }, // Middle Control Points
                 { value: 37, max: 37 } // Segments to show
             ],
-            x10: [
+            10: [
                 { value: 10 }, // Knots
                 { value: 261 }, // Large Circle
                 { value: 99 }, // Small Circle
@@ -1540,7 +1543,7 @@ function definePresets() {
                 { value: 18 }, // Middle Control Points
                 { value: 33, max: 33 } // Segments to show
             ],
-            x10: [
+            10: [
                 { value: 10 }, // Knots
                 { value: 235 }, // Large Circle
                 { value: 53 }, // Small Circle
@@ -1548,7 +1551,7 @@ function definePresets() {
                 { value: 19 }, // Middle Control Points
                 { value: 41, max: 41 } // Segments to show
             ],
-            x12: [
+            12: [
                 { value: 12 }, // Knots
                 { value: 244 }, // Large Circle
                 { value: 71 }, // Small Circle
@@ -1614,7 +1617,7 @@ function definePresets() {
                 { value: 18 }, // Middle Control Points
                 { value: 33, max: 33 } // Segments to show
             ],
-            x10: [
+            10: [
                 { value: 10 }, // Knots
                 { value: 235 }, // Large Circle
                 { value: 53 }, // Small Circle
@@ -1622,7 +1625,7 @@ function definePresets() {
                 { value: 19 }, // Middle Control Points
                 { value: 41, max: 41 } // Segments to show
             ],
-            x12: [
+            12: [
                 { value: 12 }, // Knots
                 { value: 244 }, // Large Circle
                 { value: 71 }, // Small Circle
@@ -1714,7 +1717,7 @@ function definePresets() {
                 { value: 23 }, // Middle Control Points
                 { value: 19, max: 19 } // Segments to show
             ],
-            'x10': [
+            10: [
                 { value: 10 }, // Knots
                 { value: 298 }, // Large Circle
                 { value: 74 }, // Small Circle
@@ -1904,7 +1907,7 @@ function definePresets() {
                 { value: 13 }, // Middle Control Points
                 { value: 37, max: 37 } // Segments to show
             ],
-            x10: [
+            10: [
                 { value: 10 }, // Knots
                 { value: 200 }, // Large Circle
                 { value: 120 }, // Small Circle
