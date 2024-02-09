@@ -472,10 +472,10 @@ function createSliders(g) {
         .attr('id', d => 'slider_' + d.name )
         .call(createSlider);
     //sl_g.select('rect').attr('width', d => sliderCtrl.width / sliderCtrl.length - 4);
-    sl_g.select('rect').attr('y', d => d3.scaleLinear()
+    sl_g.selectAll('rect').attr('y', d => d3.scaleLinear()
         .range([sliderCtrl.height - 10,10]).clamp(true).domain([d.min, d.max])(d.value));
-    sl_g.select('text#name').text(d => d.name);
-    sl_g.select('text#value').text(d => d.value);
+    sl_g.selectAll('text#name').text(d => d.name);
+    sl_g.selectAll('text#value').text(d => d.value);
 }
 
 function updateSliders(g) {
@@ -484,24 +484,19 @@ function updateSliders(g) {
 }
 
 function createSlider(g) {
-    g.append('line')
+    g.selectAll('line').data(d => [d]).join('line')
         .attr('x1', 50).attr('y1', 10)
         .attr('x2', 50).attr('y2', sliderCtrl.height + 50);
-    g.append('rect')
+    g.selectAll('rect').data(d => [d]).join('rect')
         .attr('x', 1).attr('y', 5)
         .attr('width', 98).attr('height', 60)
         .call(drag);
-    g.append('text')
-        .attr('id', 'name')
+    g.selectAll('text').data(d => [d.name, 'value']).join('text')
+        .attr('id', d => d)
+        .classed('slider_value', ( d => d == 'value'))
         .attr('text-anchor', 'middle')
-        .attr('transform', 'translate(50, 0)')
-        .text('d.name');
-    g.append('text')
-        .attr('id', 'value')
-        .attr('text-anchor', 'middle')
-        .classed('slider_value', true)
-        .attr('transform', 'translate(50, -20)')
-        .text('d.value');
+        .attr('transform', ( d => d == 'value' ? 'translate(50, -20)' : 'translate(50, 0)'))
+        .text( d => d );
 }
 
 var ppk;
