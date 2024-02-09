@@ -87,7 +87,7 @@ presets_g.selectAll('text').data(d => d.value).join('text')
     .attr('text-anchor', 'middle')
     .attr('x', (d,i) => 0 + 40 * i)
     .on('click', (x,d) => 
-        loadPreset(d3.select(x.currentTarget.parentNode).data()[0]['key'], d)
+        loadPreset(d3.select(x.currentTarget.parentNode).datum().key, d)
     );
 
 var buttonData = [
