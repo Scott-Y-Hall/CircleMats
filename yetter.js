@@ -465,8 +465,7 @@ function getSliderDevDefs() {
     ];
 }
 
-function createSliders(g) {
-    var sliders = getSliderDefs();
+function createSliders(g, sliders) {
     var sl_g = g.selectAll('g').data(sliders).join('g')
         .attr('transform', (d, i) => 'translate(' + ( i * sliderCtrl.width / sliders.length ) + ', 0)')
         .attr('id', d => 'slider_' + d.name )
@@ -474,8 +473,6 @@ function createSliders(g) {
     //sl_g.select('rect').attr('width', d => sliderCtrl.width / sliderCtrl.length - 4);
     sl_g.selectAll('rect').attr('y', d => d3.scaleLinear()
         .range([sliderCtrl.height - 10,10]).clamp(true).domain([d.min, d.max])(d.value));
-    sl_g.selectAll('text#name').text(d => d.name);
-    sl_g.selectAll('text#value').text(d => d.value);
 }
 
 function updateSliders(g) {
@@ -491,12 +488,12 @@ function createSlider(g) {
         .attr('x', 1).attr('y', 5)
         .attr('width', 98).attr('height', 60)
         .call(drag);
-    g.selectAll('text').data(d => [d.name, 'value']).join('text')
-        .attr('id', d => d)
-        .classed('slider_value', ( d => d == 'value'))
+    g.selectAll('text').data(d => [{'id':'name', 'value': d.name}, {'id':'value', 'value': d.value}]).join('text')
+        .attr('id', d => d.id)
+        .classed('slider_value', ( d => d.id == 'value'))
         .attr('text-anchor', 'middle')
-        .attr('transform', ( d => d == 'value' ? 'translate(50, -20)' : 'translate(50, 0)'))
-        .text( d => d );
+        .attr('transform', ( d => d.id == 'value' ? 'translate(50, -20)' : 'translate(50, 0)'))
+        .text( d => d.value );
 }
 
 var ppk;
@@ -560,8 +557,6 @@ drag = d3.drag()
     .on("start", dragstarted)
     .on("drag", dragged)
     .on("end", dragended);
-
-createSliders(slider_g);
 
 function createKnotPoints_old() {
     if (d3.select("#kringle").property("checked")) { return createKringleKnot(); }
@@ -893,6 +888,8 @@ function loadPreset_old(g, newData) {
 }
 function loadPreset(mat, variant) {
     matType = mat;
+    var sliders = getSliderDefs();
+    createSliders(slider_g, sliders);
     var g = d3.select('#sliders').selectAll('g');
     var type = control_flags['Dev'] ? 'dev' : 'mat';
     var currentData = [];
