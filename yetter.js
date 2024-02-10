@@ -195,7 +195,7 @@ function getPAL(path, i) {
 
 function path_intersections(path) {
     var data = d3.select('#sliders').selectAll('g').data();
-    var knots = data.filter((d) => d.name == 'Knots')[0]['value'];
+    var knots = data.find((d) => d.name == 'Knots').value;
     var length = path.node().getTotalLength();
     var step = Math.floor(length / knots / 50);
     var nodes = [];
@@ -384,8 +384,8 @@ function updateMat() {
         highlights.selectAll('circle').remove();
     }
     var data = d3.select('#sliders').selectAll('g').data();
-    var show = data.filter((d) => d.name == 'Segments')[0];
-    if (show['value'] == show['max']) {
+    var show = data.find((d) => d.name == 'Segments');
+    if (show.value == show.max) {
         matpath2.attr('stroke-dasharray', '');
         matpath.attr('stroke-dasharray', '');
         if (control_flags['UnderOver']) {
@@ -467,8 +467,8 @@ function showControlPoints(mat, knotpoints) {
 
 function showCircles() {
     var data = d3.select('#sliders').selectAll('g').data();
-    var largeCircle = data.filter((d) => d.name == 'LargeCircle')[0]['value'];
-    var smallCircle = data.filter((d) => d.name == 'SmallCircle')[0]['value'];
+    var largeCircle = data.find((d) => d.name == 'LargeCircle').value;
+    var smallCircle = data.find((d) => d.name == 'SmallCircle').value;
     var middleCircle = (largeCircle + smallCircle) / 2;
     var circles = [];
     var lines = [];
@@ -582,19 +582,19 @@ var ppk;
 function getControls(pointsPerKnot) {
     ppk = pointsPerKnot;
     var data = d3.select('#sliders').selectAll('g').data();
-    var knots = data.find((d) => d.name == 'Knots')['value'];
+    var knots = data.find((d) => d.name == 'Knots').value;
     var angle = Math.floor(36000 / knots) / 100;
     d3.selectAll('#angle').html(angle);
     var showmax = 1 + pointsPerKnot * knots;
-    var show = data.find((d) => d.name == 'Segments')['value'];
+    var show = data.find((d) => d.name == 'Segments').value;
     var single = control_flags['SingleLoop'];
-    var largeCircle = data.find((d) => d.name == 'LargeCircle')['value'];
-    var smallCircle = data.find((d) => d.name == 'SmallCircle')['value'];
+    var largeCircle = data.find((d) => d.name == 'LargeCircle').value;
+    var smallCircle = data.find((d) => d.name == 'SmallCircle').value;
     var middleCircle = (largeCircle + smallCircle) / 2;
     var showCircle = control_flags['Circles'];
-    var startcp = data.find((d) => d.name == 'StartCP')['value'] * 10;
-    var midcp = data.find((d) => d.name == 'MiddleCP')['value'] * 10;
-    var tilt = 0; //data.filter(d => d.name == "Tilt")[0]['value'];
+    var startcp = data.find((d) => d.name == 'StartCP').value * 10;
+    var midcp = data.find((d) => d.name == 'MiddleCP').value * 10;
+    var tilt = 0; //data.find(d => d.name == "Tilt").value;
     if (single) {
         show = pointsPerKnot + 1;
     }
@@ -725,7 +725,7 @@ function createKnotPoints() {
         nodepoints = createYetterPlusKnot();
     }
     let data = d3.select('#sliders').selectAll('g').data();
-    let show = data.filter((d) => d.name == 'Segments')[0]['value'];
+    let show = data.find((d) => d.name == 'Segments').value;
     if (nodepoints.length > show) {
         nodepoints.splice(show + 1);
         nodepoints[nodepoints.length - 2].mode = 'end2';
