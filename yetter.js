@@ -137,7 +137,7 @@ function svgFullScreen() {
 
 function svgMatZoom() {
     var vbox = '-400 -400 800 800';
-    if (control_flags['Fit']) {
+    if (control_flags.Fit) {
         var bbox = d3.select('#mat svg').node().getBBox();
         var off = Math.floor(Math.min(bbox.x - 9, bbox.y - 9, -400) / 10) * 10;
         var size = -2 * off;
@@ -360,7 +360,7 @@ function updateMat() {
     var knotpoints = createKnotPoints();
     d3.select('#title').text(matName[matType] + ' Mat');
 
-    if (control_flags['CtrlPts']) {
+    if (control_flags.CtrlPts) {
         showControlPoints(mat, knotpoints);
     } else {
         showControlPoints(mat, []);
@@ -378,7 +378,7 @@ function updateMat() {
     }
     PAL = [];
     //var pathX = path_intersections(matpath);
-    if (control_flags['Int']) {
+    if (control_flags.Int) {
         draw_intersections(path_intersections(matpath));
     } else {
         highlights.selectAll('circle').remove();
@@ -388,7 +388,7 @@ function updateMat() {
     if (show.value == show.max) {
         matpath2.attr('stroke-dasharray', '');
         matpath.attr('stroke-dasharray', '');
-        if (control_flags['UnderOver']) {
+        if (control_flags.UnderOver) {
             let dasharray = create_dasharray(path_intersections(matpath));
             matpath2.attr('stroke-dasharray', dasharray);
             matpath.attr('stroke-dasharray', dasharray);
@@ -472,7 +472,7 @@ function showCircles() {
     var middleCircle = (largeCircle + smallCircle) / 2;
     var circles = [];
     var lines = [];
-    if (control_flags['Circles']) {
+    if (control_flags.Circles) {
         circles = [
             { x: 0, y: 0, r: smallCircle },
             { x: 0, y: 0, r: middleCircle },
@@ -587,11 +587,11 @@ function getControls(pointsPerKnot) {
     d3.selectAll('#angle').html(angle);
     var showmax = 1 + pointsPerKnot * knots;
     var show = data.find((d) => d.name == 'Segments').value;
-    var single = control_flags['SingleLoop'];
+    var single = control_flags.SingleLoop;
     var largeCircle = data.find((d) => d.name == 'LargeCircle').value;
     var smallCircle = data.find((d) => d.name == 'SmallCircle').value;
     var middleCircle = (largeCircle + smallCircle) / 2;
-    var showCircle = control_flags['Circles'];
+    var showCircle = control_flags.Circles;
     var startcp = data.find((d) => d.name == 'StartCP').value * 10;
     var midcp = data.find((d) => d.name == 'MiddleCP').value * 10;
     var tilt = 0; //data.find(d => d.name == "Tilt").value;
@@ -607,9 +607,9 @@ function getControls(pointsPerKnot) {
 var underOver;
 function dragstarted(event, d) {
     d3.select(this).raise().classed('on', 1);
-    underOver = control_flags['UnderOver'];
+    underOver = control_flags.UnderOver;
     if (d3.select(this.parentNode).attr('id') != 'slider_Segments') {
-        control_flags['UnderOver'] = 0;
+        control_flags.UnderOver = 0;
     }
 }
 
@@ -644,7 +644,7 @@ function dragged(event, d) {
 
 function dragended(event, d) {
     d3.select(this).classed('on', 0);
-    control_flags['UnderOver'] = underOver;
+    control_flags.UnderOver = underOver;
     updateMat();
 }
 
@@ -1051,10 +1051,10 @@ function createPointString(d) {
 
 function loadPreset(mat, variant) {
     matType = mat;
-    var sliders = presets[matType]['sliders'];
+    var sliders = presets[matType].sliders;
     createSliders(slider_g, sliders);
     var g = d3.select('#sliders').selectAll('g');
-    var type = control_flags['Dev'] ? 'dev' : 'mat';
+    var type = control_flags.Dev ? 'dev' : 'mat';
     var currentData = sliders.map((slider) => ({ ...slider, ...presets[mat][type][slider.name], ...presets[mat][variant][slider.name] }));
     currentData.every(
         (d) =>
@@ -1066,10 +1066,10 @@ function loadPreset(mat, variant) {
     );
     g.data(currentData).join('g');
     updateSliders(g);
-    //underOver = control_flags['UnderOver'];
-    //control_flags['UnderOver'] = 0;
+    //underOver = control_flags.UnderOver;
+    //control_flags.UnderOver = 0;
     //updateMat();
-    //control_flags['UnderOver'] = underOver;
+    //control_flags.UnderOver = underOver;
     updateMat();
 }
 
@@ -2208,7 +2208,7 @@ function definePresets() {
     };
 }
 
-Object.keys(presets).forEach((d) => (presets[d]['dev'] = getSliderDevDefs()));
+Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
 
 loadPreset('Y', 4);
 updateMat();
