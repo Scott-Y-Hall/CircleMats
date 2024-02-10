@@ -582,18 +582,18 @@ var ppk;
 function getControls(pointsPerKnot) {
     ppk = pointsPerKnot;
     var data = d3.select('#sliders').selectAll('g').data();
-    var knots = data.filter((d) => d.name == 'Knots')[0]['value'];
+    var knots = data.find((d) => d.name == 'Knots')['value'];
     var angle = Math.floor(36000 / knots) / 100;
     d3.selectAll('#angle').html(angle);
     var showmax = 1 + pointsPerKnot * knots;
-    var show = data.filter((d) => d.name == 'Segments')[0]['value'];
+    var show = data.find((d) => d.name == 'Segments')['value'];
     var single = control_flags['SingleLoop'];
-    var largeCircle = data.filter((d) => d.name == 'LargeCircle')[0]['value'];
-    var smallCircle = data.filter((d) => d.name == 'SmallCircle')[0]['value'];
+    var largeCircle = data.find((d) => d.name == 'LargeCircle')['value'];
+    var smallCircle = data.find((d) => d.name == 'SmallCircle')['value'];
     var middleCircle = (largeCircle + smallCircle) / 2;
     var showCircle = control_flags['Circles'];
-    var startcp = data.filter((d) => d.name == 'StartCP')[0]['value'] * 10;
-    var midcp = data.filter((d) => d.name == 'MiddleCP')[0]['value'] * 10;
+    var startcp = data.find((d) => d.name == 'StartCP')['value'] * 10;
+    var midcp = data.find((d) => d.name == 'MiddleCP')['value'] * 10;
     var tilt = 0; //data.filter(d => d.name == "Tilt")[0]['value'];
     if (single) {
         show = pointsPerKnot + 1;
