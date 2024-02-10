@@ -20,9 +20,10 @@ var matName = {
 };
 var matNameArray = Object.keys(matName).map((d) => ({ key: d, value: matName[d] }));
 var presets = definePresets();
+var presets2 = definePresets2();
 var presetArray = Object.keys(matName).map((d) => ({
     key: d,
-    value: Object.keys(presets[d])
+    value: Object.keys(presets2[d])
         .map(Number)
         .filter((d) => d)
         .sort(d3.ascending),
@@ -525,6 +526,17 @@ function getSliderDevDefs() {
         //{ min: '-300', max: '300' }, // Tilt
         { min: '2', max: '27' }, // Segments to show
     ];
+}
+
+function getSliderDevDefs2() {
+    return {
+        Knots: { min: 3, max: 19 },
+        LargeCircle: { min: -500, max: 500 },
+        SmallCircle: { min: -500, max: 500 },
+        StartCP: { min: -300, max: 300 },
+        MiddleCP: { min: -300, max: 300 },
+        Segments: { min: 2, max: 27 },
+    };
 }
 
 function createSliders(g, sliders) {
@@ -1069,6 +1081,30 @@ function loadPreset(mat, variant) {
     for (var i = 0; i < g.data().length; i++) {
         currentData[i] = { ...g.data()[i], ...presets[mat][type][i], ...presets[mat][variant][i] };
     }
+    currentData.every(
+        (d) =>
+            (d.y = d3
+                .scaleLinear()
+                .range([sliderCtrl.height - 10, 10])
+                .clamp(true)
+                .domain([d.min, d.max])(d.value))
+    );
+    g.data(currentData).join('g');
+    updateSliders(g);
+    //underOver = control_flags['UnderOver'];
+    //control_flags['UnderOver'] = 0;
+    //updateMat();
+    //control_flags['UnderOver'] = underOver;
+    updateMat();
+}
+
+function loadPreset2(mat, variant) {
+    matType = mat;
+    var sliders = presets2[matType]['sliders'];
+    createSliders(slider_g, sliders);
+    var g = d3.select('#sliders').selectAll('g');
+    var type = control_flags['Dev'] ? 'dev' : 'mat';
+    var currentData = sliders.map((slider) => ({ ...slider, ...presets2[mat][type][slider.name], ...presets2[mat][variant][slider.name] }));
     currentData.every(
         (d) =>
             (d.y = d3
@@ -2090,1005 +2126,1140 @@ function definePresets() {
 function definePresets2() {
     return {
         V: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
                 Knots: { min: 3, max: 9 },
                 LargeCircle: { min: 50, max: 300 },
                 SmallCircle: { min: 1, max: 200 },
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 9 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 49 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 9 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 49 },
+                Segments: { value: 13, max: 13 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 21 }, // Small Circle
-                StartCP: { value: 19 }, // Start Control Points
-                MiddleCP: { value: 32 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 21 },
+                StartCP: { value: 19 },
+                MiddleCP: { value: 32 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 32 }, // Small Circle
-                StartCP: { value: 16 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 32 },
+                StartCP: { value: 16 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 47 }, // Small Circle
-                StartCP: { value: 14 }, // Start Control Points
-                MiddleCP: { value: 21 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 47 },
+                StartCP: { value: 14 },
+                MiddleCP: { value: 21 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 39 }, // Small Circle
-                StartCP: { value: 13 }, // Start Control Points
-                MiddleCP: { value: 18 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 39 },
+                StartCP: { value: 13 },
+                MiddleCP: { value: 18 },
+                Segments: { value: 29, max: 29 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 49 }, // Small Circle
-                StartCP: { value: 11 }, // Start Control Points
-                MiddleCP: { value: 15 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 49 },
+                StartCP: { value: 11 },
+                MiddleCP: { value: 15 },
+                Segments: { value: 33, max: 33 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 55 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 17 }, // Middle Control Points
-                Segments: { value: 37, max: 37 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 55 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 17 },
+                Segments: { value: 37, max: 37 },
             },
         },
         W: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 50, max: 300 }, // Large Circle
-                SmallCircle: { min: 1, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 50, max: 300 },
+                SmallCircle: { min: 1, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 62 }, // Large Circle
-                SmallCircle: { value: 28 }, // Small Circle
-                StartCP: { value: 23 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 62 },
+                SmallCircle: { value: 28 },
+                StartCP: { value: 23 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 13, max: 13 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 100 }, // Large Circle
-                SmallCircle: { value: 47 }, // Small Circle
-                StartCP: { value: 23 }, // Start Control Points
-                MiddleCP: { value: 16 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 100 },
+                SmallCircle: { value: 47 },
+                StartCP: { value: 23 },
+                MiddleCP: { value: 16 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 122 }, // Large Circle
-                SmallCircle: { value: 37 }, // Small Circle
-                StartCP: { value: 21 }, // Start Control Points
-                MiddleCP: { value: 14 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 122 },
+                SmallCircle: { value: 37 },
+                StartCP: { value: 21 },
+                MiddleCP: { value: 14 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 138 }, // Large Circle
-                SmallCircle: { value: 53 }, // Small Circle
-                StartCP: { value: 21 }, // Start Control Points
-                MiddleCP: { value: 12 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 138 },
+                SmallCircle: { value: 53 },
+                StartCP: { value: 21 },
+                MiddleCP: { value: 12 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 136 }, // Large Circle
-                SmallCircle: { value: 27 }, // Small Circle
-                StartCP: { value: 17 }, // Start Control Points
-                MiddleCP: { value: 11 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 136 },
+                SmallCircle: { value: 27 },
+                StartCP: { value: 17 },
+                MiddleCP: { value: 11 },
+                Segments: { value: 29, max: 29 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 158 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 19 }, // Start Control Points
-                MiddleCP: { value: 9 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 158 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 19 },
+                MiddleCP: { value: 9 },
+                Segments: { value: 33, max: 33 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 177 }, // Large Circle
-                SmallCircle: { value: 42 }, // Small Circle
-                StartCP: { value: 17 }, // Start Control Points
-                MiddleCP: { value: 9 }, // Middle Control Points
-                Segments: { value: 37, max: 37 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 177 },
+                SmallCircle: { value: 42 },
+                StartCP: { value: 17 },
+                MiddleCP: { value: 9 },
+                Segments: { value: 37, max: 37 },
             },
         },
         W2: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 50, max: 300 }, // Large Circle
-                SmallCircle: { min: 1, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 50, max: 300 },
+                SmallCircle: { min: 1, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 181 }, // Large Circle
-                SmallCircle: { value: 26 }, // Small Circle
-                StartCP: { value: 27 }, // Start Control Points
-                MiddleCP: { value: 13 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 181 },
+                SmallCircle: { value: 26 },
+                StartCP: { value: 27 },
+                MiddleCP: { value: 13 },
+                Segments: { value: 13, max: 13 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 137 }, // Large Circle
-                SmallCircle: { value: 32 }, // Small Circle
-                StartCP: { value: 24 }, // Start Control Points
-                MiddleCP: { value: 15 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 137 },
+                SmallCircle: { value: 32 },
+                StartCP: { value: 24 },
+                MiddleCP: { value: 15 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 129 }, // Large Circle
-                SmallCircle: { value: 46 }, // Small Circle
-                StartCP: { value: 28 }, // Start Control Points
-                MiddleCP: { value: 17 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 129 },
+                SmallCircle: { value: 46 },
+                StartCP: { value: 28 },
+                MiddleCP: { value: 17 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 112 }, // Large Circle
-                SmallCircle: { value: 64 }, // Small Circle
-                StartCP: { value: 26 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 112 },
+                SmallCircle: { value: 64 },
+                StartCP: { value: 26 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 79 }, // Large Circle
-                SmallCircle: { value: 44 }, // Small Circle
-                StartCP: { value: 24 }, // Start Control Points
-                MiddleCP: { value: 19 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 79 },
+                SmallCircle: { value: 44 },
+                StartCP: { value: 24 },
+                MiddleCP: { value: 19 },
+                Segments: { value: 29, max: 29 },
             },
         },
         Ra: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 50, max: 396 }, // Large Circle
-                SmallCircle: { min: 1, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                //{ min: -90, max: 90 }, // Tilt
-                Segments: { min: 2, max: 55 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 50, max: 396 },
+                SmallCircle: { min: 1, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 55 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 396 }, // Large Circle
-                SmallCircle: { value: 116 }, // Small Circle
-                StartCP: { value: 30 }, // Start Control Points
-                MiddleCP: { value: 13 }, // Middle Control Points
-                Segments: { value: 43, max: 43 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 396 },
+                SmallCircle: { value: 116 },
+                StartCP: { value: 30 },
+                MiddleCP: { value: 13 },
+                Segments: { value: 43, max: 43 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 396 }, // Large Circle
-                SmallCircle: { value: 150 }, // Small Circle
-                StartCP: { value: 28 }, // Start Control Points
-                MiddleCP: { value: 12 }, // Middle Control Points
-                //{ value: 12 }, // Tilt
-                Segments: { value: 49, max: 49 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 396 },
+                SmallCircle: { value: 150 },
+                StartCP: { value: 28 },
+                MiddleCP: { value: 12 },
+                Segments: { value: 49, max: 49 },
             },
         },
         S: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 3 }, // Knots
-                LargeCircle: { min: 50, max: 300 }, // Large Circle
-                SmallCircle: { min: 1, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 3 },
+                LargeCircle: { min: 50, max: 300 },
+                SmallCircle: { min: 1, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 75 }, // Large Circle
-                SmallCircle: { value: 12 }, // Small Circle
-                StartCP: { value: 24 }, // Start Control Points
-                MiddleCP: { value: 15 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 75 },
+                SmallCircle: { value: 12 },
+                StartCP: { value: 24 },
+                MiddleCP: { value: 15 },
+                Segments: { value: 25, max: 25 },
             },
         },
         Pe: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 135 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 50 }, // Start Control Points
-                MiddleCP: { value: 33 }, // Middle Control Points
-                Segments: { value: 7, max: 7 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 135 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 50 },
+                MiddleCP: { value: 33 },
+                Segments: { value: 7, max: 7 },
             },
             3.1: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 173 }, // Large Circle
-                SmallCircle: { value: 50 }, // Small Circle
-                StartCP: { value: 36 }, // Start Control Points
-                MiddleCP: { value: 60 }, // Middle Control Points
-                Segments: { value: 7, max: 7 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 173 },
+                SmallCircle: { value: 50 },
+                StartCP: { value: 36 },
+                MiddleCP: { value: 60 },
+                Segments: { value: 7, max: 7 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 188 }, // Large Circle
-                SmallCircle: { value: 99 }, // Small Circle
-                StartCP: { value: 70 }, // Start Control Points
-                MiddleCP: { value: 55 }, // Middle Control Points
-                Segments: { value: 9, max: 9 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 188 },
+                SmallCircle: { value: 99 },
+                StartCP: { value: 70 },
+                MiddleCP: { value: 55 },
+                Segments: { value: 9, max: 9 },
             },
             4.1: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 245 }, // Large Circle
-                SmallCircle: { value: 95 }, // Small Circle
-                StartCP: { value: 35 }, // Start Control Points
-                MiddleCP: { value: 69 }, // Middle Control Points
-                Segments: { value: 9, max: 9 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 245 },
+                SmallCircle: { value: 95 },
+                StartCP: { value: 35 },
+                MiddleCP: { value: 69 },
+                Segments: { value: 9, max: 9 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 169 }, // Large Circle
-                SmallCircle: { value: 43 }, // Small Circle
-                StartCP: { value: 45 }, // Start Control Points
-                MiddleCP: { value: 65 }, // Middle Control Points
-                Segments: { value: 11, max: 11 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 169 },
+                SmallCircle: { value: 43 },
+                StartCP: { value: 45 },
+                MiddleCP: { value: 65 },
+                Segments: { value: 11, max: 11 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 169 }, // Large Circle
-                SmallCircle: { value: 43 }, // Small Circle
-                StartCP: { value: 24 }, // Start Control Points
-                MiddleCP: { value: 65 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 169 },
+                SmallCircle: { value: 43 },
+                StartCP: { value: 24 },
+                MiddleCP: { value: 65 },
+                Segments: { value: 13, max: 13 },
             },
             6.1: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 185 }, // Large Circle
-                SmallCircle: { value: 77 }, // Small Circle
-                StartCP: { value: 40 }, // Start Control Points
-                MiddleCP: { value: 68 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 185 },
+                SmallCircle: { value: 77 },
+                StartCP: { value: 40 },
+                MiddleCP: { value: 68 },
+                Segments: { value: 13, max: 13 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 251 }, // Large Circle
-                SmallCircle: { value: 52 }, // Small Circle
-                StartCP: { value: 26 }, // Start Control Points
-                MiddleCP: { value: 67 }, // Middle Control Points
-                Segments: { value: 15, max: 15 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 251 },
+                SmallCircle: { value: 52 },
+                StartCP: { value: 26 },
+                MiddleCP: { value: 67 },
+                Segments: { value: 15, max: 15 },
             },
         },
         Pi: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 173 }, // Large Circle
-                SmallCircle: { value: 50 }, // Small Circle
-                StartCP: { value: 36 }, // Start Control Points
-                MiddleCP: { value: 60 }, // Middle Control Points
-                Segments: { value: 7, max: 7 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 173 },
+                SmallCircle: { value: 50 },
+                StartCP: { value: 36 },
+                MiddleCP: { value: 60 },
+                Segments: { value: 7, max: 7 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 100 }, // Small Circle
-                StartCP: { value: 36 }, // Start Control Points
-                MiddleCP: { value: 55 }, // Middle Control Points
-                Segments: { value: 11, max: 11 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 100 },
+                StartCP: { value: 36 },
+                MiddleCP: { value: 55 },
+                Segments: { value: 11, max: 11 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 149 }, // Large Circle
-                SmallCircle: { value: 115 }, // Small Circle
-                StartCP: { value: 23 }, // Start Control Points
-                MiddleCP: { value: 16 }, // Middle Control Points
-                Segments: { value: 15, max: 15 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 149 },
+                SmallCircle: { value: 115 },
+                StartCP: { value: 23 },
+                MiddleCP: { value: 16 },
+                Segments: { value: 15, max: 15 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 188 }, // Large Circle
-                SmallCircle: { value: 157 }, // Small Circle
-                StartCP: { value: 26 }, // Start Control Points
-                MiddleCP: { value: 18 }, // Middle Control Points
-                Segments: { value: 19, max: 19 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 188 },
+                SmallCircle: { value: 157 },
+                StartCP: { value: 26 },
+                MiddleCP: { value: 18 },
+                Segments: { value: 19, max: 19 },
             },
         },
         R: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 100 }, // Small Circle
-                StartCP: { value: 14 }, // Start Control Points
-                MiddleCP: { value: 10 }, // Middle Control Points
-                Segments: { value: 7, max: 7 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 100 },
+                StartCP: { value: 14 },
+                MiddleCP: { value: 10 },
+                Segments: { value: 7, max: 7 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 214 }, // Large Circle
-                SmallCircle: { value: 94 }, // Small Circle
-                StartCP: { value: 36 }, // Start Control Points
-                MiddleCP: { value: 55 }, // Middle Control Points
-                Segments: { value: 9, max: 9 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 214 },
+                SmallCircle: { value: 94 },
+                StartCP: { value: 36 },
+                MiddleCP: { value: 55 },
+                Segments: { value: 9, max: 9 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 100 }, // Small Circle
-                StartCP: { value: 36 }, // Start Control Points
-                MiddleCP: { value: 55 }, // Middle Control Points
-                Segments: { value: 11, max: 11 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 100 },
+                StartCP: { value: 36 },
+                MiddleCP: { value: 55 },
+                Segments: { value: 11, max: 11 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 173 }, // Large Circle
-                SmallCircle: { value: 79 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 26 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 173 },
+                SmallCircle: { value: 79 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 26 },
+                Segments: { value: 13, max: 13 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 155 }, // Small Circle
-                StartCP: { value: 52 }, // Start Control Points
-                MiddleCP: { value: 40 }, // Middle Control Points
-                Segments: { value: 15, max: 15 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 155 },
+                StartCP: { value: 52 },
+                MiddleCP: { value: 40 },
+                Segments: { value: 15, max: 15 },
             },
             7.1: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 100 }, // Small Circle
-                StartCP: { value: 52 }, // Start Control Points
-                MiddleCP: { value: 40 }, // Middle Control Points
-                Segments: { value: 15, max: 15 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 100 },
+                StartCP: { value: 52 },
+                MiddleCP: { value: 40 },
+                Segments: { value: 15, max: 15 },
             },
             7.2: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 211 }, // Large Circle
-                SmallCircle: { value: 155 }, // Small Circle
-                StartCP: { value: 52 }, // Start Control Points
-                MiddleCP: { value: 40 }, // Middle Control Points
-                Segments: { value: 15, max: 15 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 211 },
+                SmallCircle: { value: 155 },
+                StartCP: { value: 52 },
+                MiddleCP: { value: 40 },
+                Segments: { value: 15, max: 15 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 192 }, // Large Circle
-                SmallCircle: { value: 96 }, // Small Circle
-                StartCP: { value: 7 }, // Start Control Points
-                MiddleCP: { value: 46 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 192 },
+                SmallCircle: { value: 96 },
+                StartCP: { value: 7 },
+                MiddleCP: { value: 46 },
+                Segments: { value: 17, max: 17 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 208 }, // Large Circle
-                SmallCircle: { value: 87 }, // Small Circle
-                StartCP: { value: 8 }, // Start Control Points
-                MiddleCP: { value: 45 }, // Middle Control Points
-                Segments: { value: 19, max: 19 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 208 },
+                SmallCircle: { value: 87 },
+                StartCP: { value: 8 },
+                MiddleCP: { value: 45 },
+                Segments: { value: 19, max: 19 },
             },
         },
         Y: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 175 }, // Large Circle
-                SmallCircle: { value: 50 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 175 },
+                SmallCircle: { value: 50 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 13, max: 13 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 50 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 26 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 50 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 26 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 50 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 26 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 50 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 26 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 75 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 26 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 75 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 26 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 222 }, // Large Circle
-                SmallCircle: { value: 75 }, // Small Circle
-                StartCP: { value: 8 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 222 },
+                SmallCircle: { value: 75 },
+                StartCP: { value: 8 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 29, max: 29 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 261 }, // Large Circle
-                SmallCircle: { value: 76 }, // Small Circle
-                StartCP: { value: 7 }, // Start Control Points
-                MiddleCP: { value: 31 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 261 },
+                SmallCircle: { value: 76 },
+                StartCP: { value: 7 },
+                MiddleCP: { value: 31 },
+                Segments: { value: 33, max: 33 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 261 }, // Large Circle
-                SmallCircle: { value: 87 }, // Small Circle
-                StartCP: { value: 7 }, // Start Control Points
-                MiddleCP: { value: 31 }, // Middle Control Points
-                Segments: { value: 37, max: 37 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 261 },
+                SmallCircle: { value: 87 },
+                StartCP: { value: 7 },
+                MiddleCP: { value: 31 },
+                Segments: { value: 37, max: 37 },
             },
             10: {
-                Knots: { value: 10 }, // Knots
-                LargeCircle: { value: 261 }, // Large Circle
-                SmallCircle: { value: 99 }, // Small Circle
-                StartCP: { value: 7 }, // Start Control Points
-                MiddleCP: { value: 31 }, // Middle Control Points
-                Segments: { value: 41, max: 41 }, // Segments to show
+                Knots: { value: 10 },
+                LargeCircle: { value: 261 },
+                SmallCircle: { value: 99 },
+                StartCP: { value: 7 },
+                MiddleCP: { value: 31 },
+                Segments: { value: 41, max: 41 },
             },
         },
         YPlus: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 25 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 25 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 227 }, // Large Circle
-                SmallCircle: { value: 29 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 42 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 227 },
+                SmallCircle: { value: 29 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 42 },
+                Segments: { value: 25, max: 25 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 235 }, // Large Circle
-                SmallCircle: { value: 52 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 30 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 235 },
+                SmallCircle: { value: 52 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 30 },
+                Segments: { value: 33, max: 33 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 240 }, // Large Circle
-                SmallCircle: { value: 40 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 30 }, // Middle Control Points
-                Segments: { value: 41, max: 41 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 240 },
+                SmallCircle: { value: 40 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 30 },
+                Segments: { value: 41, max: 41 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 215 }, // Large Circle
-                SmallCircle: { value: 38 }, // Small Circle
-                StartCP: { value: 17 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 49, max: 49 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 215 },
+                SmallCircle: { value: 38 },
+                StartCP: { value: 17 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 49, max: 49 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 222 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 5 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 57, max: 57 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 222 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 5 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 57, max: 57 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 222 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 5 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 65, max: 65 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 222 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 5 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 65, max: 65 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 222 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 5 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 73, max: 73 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 222 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 5 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 73, max: 73 },
             },
         },
         Sa: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 4, max: 12 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 4, max: 12 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 158 }, // Large Circle
-                SmallCircle: { value: 32 }, // Small Circle
-                StartCP: { value: 15 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 158 },
+                SmallCircle: { value: 32 },
+                StartCP: { value: 15 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 191 }, // Large Circle
-                SmallCircle: { value: 45 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 25 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 191 },
+                SmallCircle: { value: 45 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 25 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 40 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 40 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 205 }, // Large Circle
-                SmallCircle: { value: 34 }, // Small Circle
-                StartCP: { value: 8 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 205 },
+                SmallCircle: { value: 34 },
+                StartCP: { value: 8 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 29, max: 29 },
             },
             7.1: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 205 }, // Large Circle
-                SmallCircle: { value: 57 }, // Small Circle
-                StartCP: { value: 9 }, // Start Control Points
-                MiddleCP: { value: 18 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 205 },
+                SmallCircle: { value: 57 },
+                StartCP: { value: 9 },
+                MiddleCP: { value: 18 },
+                Segments: { value: 29, max: 29 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 43 }, // Small Circle
-                StartCP: { value: 6 }, // Start Control Points
-                MiddleCP: { value: 18 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 43 },
+                StartCP: { value: 6 },
+                MiddleCP: { value: 18 },
+                Segments: { value: 33, max: 33 },
             },
             10: {
-                Knots: { value: 10 }, // Knots
-                LargeCircle: { value: 235 }, // Large Circle
-                SmallCircle: { value: 53 }, // Small Circle
-                StartCP: { value: 5 }, // Start Control Points
-                MiddleCP: { value: 19 }, // Middle Control Points
-                Segments: { value: 41, max: 41 }, // Segments to show
+                Knots: { value: 10 },
+                LargeCircle: { value: 235 },
+                SmallCircle: { value: 53 },
+                StartCP: { value: 5 },
+                MiddleCP: { value: 19 },
+                Segments: { value: 41, max: 41 },
             },
             12: {
-                Knots: { value: 12 }, // Knots
-                LargeCircle: { value: 244 }, // Large Circle
-                SmallCircle: { value: 71 }, // Small Circle
-                StartCP: { value: 4 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 49, max: 49 }, // Segments to show
+                Knots: { value: 12 },
+                LargeCircle: { value: 244 },
+                SmallCircle: { value: 71 },
+                StartCP: { value: 4 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 49, max: 49 },
             },
         },
         Saa: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 4, max: 12 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 4, max: 12 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 158 }, // Large Circle
-                SmallCircle: { value: 32 }, // Small Circle
-                StartCP: { value: 15 }, // Start Control Points
-                MiddleCP: { value: 27 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 158 },
+                SmallCircle: { value: 32 },
+                StartCP: { value: 15 },
+                MiddleCP: { value: 27 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 191 }, // Large Circle
-                SmallCircle: { value: 45 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 25 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 191 },
+                SmallCircle: { value: 45 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 25 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 40 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 40 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 205 }, // Large Circle
-                SmallCircle: { value: 34 }, // Small Circle
-                StartCP: { value: 8 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 205 },
+                SmallCircle: { value: 34 },
+                StartCP: { value: 8 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 29, max: 29 },
             },
             7.1: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 205 }, // Large Circle
-                SmallCircle: { value: 57 }, // Small Circle
-                StartCP: { value: 9 }, // Start Control Points
-                MiddleCP: { value: 18 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 205 },
+                SmallCircle: { value: 57 },
+                StartCP: { value: 9 },
+                MiddleCP: { value: 18 },
+                Segments: { value: 29, max: 29 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 43 }, // Small Circle
-                StartCP: { value: 6 }, // Start Control Points
-                MiddleCP: { value: 18 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 43 },
+                StartCP: { value: 6 },
+                MiddleCP: { value: 18 },
+                Segments: { value: 33, max: 33 },
             },
             10: {
-                Knots: { value: 10 }, // Knots
-                LargeCircle: { value: 235 }, // Large Circle
-                SmallCircle: { value: 53 }, // Small Circle
-                StartCP: { value: 5 }, // Start Control Points
-                MiddleCP: { value: 19 }, // Middle Control Points
-                Segments: { value: 41, max: 41 }, // Segments to show
+                Knots: { value: 10 },
+                LargeCircle: { value: 235 },
+                SmallCircle: { value: 53 },
+                StartCP: { value: 5 },
+                MiddleCP: { value: 19 },
+                Segments: { value: 41, max: 41 },
             },
             12: {
-                Knots: { value: 12 }, // Knots
-                LargeCircle: { value: 244 }, // Large Circle
-                SmallCircle: { value: 71 }, // Small Circle
-                StartCP: { value: 4 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 49, max: 49 }, // Segments to show
+                Knots: { value: 12 },
+                LargeCircle: { value: 244 },
+                SmallCircle: { value: 71 },
+                StartCP: { value: 4 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 49, max: 49 },
             },
         },
         S2: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 50, max: 200 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 50, max: 200 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 90 }, // Large Circle
-                SmallCircle: { value: 17 }, // Small Circle
-                StartCP: { value: 32 }, // Start Control Points
-                MiddleCP: { value: 17 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 90 },
+                SmallCircle: { value: 17 },
+                StartCP: { value: 32 },
+                MiddleCP: { value: 17 },
+                Segments: { value: 13, max: 13 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 85 }, // Large Circle
-                SmallCircle: { value: 35 }, // Small Circle
-                StartCP: { value: 33 }, // Start Control Points
-                MiddleCP: { value: 19 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 85 },
+                SmallCircle: { value: 35 },
+                StartCP: { value: 33 },
+                MiddleCP: { value: 19 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 91 }, // Large Circle
-                SmallCircle: { value: 39 }, // Small Circle
-                StartCP: { value: 32 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 91 },
+                SmallCircle: { value: 39 },
+                StartCP: { value: 32 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 99 }, // Large Circle
-                SmallCircle: { value: 67 }, // Small Circle
-                StartCP: { value: 22 }, // Start Control Points
-                MiddleCP: { value: 51 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 99 },
+                SmallCircle: { value: 67 },
+                StartCP: { value: 22 },
+                MiddleCP: { value: 51 },
+                Segments: { value: 25, max: 25 },
             },
         },
         S3: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 6, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 6, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 39 }, // Small Circle
-                StartCP: { value: 39 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 39 },
+                StartCP: { value: 39 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 13, max: 13 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 39 }, // Small Circle
-                StartCP: { value: 32 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 15, max: 15 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 39 },
+                StartCP: { value: 32 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 15, max: 15 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 54 }, // Small Circle
-                StartCP: { value: 30 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 54 },
+                StartCP: { value: 30 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 17, max: 17 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 54 }, // Small Circle
-                StartCP: { value: 22 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 19, max: 19 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 54 },
+                StartCP: { value: 22 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 19, max: 19 },
             },
             10: {
-                Knots: { value: 10 }, // Knots
-                LargeCircle: { value: 298 }, // Large Circle
-                SmallCircle: { value: 74 }, // Small Circle
-                StartCP: { value: 22 }, // Start Control Points
-                MiddleCP: { value: 23 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 10 },
+                LargeCircle: { value: 298 },
+                SmallCircle: { value: 74 },
+                StartCP: { value: 22 },
+                MiddleCP: { value: 23 },
+                Segments: { value: 21, max: 21 },
             },
         },
         S4: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 100 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 100 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 300 }, // Large Circle
-                SmallCircle: { value: 39 }, // Small Circle
-                StartCP: { value: 19 }, // Start Control Points
-                MiddleCP: { value: 6 }, // Middle Control Points
-                Segments: { value: 22, max: 22 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 300 },
+                SmallCircle: { value: 39 },
+                StartCP: { value: 19 },
+                MiddleCP: { value: 6 },
+                Segments: { value: 22, max: 22 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 300 }, // Large Circle
-                SmallCircle: { value: 65 }, // Small Circle
-                StartCP: { value: 25 }, // Start Control Points
-                MiddleCP: { value: 8 }, // Middle Control Points
-                Segments: { value: 36, max: 36 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 300 },
+                SmallCircle: { value: 65 },
+                StartCP: { value: 25 },
+                MiddleCP: { value: 8 },
+                Segments: { value: 36, max: 36 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 300 }, // Large Circle
-                SmallCircle: { value: 67 }, // Small Circle
-                StartCP: { value: 18 }, // Start Control Points
-                MiddleCP: { value: 14 }, // Middle Control Points
-                Segments: { value: 50, max: 50 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 300 },
+                SmallCircle: { value: 67 },
+                StartCP: { value: 18 },
+                MiddleCP: { value: 14 },
+                Segments: { value: 50, max: 50 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 300 }, // Large Circle
-                SmallCircle: { value: 47 }, // Small Circle
-                StartCP: { value: 17 }, // Start Control Points
-                MiddleCP: { value: 15 }, // Middle Control Points
-                Segments: { value: 64, max: 64 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 300 },
+                SmallCircle: { value: 47 },
+                StartCP: { value: 17 },
+                MiddleCP: { value: 15 },
+                Segments: { value: 64, max: 64 },
             },
         },
         S5: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 100, max: 400 }, // Small Circle
-                StartCP: { min: 0, max: 50 }, // Start Control Points
-                MiddleCP: { min: 0, max: 150 }, // Middle Control Points
-                Segments: { min: 2, max: 100 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 100, max: 400 },
+                StartCP: { min: 0, max: 50 },
+                MiddleCP: { min: 0, max: 150 },
+                Segments: { min: 2, max: 100 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 187 }, // Large Circle
-                SmallCircle: { value: 379 }, // Small Circle
-                StartCP: { value: 21 }, // Start Control Points
-                MiddleCP: { value: 100 }, // Middle Control Points
-                Segments: { value: 19, max: 19 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 187 },
+                SmallCircle: { value: 379 },
+                StartCP: { value: 21 },
+                MiddleCP: { value: 100 },
+                Segments: { value: 19, max: 19 },
             },
             3.1: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 161 }, // Large Circle
-                SmallCircle: { value: 271 }, // Small Circle
-                StartCP: { value: 16 }, // Start Control Points
-                MiddleCP: { value: 67 }, // Middle Control Points
-                Segments: { value: 19, max: 19 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 161 },
+                SmallCircle: { value: 271 },
+                StartCP: { value: 16 },
+                MiddleCP: { value: 67 },
+                Segments: { value: 19, max: 19 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 153 }, // Large Circle
-                SmallCircle: { value: 302 }, // Small Circle
-                StartCP: { value: 23 }, // Start Control Points
-                MiddleCP: { value: 75 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 153 },
+                SmallCircle: { value: 302 },
+                StartCP: { value: 23 },
+                MiddleCP: { value: 75 },
+                Segments: { value: 25, max: 25 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 172 }, // Large Circle
-                SmallCircle: { value: 346 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 80 }, // Middle Control Points
-                Segments: { value: 31, max: 31 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 172 },
+                SmallCircle: { value: 346 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 80 },
+                Segments: { value: 31, max: 31 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 233 }, // Large Circle
-                SmallCircle: { value: 347 }, // Small Circle
-                StartCP: { value: 20 }, // Start Control Points
-                MiddleCP: { value: 65 }, // Middle Control Points
-                Segments: { value: 37, max: 37 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 233 },
+                SmallCircle: { value: 347 },
+                StartCP: { value: 20 },
+                MiddleCP: { value: 65 },
+                Segments: { value: 37, max: 37 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 178 }, // Large Circle
-                SmallCircle: { value: 335 }, // Small Circle
-                StartCP: { value: 14 }, // Start Control Points
-                MiddleCP: { value: 62 }, // Middle Control Points
-                Segments: { value: 43, max: 43 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 178 },
+                SmallCircle: { value: 335 },
+                StartCP: { value: 14 },
+                MiddleCP: { value: 62 },
+                Segments: { value: 43, max: 43 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 237 }, // Large Circle
-                SmallCircle: { value: 320 }, // Small Circle
-                StartCP: { value: 19 }, // Start Control Points
-                MiddleCP: { value: 39 }, // Middle Control Points
-                Segments: { value: 49, max: 49 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 237 },
+                SmallCircle: { value: 320 },
+                StartCP: { value: 19 },
+                MiddleCP: { value: 39 },
+                Segments: { value: 49, max: 49 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 217 }, // Large Circle
-                SmallCircle: { value: 360 }, // Small Circle
-                StartCP: { value: 13 }, // Start Control Points
-                MiddleCP: { value: 59 }, // Middle Control Points
-                Segments: { value: 55, max: 55 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 217 },
+                SmallCircle: { value: 360 },
+                StartCP: { value: 13 },
+                MiddleCP: { value: 59 },
+                Segments: { value: 55, max: 55 },
             },
         },
         K: {
+            sliders: [
+                { name: 'Knots' },
+                { name: 'LargeCircle' },
+                { name: 'SmallCircle' },
+                { name: 'StartCP' },
+                { name: 'MiddleCP' },
+                { name: 'Segments' },
+            ],
             mat: {
-                Knots: { min: 3, max: 9 }, // Knots
-                LargeCircle: { min: 100, max: 300 }, // Large Circle
-                SmallCircle: { min: 10, max: 200 }, // Small Circle
-                StartCP: { min: 0, max: 70 }, // Start Control Points
-                MiddleCP: { min: 0, max: 80 }, // Middle Control Points
-                Segments: { min: 2, max: 17 }, // Segments to show
+                Knots: { min: 3, max: 9 },
+                LargeCircle: { min: 100, max: 300 },
+                SmallCircle: { min: 10, max: 200 },
+                StartCP: { min: 0, max: 70 },
+                MiddleCP: { min: 0, max: 80 },
+                Segments: { min: 2, max: 17 },
             },
             3: {
-                Knots: { value: 3 }, // Knots
-                LargeCircle: { value: 140 }, // Large Circle
-                SmallCircle: { value: 20 }, // Small Circle
-                StartCP: { value: 15 }, // Start Control Points
-                MiddleCP: { value: 25 }, // Middle Control Points
-                Segments: { value: 13, max: 13 }, // Segments to show
+                Knots: { value: 3 },
+                LargeCircle: { value: 140 },
+                SmallCircle: { value: 20 },
+                StartCP: { value: 15 },
+                MiddleCP: { value: 25 },
+                Segments: { value: 13, max: 13 },
             },
             4: {
-                Knots: { value: 4 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 50 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 26 }, // Middle Control Points
-                Segments: { value: 17, max: 17 }, // Segments to show
+                Knots: { value: 4 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 50 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 26 },
+                Segments: { value: 17, max: 17 },
             },
             5: {
-                Knots: { value: 5 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 15 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 21, max: 21 }, // Segments to show
+                Knots: { value: 5 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 15 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 21, max: 21 },
             },
             6: {
-                Knots: { value: 6 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 60 }, // Small Circle
-                StartCP: { value: 15 }, // Start Control Points
-                MiddleCP: { value: 20 }, // Middle Control Points
-                Segments: { value: 25, max: 25 }, // Segments to show
+                Knots: { value: 6 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 60 },
+                StartCP: { value: 15 },
+                MiddleCP: { value: 20 },
+                Segments: { value: 25, max: 25 },
             },
             7: {
-                Knots: { value: 7 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 84 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 15 }, // Middle Control Points
-                Segments: { value: 29, max: 29 }, // Segments to show
+                Knots: { value: 7 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 84 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 15 },
+                Segments: { value: 29, max: 29 },
             },
             8: {
-                Knots: { value: 8 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 84 }, // Small Circle
-                StartCP: { value: 10 }, // Start Control Points
-                MiddleCP: { value: 15 }, // Middle Control Points
-                Segments: { value: 33, max: 33 }, // Segments to show
+                Knots: { value: 8 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 84 },
+                StartCP: { value: 10 },
+                MiddleCP: { value: 15 },
+                Segments: { value: 33, max: 33 },
             },
             9: {
-                Knots: { value: 9 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 120 }, // Small Circle
-                StartCP: { value: 8 }, // Start Control Points
-                MiddleCP: { value: 13 }, // Middle Control Points
-                Segments: { value: 37, max: 37 }, // Segments to show
+                Knots: { value: 9 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 120 },
+                StartCP: { value: 8 },
+                MiddleCP: { value: 13 },
+                Segments: { value: 37, max: 37 },
             },
             10: {
-                Knots: { value: 10 }, // Knots
-                LargeCircle: { value: 200 }, // Large Circle
-                SmallCircle: { value: 120 }, // Small Circle
-                StartCP: { value: 8 }, // Start Control Points
-                MiddleCP: { value: 13 }, // Middle Control Points
-                Segments: { value: 41, max: 41 }, // Segments to show
+                Knots: { value: 10 },
+                LargeCircle: { value: 200 },
+                SmallCircle: { value: 120 },
+                StartCP: { value: 8 },
+                MiddleCP: { value: 13 },
+                Segments: { value: 41, max: 41 },
             },
         },
     };
 }
 
 Object.keys(presets).forEach((d) => (presets[d]['dev'] = getSliderDevDefs()));
+Object.keys(presets2).forEach((d) => (presets2[d]['dev'] = getSliderDevDefs2()));
 
-loadPreset('Y', 4);
+loadPreset2('Y', 4);
 updateMat();
