@@ -860,7 +860,7 @@ function createYetterKnot() {
 
 function createYetterPlusKnot() {
     var c = getControls(8);
-    c.tilt = 14;
+    //c.tilt = 14;
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.middleCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
@@ -1656,6 +1656,7 @@ function definePresets() {
                 { name: 'SmallCircle' },
                 { name: 'StartCP' },
                 { name: 'MiddleCP' },
+                { name: 'Tilt' },
                 { name: 'Segments' },
             ],
             mat: {
@@ -1664,14 +1665,16 @@ function definePresets() {
                 SmallCircle: { min: 10, max: 200 },
                 StartCP: { min: 0, max: 70 },
                 MiddleCP: { min: 0, max: 80 },
+                Tilt: { min: -150, max: 150 },
                 Segments: { min: 2, max: 25 },
             },
             3: {
                 Knots: { value: 3 },
                 LargeCircle: { value: 227 },
                 SmallCircle: { value: 29 },
-                StartCP: { value: 20 },
-                MiddleCP: { value: 42 },
+                StartCP: { value: 16 },
+                MiddleCP: { value: 30 },
+                Tilt: { value: -6 },
                 Segments: { value: 25, max: 25 },
             },
             4: {
@@ -1680,6 +1683,7 @@ function definePresets() {
                 SmallCircle: { value: 52 },
                 StartCP: { value: 20 },
                 MiddleCP: { value: 30 },
+                Tilt: { value: -2 },
                 Segments: { value: 33, max: 33 },
             },
             5: {
@@ -1688,14 +1692,16 @@ function definePresets() {
                 SmallCircle: { value: 40 },
                 StartCP: { value: 20 },
                 MiddleCP: { value: 30 },
+                Tilt: { value: 3 },
                 Segments: { value: 41, max: 41 },
             },
             6: {
                 Knots: { value: 6 },
-                LargeCircle: { value: 215 },
-                SmallCircle: { value: 38 },
-                StartCP: { value: 17 },
-                MiddleCP: { value: 23 },
+                LargeCircle: { value: 222 },
+                SmallCircle: { value: 46 },
+                StartCP: { value: 14 },
+                MiddleCP: { value: 25 },
+                Tilt: { value: 5 },
                 Segments: { value: 49, max: 49 },
             },
             7: {
@@ -1704,14 +1710,16 @@ function definePresets() {
                 SmallCircle: { value: 60 },
                 StartCP: { value: 5 },
                 MiddleCP: { value: 27 },
+                Tilt: { value: 7 },
                 Segments: { value: 57, max: 57 },
             },
             8: {
                 Knots: { value: 8 },
                 LargeCircle: { value: 222 },
                 SmallCircle: { value: 60 },
-                StartCP: { value: 5 },
-                MiddleCP: { value: 27 },
+                StartCP: { value: 12 },
+                MiddleCP: { value: 28 },
+                Tilt: { value: 8 },
                 Segments: { value: 65, max: 65 },
             },
             9: {
@@ -1720,6 +1728,7 @@ function definePresets() {
                 SmallCircle: { value: 60 },
                 StartCP: { value: 5 },
                 MiddleCP: { value: 27 },
+                Tilt: { value: 10 },
                 Segments: { value: 73, max: 73 },
             },
         },
