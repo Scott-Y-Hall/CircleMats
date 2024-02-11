@@ -788,15 +788,16 @@ function createWarlow2Knot() {
 }
 
 function createRadianceKnot() {
+    control_flags.Fit = 1;
     var c = getControls(6);
-    c.tilt = 12;
+    //c.tilt = 12;
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.largeCircle, x * c.angle - c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(c.smallCircle, x * c.angle - (7 * c.angle) / 4, -c.startcp, -c.midcp, -c.tilt));
-        nodepoints.push(createPoint(c.middleCircle, x * c.angle - (0 * c.angle) / 6, -c.midcp / 2, -c.midcp / 2, -40));
+        nodepoints.push(createPoint(c.extraCircle, x * c.angle - (0 * c.angle) / 6, -c.midcp / 2, -c.midcp / 2, -40));
         nodepoints.push(createPoint(c.largeCircle, x * c.angle + 0 * c.angle, c.midcp, c.midcp));
-        nodepoints.push(createPoint(c.middleCircle, x * c.angle + (0 * c.angle) / 6, -c.midcp / 2, -c.midcp / 2, 40));
+        nodepoints.push(createPoint(c.extraCircle, x * c.angle + (0 * c.angle) / 6, -c.midcp / 2, -c.midcp / 2, 40));
         nodepoints.push(createPoint(c.smallCircle, x * c.angle + (7 * c.angle) / 4, -c.midcp, -c.startcp, c.tilt));
     }
     nodepoints.push(createPoint(c.largeCircle, (c.knots - 1) * c.angle + c.angle / 2, c.startcp, c.startcp));
@@ -1290,33 +1291,91 @@ function definePresets() {
                 { name: 'Knots' },
                 { name: 'LargeCircle' },
                 { name: 'SmallCircle' },
+                { name: 'ExtraCircle' },
                 { name: 'StartCP' },
                 { name: 'MiddleCP' },
+                { name: 'Tilt' },
                 { name: 'Segments' },
             ],
             mat: {
                 Knots: { min: 3, max: 9 },
-                LargeCircle: { min: 50, max: 396 },
-                SmallCircle: { min: 1, max: 200 },
-                StartCP: { min: 0, max: 70 },
-                MiddleCP: { min: 0, max: 80 },
+                LargeCircle: { min: 50, max: 800 },
+                SmallCircle: { min: 1, max: 500 },
+                ExtraCircle: { min: -100, max: 450 },
+                StartCP: { min: 0, max: 140 },
+                MiddleCP: { min: 0, max: 160 },
+                Tilt: { min: -220, max: 220 },
                 Segments: { min: 2, max: 55 },
+            },
+            3: {
+                Knots: { value: 3 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 171 },
+                ExtraCircle: { value: 245 },
+                StartCP: { value: 61 },
+                MiddleCP: { value: 43 },
+                Tilt: { value: -62 },
+                Segments: { value: 19, max: 19 },
+            },
+            4: {
+                Knots: { value: 4 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 80 },
+                ExtraCircle: { value: 283 },
+                StartCP: { value: 43 },
+                MiddleCP: { value: 28 },
+                Tilt: { value: -48 },
+                Segments: { value: 25, max: 25 },
+            },
+            5: {
+                Knots: { value: 5 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 123 },
+                ExtraCircle: { value: 346 },
+                StartCP: { value: 58 },
+                MiddleCP: { value: 32 },
+                Tilt: { value: -2 },
+                Segments: { value: 31, max: 31 },
+            },
+            6: {
+                Knots: { value: 6 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 103 },
+                ExtraCircle: { value: 259 },
+                StartCP: { value: 35 },
+                MiddleCP: { value: 20 },
+                Tilt: { value: 3 },
+                Segments: { value: 37, max: 37 },
             },
             7: {
                 Knots: { value: 7 },
-                LargeCircle: { value: 396 },
-                SmallCircle: { value: 116 },
-                StartCP: { value: 30 },
-                MiddleCP: { value: 13 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 136 },
+                ExtraCircle: { value: 351 },
+                StartCP: { value: 34 },
+                MiddleCP: { value: 20 },
+                Tilt: { value: 5 },
                 Segments: { value: 43, max: 43 },
             },
             8: {
                 Knots: { value: 8 },
-                LargeCircle: { value: 396 },
-                SmallCircle: { value: 150 },
-                StartCP: { value: 28 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 172 },
+                ExtraCircle: { value: 390 },
+                StartCP: { value: 35 },
                 MiddleCP: { value: 12 },
+                Tilt: { value: 4 },
                 Segments: { value: 49, max: 49 },
+            },
+            9: {
+                Knots: { value: 9 },
+                LargeCircle: { value: 500 },
+                SmallCircle: { value: 200 },
+                ExtraCircle: { value: 400 },
+                StartCP: { value: 33 },
+                MiddleCP: { value: 17 },
+                Tilt: { value: 3 },
+                Segments: { value: 55, max: 55 },
             },
         },
         S: {
