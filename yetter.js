@@ -677,63 +677,25 @@ function createKnotPoints_old() {
 }
 function createKnotPoints() {
     let nodepoints = [];
-    if (matType == 'K') {
-        nodepoints = createKringleKnot();
-    }
-    if (matType == 'Y') {
-        nodepoints = createYetterKnot();
-    }
-    if (matType == 'YPlus') {
-        nodepoints = createYetterPlusKnot();
-    }
-    if (matType == 'Pi') {
-        nodepoints = createPitonKnot();
-    }
-    if (matType == 'Pe') {
-        nodepoints = createPeesoKnot();
-    }
-    if (matType == 'R') {
-        nodepoints = createRattanKnot();
-    }
-    if (matType == 'Ra') {
-        nodepoints = createRadianceKnot();
-    }
-    if (matType == 'S') {
-        nodepoints = createStruktorKnot();
-    }
-    if (matType == 'W') {
-        nodepoints = createWarlowKnot();
-    }
-    if (matType == 'W2') {
-        nodepoints = createWarlow2Knot();
-    }
-    if (matType == 'Sa') {
-        nodepoints = createSardinaKnot();
-    }
-    if (matType == 'Saa') {
-        nodepoints = createSardinaAltKnot();
-    }
-    if (matType == 'S2') {
-        nodepoints = createSardina2Knot();
-    }
-    if (matType == 'S3') {
-        nodepoints = createSardina3Knot();
-    }
-    if (matType == 'S4') {
-        nodepoints = createSardina4Knot();
-    }
-    if (matType == 'S5') {
-        nodepoints = createSardina5Knot();
-    }
-    if (matType == 'V') {
-        nodepoints = createVainovskaKnot();
-    }
-    if (matType == 'V2') {
-        nodepoints = createVainovska2Knot();
-    }
-    if (nodepoints.length == 0) {
-        nodepoints = createYetterPlusKnot();
-    }
+    if (matType == 'K')         { nodepoints = createKringleKnot();    }
+    if (matType == 'Y')         { nodepoints = createYetterKnot();     }
+    if (matType == 'YPlus')     { nodepoints = createYetterPlusKnot(); }
+    if (matType == 'Pi')        { nodepoints = createPitonKnot();      }
+    if (matType == 'Pe')        { nodepoints = createPeesoKnot();      }
+    if (matType == 'R')         { nodepoints = createRattanKnot();     }
+    if (matType == 'Ra')        { nodepoints = createRadianceKnot();   }
+    if (matType == 'S')         { nodepoints = createStruktorKnot();   }
+    if (matType == 'W')         { nodepoints = createWarlowKnot();     }
+    if (matType == 'W2')        { nodepoints = createWarlow2Knot();    }
+    if (matType == 'Sa')        { nodepoints = createSardinaKnot();    }
+    if (matType == 'Saa')       { nodepoints = createSardinaAltKnot(); }
+    if (matType == 'S2')        { nodepoints = createSardina2Knot();   }
+    if (matType == 'S3')        { nodepoints = createSardina3Knot();   }
+    if (matType == 'S4')        { nodepoints = createSardina4Knot();   }
+    if (matType == 'S5')        { nodepoints = createSardina5Knot();   }
+    if (matType == 'V')         { nodepoints = createVainovskaKnot();  }
+    if (matType == 'V2')        { nodepoints = createVainovska2Knot(); }
+    if (nodepoints.length == 0) { nodepoints = createYetterPlusKnot(); }
     let data = d3.select('#sliders').selectAll('g').data();
     let show = data.find((d) => d.name == 'Segments').value;
     if (nodepoints.length > show) {
