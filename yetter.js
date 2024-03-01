@@ -1239,9 +1239,9 @@ function definePresets() {
             },
             8: {
                 Knots: { value: 8 },
-                ExtraCircle: { value: 328 },
-                LargeCircle: { value: 300 },
-                SmallCircle: { value: 169 },
+                ExtraCircle: { value: 336 },
+                LargeCircle: { value: 291 },
+                SmallCircle: { value: 167 },
                 ExtraCP: { value: 37 },
                 StartCP: { value: 22 },
                 MiddleCP: { value: 10 },
@@ -1253,8 +1253,8 @@ function definePresets() {
             },
             9: {
                 Knots: { value: 9 },
-                ExtraCircle: { value: 328 },
-                LargeCircle: { value: 300 },
+                ExtraCircle: { value: 336 },
+                LargeCircle: { value: 291 },
                 SmallCircle: { value: 169 },
                 ExtraCP: { value: 37 },
                 StartCP: { value: 22 },
