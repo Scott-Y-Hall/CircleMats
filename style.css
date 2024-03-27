@@ -98,7 +98,7 @@ g#sliders rect {
 	fill: black;
 }
 
-g#sliders rect.on {
+g#sliders rect.on, circle.on {
 	stroke: black;
 	fill: #333333;
 }
