@@ -566,7 +566,7 @@ function createSlider(g) {
         .attr('y', 5)
         .attr('width', 98)
         .attr('height', 60)
-        .call(drag);
+        .call(sliderdrag);
     g.selectAll('text')
         .data((d) => [
             { id: 'name', value: d.name },
@@ -655,7 +655,7 @@ function sliderdragended() {
     updateMat();
 }
 
-drag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
+const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
 
 function createKnotPoints_old() {
     if (d3.select('#kringle').property('checked')) {
