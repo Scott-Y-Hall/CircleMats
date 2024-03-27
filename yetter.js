@@ -612,7 +612,7 @@ function getControls(pointsPerKnot) {
 }
 
 var underOver;
-function dragstarted(event, d) {
+function sliderdragstarted() {
     d3.select(this).raise().classed('on', 1);
     underOver = control_flags.UnderOver;
     if (d3.select(this.parentNode).attr('id') != 'slider_Segments') {
@@ -620,7 +620,7 @@ function dragstarted(event, d) {
     }
 }
 
-function dragged(event, d) {
+function sliderdragged(event, d) {
     d.value = d3
         .scaleLinear()
         .domain([sliderCtrl.height - 10, 10])
@@ -649,13 +649,13 @@ function dragged(event, d) {
     updateMat();
 }
 
-function dragended(event, d) {
+function sliderdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
     updateMat();
 }
 
-drag = d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended);
+drag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
 
 function createKnotPoints_old() {
     if (d3.select('#kringle').property('checked')) {
