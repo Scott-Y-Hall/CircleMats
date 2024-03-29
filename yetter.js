@@ -674,24 +674,6 @@ const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdra
 const cp1drag = d3.drag().on('start', sliderdragstarted).on('drag', cp1dragged).on('end', cpdragended);
 const cp2drag = d3.drag().on('start', sliderdragstarted).on('drag', cp2dragged).on('end', cpdragended);
 
-function createKnotPoints_old() {
-    if (d3.select('#kringle').property('checked')) {
-        return createKringleKnot();
-    }
-    if (d3.select('#yetter').property('checked')) {
-        return createYetterKnot();
-    }
-    if (d3.select('#piton').property('checked')) {
-        return createPitonKnot();
-    }
-    if (d3.select('#peeso').property('checked')) {
-        return createPeesoKnot();
-    }
-    if (d3.select('#rattan').property('checked')) {
-        return createRattanKnot();
-    }
-    return createYetterKnot();
-}
 function createKnotPoints() {
     let nodepoints = [];
     if (matType == 'K')         { nodepoints = createKringleKnot();    }
