@@ -439,8 +439,9 @@ function showControlPoints(mat, knotpoints) {
         .attr('cx', (d) => d.cp1.x)
         .attr('cy', (d) => d.cp1.y)
         .attr('r', 4)
-        .attr('fill', '#d9a400');
-    matt_cp
+        .attr('fill', '#d9a400')
+        .call(cp1drag);
+        matt_cp
         .selectAll('g.line2')
         .selectAll('line')
         .data((d) => d)
@@ -458,7 +459,8 @@ function showControlPoints(mat, knotpoints) {
         .attr('cx', (d) => d.cp2.x)
         .attr('cy', (d) => d.cp2.y)
         .attr('r', 4)
-        .attr('fill', '#d9a400');
+        .attr('fill', '#d9a400')
+        .call(cp2drag);
 }
 
 function showCircles() {
@@ -649,13 +651,28 @@ function sliderdragged(event, d) {
     updateMat();
 }
 
+function cp1dragged(event, d) {
+    d3.select(this).attr("cx", d.cp1.x = event.x).attr("cy", d.cp1.y = event.y);
+}
+
+function cp2dragged(event, d) {
+    d3.select(this).attr("cx", d.cp2.x = event.x).attr("cy", d.cp2.y = event.y);
+}
+
 function sliderdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
     updateMat();
 }
 
+function cpdragended() {
+    d3.select(this).classed('on', 0);
+    control_flags.UnderOver = underOver;
+}
+
 const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
+const cp1drag = d3.drag().on('start', sliderdragstarted).on('drag', cp1dragged).on('end', cpdragended);
+const cp2drag = d3.drag().on('start', sliderdragstarted).on('drag', cp2dragged).on('end', cpdragended);
 
 function createKnotPoints_old() {
     if (d3.select('#kringle').property('checked')) {
