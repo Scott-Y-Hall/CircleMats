@@ -57,7 +57,7 @@ var svg = d3
     .attr('viewBox', '-' + matCtrl.width / 2 + ' -' + matCtrl.height / 2 + ' ' + matCtrl.width + ' ' + matCtrl.height);
 svgFullScreen();
 svg.append('path').attr('id', 'matpath2').attr('fill', 'none').attr('stroke', '#EE3333').attr('stroke-width', '5');
-var path = svg.append('path').attr('id', 'matpath').attr('fill', 'none').attr('stroke', '#333333').attr('stroke-width', '5');
+svg.append('path').attr('id', 'matpath').attr('fill', 'none').attr('stroke', '#333333').attr('stroke-width', '5');
 var segments_g = svg.append('g');
 var highlights = svg.append('g');
 var mat = svg.append('g');
@@ -361,17 +361,9 @@ function updateMat() {
     } else {
         showControlPoints(mat, []);
     }
+    updatePaths(knotpoints);
     var matpath2 = d3.select('#matpath2');
     var matpath = d3.select('#matpath');
-    if (knotpoints[knotpoints.length - 2].mode == 'end2') {
-        matpath2.attr('d', knotpoints.map((d) => createPointString(d)).toString());
-        knotpoints[knotpoints.length - 2].mode = 'end';
-        knotpoints.splice(knotpoints.length - 1);
-        matpath.attr('d', knotpoints.map((d) => createPointString(d)).toString());
-    } else {
-        matpath2.attr('d', '');
-        matpath.attr('d', knotpoints.map((d) => createPointString(d)).toString());
-    }
     PAL = [];
     //var pathX = path_intersections(matpath);
     if (control_flags.Int) {
@@ -379,20 +371,38 @@ function updateMat() {
     } else {
         highlights.selectAll('circle').remove();
     }
-    var data = d3.select('#sliders').selectAll('g').data();
-    var show = data.find((d) => d.name == 'Segments');
-    if (show.value == show.max) {
-        matpath2.attr('stroke-dasharray', '');
-        matpath.attr('stroke-dasharray', '');
-        if (control_flags.UnderOver) {
-            let dasharray = create_dasharray(path_intersections(matpath));
-            matpath2.attr('stroke-dasharray', dasharray);
-            matpath.attr('stroke-dasharray', dasharray);
-        }
+}
+
+function updatePaths(knotpoints) {
+    let knotpoints2 = [];
+    if (knotpoints[knotpoints.length - 2].mode == 'end2') {
+        knotpoints2 = JSON.parse(JSON.stringify(knotpoints));  // Deep copy
+        knotpoints[knotpoints.length - 2].mode = 'end';
+        knotpoints.splice(knotpoints.length - 1);
     }
+    let svg = d3.select('#mat g svg');
+    svg.selectAll('path')
+        .data(
+            [ knotpoints2, knotpoints ]
+        ).join('path')
+        .attr('d', d => d.map((p) => createPointString(p)).toString());
+    let matpath = d3.select('#matpath');
+    let data = d3.select('#sliders').selectAll('g').data();
+    let show = data.find((d) => d.name == 'Segments');
+    let dasharray = ''
+
+    if (show.value == show.max) {
+        if (control_flags.UnderOver) {
+            dasharray = create_dasharray(path_intersections(matpath));
+        }
+        svg.selectAll('path').attr('stroke-dasharray', dasharray);
+    }
+
+
     //if (d3.select("#intersect").property("checked")){ draw_intersections(pathX); } else { highlights.selectAll("circle").remove(); }
     //if (d3.select("#segment").property("checked")){ draw_segments( matpath, 300 ); //d3.select("#slider").node().value); } else { segments_g.selectAll("line").remove(); }
     svgMatZoom();
+
 }
 
 function showControlPoints(mat, knotpoints) {
