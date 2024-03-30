@@ -56,7 +56,7 @@ var svg = d3
     .attr('height', matCtrl.height)
     .attr('viewBox', '-' + matCtrl.width / 2 + ' -' + matCtrl.height / 2 + ' ' + matCtrl.width + ' ' + matCtrl.height);
 svgFullScreen();
-svg.append('path').attr('id', 'matpath2').attr('fill', 'none').attr('stroke', '#EE3333').attr('stroke-width', '5');
+svg.append('path').attr('id', 'tail').attr('fill', 'none').attr('stroke', '#EE3333').attr('stroke-width', '5');
 svg.append('path').attr('id', 'matpath').attr('fill', 'none').attr('stroke', '#333333').attr('stroke-width', '5');
 var segments_g = svg.append('g');
 var highlights = svg.append('g');
@@ -373,17 +373,16 @@ function updateMat() {
 }
 
 function updatePaths(knotpoints) {
-    let knotpoints2 = [];
+    let tail = [];
     if (knotpoints[knotpoints.length - 2].mode == 'end2') {
-        knotpoints2 = JSON.parse(JSON.stringify(knotpoints.slice(-2)));  // Deep copy
-        knotpoints2[0].mode = 'start';
+        tail = JSON.parse(JSON.stringify(knotpoints));  // Deep copy
         knotpoints[knotpoints.length - 2].mode = 'end';
         knotpoints.splice(knotpoints.length - 1);
     }
     let svg = d3.select('#mat g svg');
     svg.selectAll('path')
         .data(
-            [ knotpoints2, knotpoints ]
+            [ tail, knotpoints ]
         ).join('path')
         .attr('d', d => d.map((p) => createPointString(p)).toString());
     let matpath = d3.select('#matpath');
