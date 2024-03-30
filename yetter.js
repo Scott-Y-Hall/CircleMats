@@ -362,7 +362,6 @@ function updateMat() {
         showControlPoints(mat, []);
     }
     updatePaths(knotpoints);
-    var matpath2 = d3.select('#matpath2');
     var matpath = d3.select('#matpath');
     PAL = [];
     //var pathX = path_intersections(matpath);
@@ -376,7 +375,8 @@ function updateMat() {
 function updatePaths(knotpoints) {
     let knotpoints2 = [];
     if (knotpoints[knotpoints.length - 2].mode == 'end2') {
-        knotpoints2 = JSON.parse(JSON.stringify(knotpoints));  // Deep copy
+        knotpoints2 = JSON.parse(JSON.stringify(knotpoints.slice(-2)));  // Deep copy
+        knotpoints2[0].mode = 'start';
         knotpoints[knotpoints.length - 2].mode = 'end';
         knotpoints.splice(knotpoints.length - 1);
     }
@@ -397,8 +397,6 @@ function updatePaths(knotpoints) {
         }
         svg.selectAll('path').attr('stroke-dasharray', dasharray);
     }
-
-
     //if (d3.select("#intersect").property("checked")){ draw_intersections(pathX); } else { highlights.selectAll("circle").remove(); }
     //if (d3.select("#segment").property("checked")){ draw_segments( matpath, 300 ); //d3.select("#slider").node().value); } else { segments_g.selectAll("line").remove(); }
     svgMatZoom();
