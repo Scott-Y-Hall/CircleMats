@@ -675,7 +675,13 @@ function cp1dragged(event, d) {
 }
 
 function cp2dragged(event, d) {
-    d3.select(this).attr("cx", d.cp2.x = event.x).attr("cy", d.cp2.y = event.y);
+    let knotpoints = d3.select(this.parentNode).data()[0];
+    knotpaths = d3.select('#matpath').data();
+    let index = d3.select(this).attr('index');
+    knotpoints[index].cp2.x = event.x;
+    knotpoints[index].cp2.y = event.y;
+    updatePaths(knotpoints);
+    //showControlPoints(knotpoints);
 }
 
 function sliderdragended() {
