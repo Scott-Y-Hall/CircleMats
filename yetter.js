@@ -418,6 +418,7 @@ function showControlPoints(mat, knotpoints) {
         .attr('y1', (d) => d.p.y)
         .attr('x2', '0')
         .attr('y2', '0')
+        .attr('index', (d,i) => i)
         .attr('stroke', '#5ba1d5');
     matt_cp
         .selectAll('g.line0')
@@ -427,6 +428,7 @@ function showControlPoints(mat, knotpoints) {
         .attr('cx', (d) => d.p.x)
         .attr('cy', (d) => d.p.y)
         .attr('r', 7)
+        .attr('index', (d,i) => i)
         .attr('fill', '#5ba1d5');
     matt_cp
         .selectAll('g.line1')
@@ -437,6 +439,7 @@ function showControlPoints(mat, knotpoints) {
         .attr('y1', (d) => d.p.y)
         .attr('x2', (d) => d.cp1.x)
         .attr('y2', (d) => d.cp1.y)
+        .attr('index', (d,i) => i)
         .attr('stroke', '#727272');
     matt_cp
         .selectAll('g.line1')
@@ -446,6 +449,7 @@ function showControlPoints(mat, knotpoints) {
         .attr('cx', (d) => d.cp1.x)
         .attr('cy', (d) => d.cp1.y)
         .attr('r', 4)
+        .attr('index', (d,i) => i)
         .attr('fill', '#d9a400')
         .call(cp1drag);
         matt_cp
@@ -457,6 +461,7 @@ function showControlPoints(mat, knotpoints) {
         .attr('y1', (d) => d.p.y)
         .attr('x2', (d) => d.cp2.x)
         .attr('y2', (d) => d.cp2.y)
+        .attr('index', (d,i) => i)
         .attr('stroke', '#727272');
     matt_cp
         .selectAll('g.line2')
@@ -466,6 +471,7 @@ function showControlPoints(mat, knotpoints) {
         .attr('cx', (d) => d.cp2.x)
         .attr('cy', (d) => d.cp2.y)
         .attr('r', 4)
+        .attr('index', (d,i) => i)
         .attr('fill', '#d9a400')
         .call(cp2drag);
 }
