@@ -357,9 +357,9 @@ function updateMat() {
     d3.select('#title').text(matName[matType] + ' Mat');
 
     if (control_flags.CtrlPts) {
-        showControlPoints(mat, knotpoints);
+        showControlPoints(knotpoints);
     } else {
-        showControlPoints(mat, []);
+        showControlPoints([]);
     }
     updatePaths(knotpoints);
     var matpath = d3.select('#matpath');
@@ -402,7 +402,7 @@ function updatePaths(knotpoints) {
 
 }
 
-function showControlPoints(mat, knotpoints) {
+function showControlPoints(knotpoints) {
     var matt_cp = mat.selectAll('g').data([knotpoints]).join('g');
     matt_cp
         .selectAll('g')
@@ -665,7 +665,13 @@ function sliderdragged(event, d) {
 }
 
 function cp1dragged(event, d) {
-    d3.select(this).attr("cx", d.cp1.x = event.x).attr("cy", d.cp1.y = event.y);
+    let knotpoints = d3.select(this.parentNode).data()[0];
+    knotpaths = d3.select('#matpath').data();
+    let index = d3.select(this).attr('index');
+    knotpoints[index].cp1.x = event.x;
+    knotpoints[index].cp1.y = event.y;
+    updatePaths(knotpoints);
+    //showControlPoints(knotpoints);
 }
 
 function cp2dragged(event, d) {
