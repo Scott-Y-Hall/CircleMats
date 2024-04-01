@@ -429,7 +429,8 @@ function showControlPoints(knotpoints) {
         .attr('cy', (d) => d.p.y)
         .attr('r', 7)
         .attr('index', (d,i) => i)
-        .attr('fill', '#5ba1d5');
+        .attr('fill', '#5ba1d5')
+        .call(pointdrag);
     matt_cp
         .selectAll('g.line1')
         .selectAll('line')
@@ -664,12 +665,22 @@ function sliderdragged(event, d) {
     updateMat();
 }
 
+function pointdragged(event, d) {
+    let knotpoints = d3.select(this.parentNode).data()[0];
+    knotpaths = d3.select('#matpath').data();
+    let index = d3.select(this).attr('index');
+    d3.select(this).attr('cx', knotpoints[index].p.x = event.x).attr('cy', knotpoints[index].p.y = event.y);
+    d3.select(this.parentNode.parentNode).selectAll("line[index='" + index + "']").attr('x1', event.x).attr('y1', event.y);
+    updatePaths(knotpoints);
+    //showControlPoints(knotpoints);
+}
+
 function cp1dragged(event, d) {
     let knotpoints = d3.select(this.parentNode).data()[0];
     knotpaths = d3.select('#matpath').data();
     let index = d3.select(this).attr('index');
-    knotpoints[index].cp1.x = event.x;
-    knotpoints[index].cp1.y = event.y;
+    d3.select(this).attr('cx', knotpoints[index].cp1.x = event.x).attr('cy', knotpoints[index].cp1.y = event.y);
+    d3.select(this.parentNode).selectAll("line[index='" + index + "']").attr('x2', event.x).attr('y2', event.y);
     updatePaths(knotpoints);
     //showControlPoints(knotpoints);
 }
@@ -678,8 +689,8 @@ function cp2dragged(event, d) {
     let knotpoints = d3.select(this.parentNode).data()[0];
     knotpaths = d3.select('#matpath').data();
     let index = d3.select(this).attr('index');
-    knotpoints[index].cp2.x = event.x;
-    knotpoints[index].cp2.y = event.y;
+    d3.select(this).attr('cx', knotpoints[index].cp2.x = event.x).attr('cy', knotpoints[index].cp2.y = event.y);
+    d3.select(this.parentNode).selectAll("line[index='" + index + "']").attr('x2', event.x).attr('y2', event.y);
     updatePaths(knotpoints);
     //showControlPoints(knotpoints);
 }
@@ -698,6 +709,7 @@ function cpdragended() {
 const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
 const cp1drag = d3.drag().on('start', sliderdragstarted).on('drag', cp1dragged).on('end', cpdragended);
 const cp2drag = d3.drag().on('start', sliderdragstarted).on('drag', cp2dragged).on('end', cpdragended);
+const pointdrag = d3.drag().on('start', sliderdragstarted).on('drag', pointdragged).on('end', cpdragended);
 
 function createKnotPoints() {
     let nodepoints = [];
