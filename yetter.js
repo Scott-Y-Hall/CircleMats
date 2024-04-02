@@ -362,14 +362,6 @@ function updateMat() {
         showControlPoints([]);
     }
     updatePaths(knotpoints);
-    var matpath = d3.select('#matpath');
-    PAL = [];
-    //var pathX = path_intersections(matpath);
-    if (control_flags.Int) {
-        draw_intersections(path_intersections(matpath));
-    } else {
-        highlights.selectAll('circle').remove();
-    }
 }
 
 function updatePaths(knotpoints) {
@@ -388,13 +380,20 @@ function updatePaths(knotpoints) {
     let matpath = d3.select('#matpath');
     let data = d3.select('#sliders').selectAll('g').data();
     let show = data.find((d) => d.name == 'Segments');
-    let dasharray = ''
+    let dasharray = '';
 
+    PAL = [];
     if (show.value == show.max) {
         if (control_flags.UnderOver) {
             dasharray = create_dasharray(path_intersections(matpath));
         }
         svg.selectAll('path').attr('stroke-dasharray', dasharray);
+    }
+    //var pathX = path_intersections(matpath);
+    if (control_flags.Int) {
+        draw_intersections(path_intersections(matpath));
+    } else {
+        highlights.selectAll('circle').remove();
     }
     //if (d3.select("#intersect").property("checked")){ draw_intersections(pathX); } else { highlights.selectAll("circle").remove(); }
     //if (d3.select("#segment").property("checked")){ draw_segments( matpath, 300 ); //d3.select("#slider").node().value); } else { segments_g.selectAll("line").remove(); }
@@ -628,10 +627,13 @@ function getControls(pointsPerKnot) {
 }
 
 var underOver;
+var intersections;
 function sliderdragstarted() {
     d3.select(this).raise().classed('on', 1);
     underOver = control_flags.UnderOver;
-    if (d3.select(this.parentNode).attr('id') != 'slider_Segments') {
+    intersections = control_flags.Int;
+    control_flags.Int = 0;
+        if (d3.select(this.parentNode).attr('id') != 'slider_Segments') {
         control_flags.UnderOver = 0;
     }
 }
@@ -666,8 +668,7 @@ function sliderdragged(event, d) {
 }
 
 function pointdragged(event, d) {
-    let knotpoints = d3.select(this.parentNode).data()[0];
-    knotpaths = d3.select('#matpath').data();
+    let knotpoints = d3.select('#matpath').datum();
     let index = d3.select(this).attr('index');
     d3.select(this).attr('cx', knotpoints[index].p.x = event.x).attr('cy', knotpoints[index].p.y = event.y);
     d3.select(this.parentNode.parentNode).selectAll("line[index='" + index + "']").attr('x1', event.x).attr('y1', event.y);
@@ -676,8 +677,7 @@ function pointdragged(event, d) {
 }
 
 function cp1dragged(event, d) {
-    let knotpoints = d3.select(this.parentNode).data()[0];
-    knotpaths = d3.select('#matpath').data();
+    let knotpoints = d3.select('#matpath').datum();
     let index = d3.select(this).attr('index');
     d3.select(this).attr('cx', knotpoints[index].cp1.x = event.x).attr('cy', knotpoints[index].cp1.y = event.y);
     d3.select(this.parentNode).selectAll("line[index='" + index + "']").attr('x2', event.x).attr('y2', event.y);
@@ -686,8 +686,7 @@ function cp1dragged(event, d) {
 }
 
 function cp2dragged(event, d) {
-    let knotpoints = d3.select(this.parentNode).data()[0];
-    knotpaths = d3.select('#matpath').data();
+    let knotpoints = d3.select('#matpath').datum();
     let index = d3.select(this).attr('index');
     d3.select(this).attr('cx', knotpoints[index].cp2.x = event.x).attr('cy', knotpoints[index].cp2.y = event.y);
     d3.select(this.parentNode).selectAll("line[index='" + index + "']").attr('x2', event.x).attr('y2', event.y);
@@ -698,12 +697,16 @@ function cp2dragged(event, d) {
 function sliderdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
+    control_flags.Int = intersections;
     updateMat();
 }
 
 function cpdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
+    control_flags.Int = intersections;
+    let knotpoints = d3.select('#matpath').datum();
+    updatePaths(knotpoints);
 }
 
 const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
