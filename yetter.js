@@ -425,7 +425,7 @@ function showControlPoints(knotpoints) {
         .join('circle')
         .attr('cx', (d) => d.p.x)
         .attr('cy', (d) => d.p.y)
-        .attr('r', 7)
+        .attr('r', 14)
         .attr('index', (d,i) => i)
         .attr('fill', '#5ba1d5')
         .call(pointdrag);
@@ -447,7 +447,7 @@ function showControlPoints(knotpoints) {
         .join('circle')
         .attr('cx', (d) => d.cp1.x)
         .attr('cy', (d) => d.cp1.y)
-        .attr('r', 4)
+        .attr('r', 14)
         .attr('index', (d,i) => i)
         .attr('fill', '#d9a400')
         .call(cp1drag);
@@ -469,7 +469,7 @@ function showControlPoints(knotpoints) {
         .join('circle')
         .attr('cx', (d) => d.cp2.x)
         .attr('cy', (d) => d.cp2.y)
-        .attr('r', 4)
+        .attr('r', 14)
         .attr('index', (d,i) => i)
         .attr('fill', '#d9a400')
         .call(cp2drag);
