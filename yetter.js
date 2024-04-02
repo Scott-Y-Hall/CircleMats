@@ -82,7 +82,7 @@ option_g
     .attr('y', (d, i) => 55 + 18 * i)
     .on('click', (x, d) => {
         matType = d.key;
-        updateMat();
+        updateMat(createKnotPoints());
     });
 var presets_g = option_g
     .append('g')
@@ -117,11 +117,11 @@ var button = d3
     .button()
     .on('press', (x, d) => {
         control_flags[d.label] = 1;
-        updateMat();
+        updateMat(d3.select('#matpath').datum());
     })
     .on('release', (x, d) => {
         control_flags[d.label] = 0;
-        updateMat();
+        updateMat(d3.select('#matpath').datum());
     });
 
 // Add buttons
@@ -341,19 +341,18 @@ function draw_segments(path, qty) {
 //d3.select("#intersect").on("change", function() {
 d3.selectAll('input')
     .on('input', function () {
-        updateMat();
+        updateMat(createKnotPoints());
     })
     .on('change', function () {
-        updateMat();
+        updateMat(createKnotPoints());
     });
 
 //d3.select("#segment").on("change", function() { updateMat(); });
 
 //draw_intersections( pathX );
 
-function updateMat() {
+function updateMat(knotpoints) {
     showCircles();
-    var knotpoints = createKnotPoints();
     d3.select('#title').text(matName[matType] + ' Mat');
 
     if (control_flags.CtrlPts) {
@@ -664,7 +663,7 @@ function sliderdragged(event, d) {
         g.data(currentData).join('g');
         updateSliders(g);
     }
-    updateMat();
+    updateMat(createKnotPoints());
 }
 
 function pointdragged(event, d) {
@@ -698,7 +697,7 @@ function sliderdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
     control_flags.Int = intersections;
-    updateMat();
+    updateMat(createKnotPoints());
 }
 
 function cpdragended() {
@@ -1100,7 +1099,7 @@ function loadPreset(mat, variant) {
     //control_flags.UnderOver = 0;
     //updateMat();
     //control_flags.UnderOver = underOver;
-    updateMat();
+    updateMat(createKnotPoints());
 }
 
 function definePresets() {
@@ -2564,4 +2563,4 @@ function definePresets() {
 Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
 
 loadPreset('Y', 4);
-updateMat();
+updateMat(createKnotPoints());
