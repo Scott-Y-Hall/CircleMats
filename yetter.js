@@ -117,11 +117,11 @@ var button = d3
     .button()
     .on('press', (x, d) => {
         control_flags[d.label] = 1;
-        updateMat(d3.select('#matpath').datum());
+        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : d3.select('#matpath').datum());
     })
     .on('release', (x, d) => {
         control_flags[d.label] = 0;
-        updateMat(d3.select('#matpath').datum());
+        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : d3.select('#matpath').datum());
     });
 
 // Add buttons
