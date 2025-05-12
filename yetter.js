@@ -1,4 +1,4 @@
-const { definePresets } = require("./definePresets");
+import { definePresets } from './definePresets.js';
 
 var matType;
 var matName = {
