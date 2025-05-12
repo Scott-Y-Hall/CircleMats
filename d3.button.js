@@ -1,4 +1,4 @@
-import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@6/+esm';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select, dispatch } = d3;
 
 export function button() {
