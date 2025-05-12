@@ -8,8 +8,8 @@ const { drag } = d3;
 import { button as d3Button } from './d3.button.js';
 import * as definePresets from './definePresets.js';
 
-var matType;
-var matName = {
+let matType;
+const matName = {
     Y: 'Yetter',
     YPlus: 'Yetter+',
     K: 'Kringle',
@@ -29,21 +29,21 @@ var matName = {
     V: 'Vainovska',
     V2: 'Vainovska2',
 };
-var matNameArray = Object.keys(matName).map((d) => ({ key: d, value: matName[d] }));
-var presets = definePresets.definePresets();
-var presetArray = Object.keys(matName).map((d) => ({
+const matNameArray = Object.keys(matName).map((d) => ({ key: d, value: matName[d] }));
+const presets = definePresets.definePresets();
+const presetArray = Object.keys(matName).map((d) => ({
     key: d,
     value: Object.keys(presets[d])
         .map(Number)
         .filter((d) => d)
         .sort(ascending),
 }));
-var color = scaleOrdinal(schemeCategory10);
-var matCtrl = { width: 800, height: 800, translate: 'translate(0,50)' };
-var sliderCtrl = { width: 800, height: 400, translate: 'translate(0,950)' };
-var optionCtrl = { width: 800, height: 450, translate: 'translate(800,500)' };
-var width;
-var height;
+const color = scaleOrdinal(schemeCategory10);
+const matCtrl = { width: 800, height: 800, translate: 'translate(0,50)' };
+const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,950)' };
+const optionCtrl = { width: 800, height: 450, translate: 'translate(800,500)' };
+let width;
+let height;
 if (window.innerWidth < window.innerHeight) {
     width = Math.max(matCtrl.width, sliderCtrl.width);
     height = matCtrl.height + sliderCtrl.height + optionCtrl.height + 300;
@@ -109,7 +109,7 @@ presets_g
     .attr('x', (d, i) => 0 + 40 * i)
     .on('click', (x, d) => loadPreset(d3.select(x.currentTarget.parentNode).datum().key, d));
 
-var buttonData = [
+const buttonData = [
     { label: 'UnderOver', x: 11, y: optionCtrl.height - 50 },
     { label: 'SingleLoop', x: 172, y: optionCtrl.height - 50 },
     { label: 'Circles', x: 336, y: optionCtrl.height - 50 },
@@ -118,11 +118,11 @@ var buttonData = [
     { label: 'Int', x: 700, y: optionCtrl.height - 108 },
     { label: 'Dev', x: 700, y: optionCtrl.height - 50 },
 ];
-var control_flags = {};
+const control_flags = {};
 buttonData.map((d) => (control_flags[d.label] = 0));
 //buttonData = [];
 
-var button = d3Button()
+const button = d3Button()
     .on('press', (x, d) => {
         control_flags[d.label] = 1;
         updateMat(d.label === 'SingleLoop' ? createKnotPoints() : select('#matpath').datum());
@@ -133,7 +133,7 @@ var button = d3Button()
     });
 
 // Add buttons
-var buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('class', 'button').call(button);
+const buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('class', 'button').call(button);
 
 window.addEventListener('resize', svgFullScreen);
 
@@ -193,7 +193,7 @@ function line_line_intersect(line1, line2) {
     }
 }
 
-var PAL = [];
+let PAL = [];
 
 function getPAL(path, i) {
     if (typeof PAL[i] === 'undefined') {
@@ -602,7 +602,7 @@ function createSlider(g) {
         .text((d) => d.value);
 }
 
-var ppk;
+let ppk;
 function getControls(pointsPerKnot) {
     ppk = pointsPerKnot;
     var data = d3.select('#sliders').selectAll('g').data();
@@ -633,8 +633,8 @@ function getControls(pointsPerKnot) {
     return { knots, angle, show, single, largeCircle, smallCircle, middleCircle, showCircle, startcp, midcp, tilt, extracp, extraCircle, extraAngle, cp1, cp2 };
 }
 
-var underOver;
-var intersections;
+let underOver;
+let intersections;
 function sliderdragstarted() {
     d3.select(this).raise().classed('on', 1);
     underOver = control_flags.UnderOver;
