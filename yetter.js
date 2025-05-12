@@ -1,4 +1,6 @@
-import { definePresets } from './definePresets.js';
+import * as d3 from 'https://d3js.org/d3.v6.min.js';
+import { button } from './d3.button.js';
+import * as definePresets from './definePresets.js';
 
 var matType;
 var matName = {
@@ -22,7 +24,7 @@ var matName = {
     V2: 'Vainovska2',
 };
 var matNameArray = Object.keys(matName).map((d) => ({ key: d, value: matName[d] }));
-var presets = definePresets();
+var presets = definePresets.definePresets();
 var presetArray = Object.keys(matName).map((d) => ({
     key: d,
     value: Object.keys(presets[d])

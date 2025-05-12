@@ -1,4 +1,6 @@
-d3.button = function() {
+import * as d3 from 'https://d3js.org/d3.v6.min.js';
+
+export function button() {
 
   var dispatch = d3.dispatch('press', 'release');
 
