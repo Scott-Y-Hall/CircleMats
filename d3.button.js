@@ -1,8 +1,8 @@
-import * as d3 from 'https://d3js.org/d3.v6.min.js';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@6/+esm';
+const { select, dispatch } = d3;
 
 export function button() {
-
-  var dispatch = d3.dispatch('press', 'release');
+  var eventDispatch = dispatch('press', 'release');
 
   var padding = 10,
       radius = 10,
@@ -12,7 +12,7 @@ export function button() {
 
   function my(selection) {
     selection.each(function(d, i) {
-      var g = d3.select(this)
+      var g = select(this)
           .attr('id', 'd3-button' + i)
           .attr('transform', 'translate(' + d.x + ',' + d.y + ')');
 
@@ -36,7 +36,7 @@ export function button() {
   }
 
   function addGradient(d, i) {
-    var defs = d3.select(this).select('defs');
+    var defs = select(this).select('defs');
     var gradient = defs.append('linearGradient')
         .attr('id', 'gradient' + i)
         .attr('x1', '0%')
@@ -52,12 +52,12 @@ export function button() {
         .attr('id', 'gradient-stop')
         .attr('offset', '100%')
 
-    d3.select(this).select('rect').attr('fill', 'url(#gradient' + i + ")" );
+    select(this).select('rect').attr('fill', 'url(#gradient' + i + ")" );
   }
 
   function addShadow(d, i) {
-    var defs = d3.select(this).select('defs');
-    var rect = d3.select(this).select('rect').attr('filter', 'url(#dropShadow' + i + ")" );
+    var defs = select(this).select('defs');
+    var rect = select(this).select('rect').attr('filter', 'url(#dropShadow' + i + ")" );
     var shadow = defs.append('filter')
         .attr('id', 'dropShadow' + i)
         .attr('x', rect.attr('x'))
@@ -80,23 +80,23 @@ export function button() {
   }
 
   function activate() {
-    var gradient = d3.select(this.parentNode).select('linearGradient')
-    d3.select(this.parentNode).select("rect").classed('active', true)
+    var gradient = select(this.parentNode).select('linearGradient')
+    select(this.parentNode).select("rect").classed('active', true)
     if (!gradient.node()) return;
     gradient.select('#gradient-start').classed('active', true)
     gradient.select('#gradient-stop').classed('active', true)
   }
 
   function deactivate() {
-    var gradient = d3.select(this.parentNode).select('linearGradient')
-    d3.select(this.parentNode).select("rect").classed('active', false)
+    var gradient = select(this.parentNode).select('linearGradient')
+    select(this.parentNode).select("rect").classed('active', false)
     if (!gradient.node()) return;
     gradient.select('#gradient-start').classed('active', false);
     gradient.select('#gradient-stop').classed('active', false);
   }
 
   function toggle(d, i) {
-    if (d3.select(this).classed('pressed')) {
+    if (select(this).classed('pressed')) {
         release.call(this, d, i);
         deactivate.call(this, d, i);
     } else {
@@ -106,30 +106,30 @@ export function button() {
   }
 
   function press(d, i) {
-    dispatch.call('press', this, d, i)
-    d3.select(this).classed('pressed', true);
-    var shadow = d3.select(this.parentNode).select('filter')
+    eventDispatch.call('press', this, d, i)
+    select(this).classed('pressed', true);
+    var shadow = select(this.parentNode).select('filter')
     if (!shadow.node()) return;
     shadow.select('feOffset').attr('dx', 0).attr('dy', 0);
     shadow.select('feGaussianBlur').attr('stdDeviation', 0);
   }
 
   function release(d, i) {
-    dispatch.call('release', this, d, i)
+    eventDispatch.call('release', this, d, i)
     my.clear.call(this, d, i);
   }
 
   my.clear = function(d, i) {
-    d3.select(this).classed('pressed', false);
-    var shadow = d3.select(this.parentNode).select('filter')
+    select(this).classed('pressed', false);
+    var shadow = select(this.parentNode).select('filter')
     if (!shadow.node()) return;
     shadow.select('feOffset').attr('dx', offsetX).attr('dy', offsetY);
     shadow.select('feGaussianBlur').attr('stdDeviation', stdDeviation);
   }
 
   my.on = function() {
-    var value = dispatch.on.apply(dispatch, arguments);
-    return value === dispatch ? my : value;
+    var value = eventDispatch.on.apply(eventDispatch, arguments);
+    return value === eventDispatch ? my : value;
   };
 
   return my;
