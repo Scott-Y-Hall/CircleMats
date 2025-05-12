@@ -2,24 +2,24 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select, dispatch } = d3;
 
 export function button() {
-  var eventDispatch = dispatch('press', 'release');
+  const eventDispatch = dispatch('press', 'release');
 
-  var padding = 10,
-      radius = 10,
-      stdDeviation = 5,
-      offsetX = 2,
-      offsetY = 4;
+  const padding = 10,
+        radius = 10,
+        stdDeviation = 5,
+        offsetX = 2,
+        offsetY = 4;
 
   function my(selection) {
     selection.each(function(d, i) {
-      var g = select(this)
+      const g = select(this)
           .attr('id', 'd3-button' + i)
           .attr('transform', 'translate(' + d.x + ',' + d.y + ')');
 
-      var text = g.append('text').text(d.label);
-      var defs = g.append('defs');
-      var bbox = text.node().getBBox();
-      var rect = g.insert('rect', 'text')
+      const text = g.append('text').text(d.label);
+      const defs = g.append('defs');
+      const bbox = text.node().getBBox();
+      const rect = g.insert('rect', 'text')
           .attr("x", bbox.x - padding)
           .attr("y", bbox.y - padding)
           .attr("width", bbox.width + 2 * padding)
@@ -36,8 +36,8 @@ export function button() {
   }
 
   function addGradient(d, i) {
-    var defs = select(this).select('defs');
-    var gradient = defs.append('linearGradient')
+    const defs = select(this).select('defs');
+    const gradient = defs.append('linearGradient')
         .attr('id', 'gradient' + i)
         .attr('x1', '0%')
         .attr('y1', '0%')
@@ -56,9 +56,9 @@ export function button() {
   }
 
   function addShadow(d, i) {
-    var defs = select(this).select('defs');
-    var rect = select(this).select('rect').attr('filter', 'url(#dropShadow' + i + ")" );
-    var shadow = defs.append('filter')
+    const defs = select(this).select('defs');
+    const rect = select(this).select('rect').attr('filter', 'url(#dropShadow' + i + ")" );
+    const shadow = defs.append('filter')
         .attr('id', 'dropShadow' + i)
         .attr('x', rect.attr('x'))
         .attr('y', rect.attr('y'))
@@ -73,14 +73,14 @@ export function button() {
         .attr('dx', offsetX)
         .attr('dy', offsetY);
 
-    var merge = shadow.append('feMerge');
+    const merge = shadow.append('feMerge');
 
     merge.append('feMergeNode');
     merge.append('feMergeNode').attr('in', 'SourceGraphic');
   }
 
   function activate() {
-    var gradient = select(this.parentNode).select('linearGradient')
+    const gradient = select(this.parentNode).select('linearGradient')
     select(this.parentNode).select("rect").classed('active', true)
     if (!gradient.node()) return;
     gradient.select('#gradient-start').classed('active', true)
@@ -88,7 +88,7 @@ export function button() {
   }
 
   function deactivate() {
-    var gradient = select(this.parentNode).select('linearGradient')
+    const gradient = select(this.parentNode).select('linearGradient')
     select(this.parentNode).select("rect").classed('active', false)
     if (!gradient.node()) return;
     gradient.select('#gradient-start').classed('active', false);
@@ -108,7 +108,7 @@ export function button() {
   function press(d, i) {
     eventDispatch.call('press', this, d, i)
     select(this).classed('pressed', true);
-    var shadow = select(this.parentNode).select('filter')
+    const shadow = select(this.parentNode).select('filter')
     if (!shadow.node()) return;
     shadow.select('feOffset').attr('dx', 0).attr('dy', 0);
     shadow.select('feGaussianBlur').attr('stdDeviation', 0);
@@ -121,14 +121,14 @@ export function button() {
 
   my.clear = function(d, i) {
     select(this).classed('pressed', false);
-    var shadow = select(this.parentNode).select('filter')
+    const shadow = select(this.parentNode).select('filter')
     if (!shadow.node()) return;
     shadow.select('feOffset').attr('dx', offsetX).attr('dy', offsetY);
     shadow.select('feGaussianBlur').attr('stdDeviation', stdDeviation);
   }
 
   my.on = function() {
-    var value = eventDispatch.on.apply(eventDispatch, arguments);
+    const value = eventDispatch.on.apply(eventDispatch, arguments);
     return value === eventDispatch ? my : value;
   };
 
