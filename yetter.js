@@ -1,4 +1,10 @@
-import { select, selectAll, scaleOrdinal, schemeCategory10, ascending, dispatch, drag } from 'https://d3js.org/d3.v6.min.js';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@6/+esm';
+const { select, selectAll } = d3;
+const { scaleOrdinal } = d3;
+const { schemeCategory10 } = d3;
+const { ascending } = d3;
+const { dispatch } = d3;
+const { drag } = d3;
 import { button as d3Button } from './d3.button.js';
 import * as definePresets from './definePresets.js';
 
