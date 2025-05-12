@@ -1,5 +1,5 @@
 import * as d3 from 'https://d3js.org/d3.v6.min.js';
-import { button } from './d3.button.js';
+import { button as d3Button } from './d3.button.js';
 import * as definePresets from './definePresets.js';
 
 var matType;
@@ -117,8 +117,7 @@ var control_flags = {};
 buttonData.map((d) => (control_flags[d.label] = 0));
 //buttonData = [];
 
-var button = d3
-    .button()
+var button = d3Button()
     .on('press', (x, d) => {
         control_flags[d.label] = 1;
         updateMat(d.label === 'SingleLoop' ? createKnotPoints() : d3.select('#matpath').datum());
