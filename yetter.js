@@ -1,4 +1,4 @@
-import * as d3 from 'https://d3js.org/d3.v6.min.js';
+import { select, selectAll, scaleOrdinal, schemeCategory10, ascending, dispatch, drag } from 'https://d3js.org/d3.v6.min.js';
 import { button as d3Button } from './d3.button.js';
 import * as definePresets from './definePresets.js';
 
@@ -30,9 +30,9 @@ var presetArray = Object.keys(matName).map((d) => ({
     value: Object.keys(presets[d])
         .map(Number)
         .filter((d) => d)
-        .sort(d3.ascending),
+        .sort(ascending),
 }));
-var color = d3.scaleOrdinal(d3.schemeCategory10);
+var color = scaleOrdinal(schemeCategory10);
 var matCtrl = { width: 800, height: 800, translate: 'translate(0,50)' };
 var sliderCtrl = { width: 800, height: 400, translate: 'translate(0,950)' };
 var optionCtrl = { width: 800, height: 450, translate: 'translate(800,500)' };
@@ -48,8 +48,7 @@ if (window.innerWidth < window.innerHeight) {
     height = Math.max(matCtrl.height + 100, sliderCtrl.height + optionCtrl.height + 100);
     sliderCtrl.translate = 'translate(800,70)';
 }
-var svg = d3
-    .select('body')
+var svg = select('body')
     .append('svg')
     .attr('id', 'mat')
     .attr('viewBox', '0 0 ' + width + ' ' + height)
@@ -120,11 +119,11 @@ buttonData.map((d) => (control_flags[d.label] = 0));
 var button = d3Button()
     .on('press', (x, d) => {
         control_flags[d.label] = 1;
-        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : d3.select('#matpath').datum());
+        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : select('#matpath').datum());
     })
     .on('release', (x, d) => {
         control_flags[d.label] = 0;
-        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : d3.select('#matpath').datum());
+        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : select('#matpath').datum());
     });
 
 // Add buttons
@@ -133,16 +132,16 @@ var buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('cla
 window.addEventListener('resize', svgFullScreen);
 
 function svgFullScreen() {
-    var htmlwidth = d3.select('html').node().clientWidth;
-    var htmlheight = d3.select('html').node().clientHeight;
+    var htmlwidth = select('html').node().clientWidth;
+    var htmlheight = select('html').node().clientHeight;
     //console.log(htmlwidth + ',' + htmlheight);
-    d3.select('#mat').attr('width', htmlwidth).attr('height', htmlheight);
+    select('#mat').attr('width', htmlwidth).attr('height', htmlheight);
 }
 
 function svgMatZoom() {
     var vbox = '-400 -400 800 800';
     if (control_flags.Fit) {
-        var bbox = d3.select('#mat svg').node().getBBox();
+        var bbox = select('#mat svg').node().getBBox();
         var off = Math.floor(Math.min(bbox.x - 9, bbox.y - 9, -400) / 10) * 10;
         var size = -2 * off;
         vbox = off + ' ' + off + ' ' + size + ' ' + size;
@@ -342,7 +341,7 @@ function draw_segments(path, qty) {
 //d3.select("#slider").on("change", function() { d3.select("#n_segments_text").text(this.value); updateMat(); });
 
 //d3.select("#intersect").on("change", function() {
-d3.selectAll('input')
+selectAll('input')
     .on('input', function () {
         updateMat(createKnotPoints());
     })
@@ -356,7 +355,7 @@ d3.selectAll('input')
 
 function updateMat(knotpoints) {
     showCircles();
-    d3.select('#title').text(matName[matType] + ' Mat');
+    select('#title').text(matName[matType] + ' Mat');
 
     if (control_flags.CtrlPts) {
         showControlPoints(knotpoints);
@@ -373,7 +372,7 @@ function updatePaths(knotpoints) {
         knotpoints[knotpoints.length - 2].mode = 'end';
         knotpoints.splice(knotpoints.length - 1);
     }
-    let svg = d3.select('#mat g svg');
+    let svg = select('#mat g svg');
     svg.selectAll('path')
         .data(
             [ tail, knotpoints ]
