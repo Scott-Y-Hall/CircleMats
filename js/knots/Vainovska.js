@@ -39,12 +39,12 @@ export function createSamebaKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
-        nodepoints.push(createPoint(c.smallCircle, -x * c.angle + c.angle / 2, c.startcp / 2, c.startcp / 2));
-        nodepoints.push(createPoint(c.largeCircle, -x * c.angle, c.cp2 * 2, c.cp1 * 2, 45));
-        nodepoints.push(createPoint(c.extraCircle, -x * c.angle + 0, -c.midcp, -c.midcp));
-        nodepoints.push(createPoint(c.largeCircle, -x * c.angle, c.cp1 * 2, c.cp2 * 2, -45));
+        nodepoints.push(createPoint(c.smallCircle, x * c.angle - c.angle / 2, -c.startcp / 2, -c.startcp / 2));
+        nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp2 * 2, c.cp1 * 2, 135));
+        nodepoints.push(createPoint(c.extraCircle, x * c.angle + 0, c.midcp, c.midcp));
+        nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp1 * 2, c.cp2 * 2, -135));
     }
-    nodepoints.push(createPoint(c.smallCircle, -(c.knots - 1) * c.angle - c.angle / 2, c.startcp / 2, c.startcp / 2));
+    nodepoints.push(createPoint(c.smallCircle, (c.knots - 1) * c.angle + c.angle / 2, -c.startcp / 2, -c.startcp / 2));
     if (c.single) {
         nodepoints.splice(c.show);
     }
