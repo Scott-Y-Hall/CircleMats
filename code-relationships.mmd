@@ -1,0 +1,61 @@
+---
+title: CircleMats Codebase Architecture
+description: Visualization of module relationships and dependencies in the CircleMats project.
+---
+
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#f0f0f0', 'primaryTextColor': '#333', 'primaryBorderColor': '#666', 'lineColor': '#999', 'secondaryColor': '#e6e6e6', 'tertiaryColor': '#d9d9d9'}}}%%
+
+graph TD
+    %% Main Application File
+    circleMat.js["circleMat.js<br/>(Main Application)"]
+    
+    %% Core Modules
+    mat.js["mat.js<br/>(Canvas Rendering)"]
+    matPoints.js["matPoints.js<br/>(Mat Geometry)"]
+    
+    %% UI Components
+    buttons.js["buttons.js<br/>(UI Buttons)"]
+    sliders.js["sliders.js<br/>(UI Sliders)"]
+    
+    %% Knot Implementations
+    subgraph "KnotTypes"
+        Yetter.js
+        Warlow.js
+        Vainovska.js
+        Struktor.js
+        Sardina.js
+        Piton.js
+        Peeso.js
+    end
+    
+    %% Utility
+    util.js["util.js<br/>(Utilities)"]
+    definePresets.js["definePresets.js<br/>(Preset Configurations)"]
+    
+    %% D3.js Dependency
+    D3["D3.js<br/>(External Library)"]
+    
+    %% Relationships
+    circleMat.js --> D3
+    circleMat.js --> mat.js
+    circleMat.js --> matPoints.js
+    circleMat.js --> buttons.js
+    circleMat.js --> sliders.js
+    circleMat.js --> definePresets.js
+    
+    mat.js --> matPoints.js
+    mat.js --> util.js
+    mat.js --> D3
+    
+    buttons.js --> D3
+    sliders.js --> D3
+    
+    matPoints.js --> KnotTypes
+    
+    style circleMat.js fill:#f9f,stroke:#333,stroke-width:2px
+    style D3 fill:#f96,stroke:#333,stroke-width:2px
+    style mat.js fill:#9cf,stroke:#333,stroke-width:2px
+    style matPoints.js fill:#9cf,stroke:#333,stroke-width:2px
+    
+    classDef knot fill:#c9f7c9,stroke:#333,stroke-width:1.5px
+    class Yetter.js,Warlow.js,Vainovska.js,Struktor.js,Sardina.js,Piton.js,Peeso.js knot
