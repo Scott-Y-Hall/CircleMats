@@ -1,7 +1,7 @@
 import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
-export function createWarlowKnot() {
+export function WarlowKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -16,7 +16,7 @@ export function createWarlowKnot() {
     }
     return nodepoints;
 }
-export function createWarlow2Knot() {
+export function Warlow2Knot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {

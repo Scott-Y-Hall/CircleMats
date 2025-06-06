@@ -1,7 +1,7 @@
 import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
-export function createVainovskaKnot() {
+export function VainovskaKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -17,7 +17,7 @@ export function createVainovskaKnot() {
     return nodepoints;
 }
 
-export function createVainovska2Knot() {
+export function Vainovska2Knot() {
     var c = getControls(6);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -35,7 +35,7 @@ export function createVainovska2Knot() {
     return nodepoints;
 }
 
-export function createSamebaKnot() {
+export function SamebaKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {

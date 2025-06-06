@@ -1,7 +1,7 @@
 import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
-export function createStruktorKnot() {
+export function StruktorKnot() {
     var c = getControls(8);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {

@@ -1,7 +1,7 @@
 import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
-export function createPitonKnot() {
+export function PitonKnot() {
     var c = getControls(2);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -15,7 +15,7 @@ export function createPitonKnot() {
     return nodepoints;
 }
 
-export function createRattanKnot() {
+export function RattanKnot() {
     var c = getControls(2);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -29,7 +29,7 @@ export function createRattanKnot() {
     return nodepoints;
 }
 
-export function createKringleKnot() {
+export function KringleKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {

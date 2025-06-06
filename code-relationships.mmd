@@ -19,14 +19,13 @@ graph LR
     
     %% Knot Implementations
     subgraph "KnotTypes"
-        Yetter["Yetter.js<br/>- createYetterKnot()<br/>- createYetterPlusKnot()<br/>- createKringleKnot()"]
-        Warlow["Warlow.js<br/>- createWarlowKnot()<br/>- createWarlow2Knot()"]
-        Vainovska["Vainovska.js<br/>- createVainovskaKnot()<br/>- createVainovska2Knot()<br/>- createSamebaKnot()"]
-        Struktor["Struktor.js<br/>- createStruktorKnot()"]
-        Sardina["Sardina.js<br/>- createRadianceKnot()<br/>- createSardinaKnot()<br/>- createSardinaAltKnot()<br/>- createSardina2Knot()<br/>- createSardina3Knot()<br/>- createSardina4Knot()<br/>- createSardina5Knot()"]
-        Piton["Piton.js<br/>- createPitonKnot()"]
-        Peeso["Peeso.js<br/>- createPeesoKnot()"]
-        Rattan["Rattan.js<br/>- createRattanKnot()"]
+        Common["Common.js<br/>- KringleKnot()<br/>- RattanKnot()<br/>- PitonKnot()"]
+        Yetter["Yetter.js<br/>- YetterKnot()<br/>- YetterPlusKnot()"]
+        Warlow["Warlow.js<br/>- WarlowKnot()<br/>- Warlow2Knot()"]
+        Vainovska["Vainovska.js<br/>- VainovskaKnot()<br/>- Vainovska2Knot()<br/>- SamebaKnot()"]
+        Struktor["Struktor.js<br/>- StruktorKnot()"]
+        Sardina["Sardina.js<br/>- RadianceKnot()<br/>- SardinaKnot()<br/>- SardinaAltKnot()<br/>- Sardina2Knot()<br/>- Sardina3Knot()<br/>- Sardina4Knot()<br/>- Sardina5Knot()"]
+        Peeso["Peeso.js<br/>- PeesoKnot()"]
     end
     
     %% Utility
@@ -58,4 +57,4 @@ graph LR
     style matPoints.js fill:#9cf,stroke:#333,stroke-width:2px
     
     classDef knot fill:#c9f7c9,stroke:#333,stroke-width:1.5px
-    class Yetter,Warlow,Vainovska,Struktor,Sardina,Piton,Peeso,Rattan knot
+    class Common,Yetter,Warlow,Vainovska,Struktor,Sardina,Piton,Peeso knot

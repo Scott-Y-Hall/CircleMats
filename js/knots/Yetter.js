@@ -1,7 +1,7 @@
 import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
-export function createYetterKnot() {
+export function YetterKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -17,7 +17,7 @@ export function createYetterKnot() {
     return nodepoints;
 }
 
-export function createYetterPlusKnot() {
+export function YetterPlusKnot() {
     var c = getControls(8);
     //c.tilt = 14;
     var nodepoints = [];

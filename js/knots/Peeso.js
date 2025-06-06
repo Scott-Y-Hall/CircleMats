@@ -1,7 +1,7 @@
 import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
-export function createPeesoKnot() {
+export function PeesoKnot() {
     var c = getControls(2);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {

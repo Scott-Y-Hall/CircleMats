@@ -1,34 +1,34 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-import { createStruktorKnot } from './knots/Struktor.js';
-import { createVainovskaKnot, createVainovska2Knot, createSamebaKnot } from './knots/Vainovska.js';
-import { createWarlowKnot, createWarlow2Knot } from './knots/Warlow.js';
-import { createYetterKnot, createYetterPlusKnot } from './knots/Yetter.js';
-import { createPeesoKnot } from './knots/Peeso.js';
-import { createKringleKnot, createRattanKnot, createPitonKnot } from './knots/Common.js';
-import { createRadianceKnot, createSardinaKnot, createSardinaAltKnot, createSardina2Knot, createSardina3Knot, createSardina4Knot, createSardina5Knot } from './knots/Sardina.js';
+import { StruktorKnot } from './knots/Struktor.js';
+import { VainovskaKnot, Vainovska2Knot, SamebaKnot } from './knots/Vainovska.js';
+import { WarlowKnot, Warlow2Knot } from './knots/Warlow.js';
+import { YetterKnot, YetterPlusKnot } from './knots/Yetter.js';
+import { PeesoKnot } from './knots/Peeso.js';
+import { KringleKnot, RattanKnot, PitonKnot } from './knots/Common.js';
+import { RadianceKnot, SardinaKnot, SardinaAltKnot, Sardina2Knot, Sardina3Knot, Sardina4Knot, Sardina5Knot } from './knots/Sardina.js';
 
 export function createKnotPoints() {
     let nodepoints = [];
-    if (_matType == 'K')         { nodepoints = createKringleKnot();    }
-    if (_matType == 'Y')         { nodepoints = createYetterKnot();     }
-    if (_matType == 'YPlus')     { nodepoints = createYetterPlusKnot(); }
-    if (_matType == 'Pi')        { nodepoints = createPitonKnot();      }
-    if (_matType == 'Pe')        { nodepoints = createPeesoKnot();      }
-    if (_matType == 'R')         { nodepoints = createRattanKnot();     }
-    if (_matType == 'Ra')        { nodepoints = createRadianceKnot();   }
-    if (_matType == 'S')         { nodepoints = createStruktorKnot();   }
-    if (_matType == 'W')         { nodepoints = createWarlowKnot();     }
-    if (_matType == 'W2')        { nodepoints = createWarlow2Knot();    }
-    if (_matType == 'Sa')        { nodepoints = createSardinaKnot();    }
-    if (_matType == 'Saa')       { nodepoints = createSardinaAltKnot(); }
-    if (_matType == 'S2')        { nodepoints = createSardina2Knot();   }
-    if (_matType == 'S3')        { nodepoints = createSardina3Knot();   }
-    if (_matType == 'S4')        { nodepoints = createSardina4Knot();   }
-    if (_matType == 'S5')        { nodepoints = createSardina5Knot();   }
-    if (_matType == 'V')         { nodepoints = createVainovskaKnot();  }
-    if (_matType == 'V2')        { nodepoints = createVainovska2Knot(); }
-    if (_matType == 'V3')        { nodepoints = createSamebaKnot();     }
-    if (nodepoints.length == 0)  { nodepoints = createYetterPlusKnot(); }
+    if (_matType == 'K')         { nodepoints = KringleKnot();    }
+    if (_matType == 'Y')         { nodepoints = YetterKnot();     }
+    if (_matType == 'YPlus')     { nodepoints = YetterPlusKnot(); }
+    if (_matType == 'Pi')        { nodepoints = PitonKnot();      }
+    if (_matType == 'Pe')        { nodepoints = PeesoKnot();      }
+    if (_matType == 'R')         { nodepoints = RattanKnot();     }
+    if (_matType == 'Ra')        { nodepoints = RadianceKnot();   }
+    if (_matType == 'S')         { nodepoints = StruktorKnot();   }
+    if (_matType == 'W')         { nodepoints = WarlowKnot();     }
+    if (_matType == 'W2')        { nodepoints = Warlow2Knot();    }
+    if (_matType == 'Sa')        { nodepoints = SardinaKnot();    }
+    if (_matType == 'Saa')       { nodepoints = SardinaAltKnot(); }
+    if (_matType == 'S2')        { nodepoints = Sardina2Knot();   }
+    if (_matType == 'S3')        { nodepoints = Sardina3Knot();   }
+    if (_matType == 'S4')        { nodepoints = Sardina4Knot();   }
+    if (_matType == 'S5')        { nodepoints = Sardina5Knot();   }
+    if (_matType == 'V')         { nodepoints = VainovskaKnot();  }
+    if (_matType == 'V2')        { nodepoints = Vainovska2Knot(); }
+    if (_matType == 'V3')        { nodepoints = SamebaKnot();     }
+    if (nodepoints.length == 0)  { nodepoints = YetterPlusKnot(); }
     let data = d3.select('#sliders').selectAll('g').data();
     let show = data.find((d) => d.name == 'Segments').value;
     if (nodepoints.length > show) {

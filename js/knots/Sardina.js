@@ -2,7 +2,7 @@ import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 import { control_flags } from '../mat.js';
 
-export function createRadianceKnot() {
+export function RadianceKnot() {
     control_flags.Fit = 1;
     var c = getControls(6);
     //c.tilt = 12;
@@ -22,7 +22,7 @@ export function createRadianceKnot() {
     return nodepoints;
 }
 
-export function createSardinaKnot() {
+export function SardinaKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -42,7 +42,7 @@ export function createSardinaKnot() {
     return nodepoints;
 }
 
-export function createSardinaAltKnot() {
+export function SardinaAltKnot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -62,7 +62,7 @@ export function createSardinaAltKnot() {
     return nodepoints;
 }
 
-export function createSardina2Knot() {
+export function Sardina2Knot() {
     var c = getControls(4);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -78,7 +78,7 @@ export function createSardina2Knot() {
     return nodepoints;
 }
 
-export function createSardina3Knot() {
+export function Sardina3Knot() {
     var c = getControls(2);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
@@ -92,7 +92,7 @@ export function createSardina3Knot() {
     return nodepoints;
 }
 
-export function createSardina4Knot() {
+export function Sardina4Knot() {
     var c = getControls(7);
     let skip = Math.ceil(c.knots / 2);
     let factor = (c.knots + 18) / 30;
@@ -113,7 +113,7 @@ export function createSardina4Knot() {
     return nodepoints;
 }
 
-export function createSardina5Knot() {
+export function Sardina5Knot() {
     var c = getControls(6);
     var nodepoints = [];
     for (var x = 0; x < c.knots; x++) {
