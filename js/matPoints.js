@@ -2,10 +2,9 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import { createStruktorKnot } from './knots/Struktor.js';
 import { createVainovskaKnot, createVainovska2Knot, createSamebaKnot } from './knots/Vainovska.js';
 import { createWarlowKnot, createWarlow2Knot } from './knots/Warlow.js';
-import { createKringleKnot, createYetterKnot, createYetterPlusKnot } from './knots/Yetter.js';
+import { createYetterKnot, createYetterPlusKnot } from './knots/Yetter.js';
 import { createPeesoKnot } from './knots/Peeso.js';
-import { createRattanKnot } from './knots/Rattan.js';
-import { createPitonKnot } from './knots/Piton.js';
+import { createKringleKnot, createRattanKnot, createPitonKnot } from './knots/Common.js';
 import { createRadianceKnot, createSardinaKnot, createSardinaAltKnot, createSardina2Knot, createSardina3Knot, createSardina4Knot, createSardina5Knot } from './knots/Sardina.js';
 
 export function createKnotPoints() {

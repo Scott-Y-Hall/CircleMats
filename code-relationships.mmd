@@ -5,7 +5,7 @@ description: Visualization of module relationships and dependencies in the Circl
 
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#f0f0f0', 'primaryTextColor': '#333', 'primaryBorderColor': '#666', 'lineColor': '#999', 'secondaryColor': '#e6e6e6', 'tertiaryColor': '#d9d9d9'}}}%%
 
-graph TD
+graph LR
     %% Main Application File
     circleMat.js["circleMat.js<br/>(Main Application)"]
     
@@ -19,13 +19,14 @@ graph TD
     
     %% Knot Implementations
     subgraph "KnotTypes"
-        Yetter.js
-        Warlow.js
-        Vainovska.js
-        Struktor.js
-        Sardina.js
-        Piton.js
-        Peeso.js
+        Yetter["Yetter.js<br/>- createYetterKnot()<br/>- createYetterPlusKnot()<br/>- createKringleKnot()"]
+        Warlow["Warlow.js<br/>- createWarlowKnot()<br/>- createWarlow2Knot()"]
+        Vainovska["Vainovska.js<br/>- createVainovskaKnot()<br/>- createVainovska2Knot()<br/>- createSamebaKnot()"]
+        Struktor["Struktor.js<br/>- createStruktorKnot()"]
+        Sardina["Sardina.js<br/>- createRadianceKnot()<br/>- createSardinaKnot()<br/>- createSardinaAltKnot()<br/>- createSardina2Knot()<br/>- createSardina3Knot()<br/>- createSardina4Knot()<br/>- createSardina5Knot()"]
+        Piton["Piton.js<br/>- createPitonKnot()"]
+        Peeso["Peeso.js<br/>- createPeesoKnot()"]
+        Rattan["Rattan.js<br/>- createRattanKnot()"]
     end
     
     %% Utility
@@ -49,8 +50,7 @@ graph TD
     
     buttons.js --> D3
     sliders.js --> D3
-    
-    matPoints.js --> KnotTypes
+    matPoints.js --> KnotTypes    
     
     style circleMat.js fill:#f9f,stroke:#333,stroke-width:2px
     style D3 fill:#f96,stroke:#333,stroke-width:2px
@@ -58,4 +58,4 @@ graph TD
     style matPoints.js fill:#9cf,stroke:#333,stroke-width:2px
     
     classDef knot fill:#c9f7c9,stroke:#333,stroke-width:1.5px
-    class Yetter.js,Warlow.js,Vainovska.js,Struktor.js,Sardina.js,Piton.js,Peeso.js knot
+    class Yetter,Warlow,Vainovska,Struktor,Sardina,Piton,Peeso,Rattan knot
