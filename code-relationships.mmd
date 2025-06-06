@@ -10,12 +10,12 @@ graph LR
     circleMat.js["circleMat.js<br/>(Main Application)"]
     
     %% Core Modules
-    mat.js["mat.js<br/>(Canvas Rendering)"]
-    matPoints.js["matPoints.js<br/>(Mat Geometry)"]
+    mat.js["mat.js<br/>(Canvas Rendering)<br/>- createMat()"]
+    matPoints.js["matPoints.js<br/>(Mat Geometry)<br/>- createKnotPoints()"]
     
     %% UI Components
-    buttons.js["buttons.js<br/>(UI Buttons)"]
-    sliders.js["sliders.js<br/>(UI Sliders)"]
+    buttons.js["buttons.js<br/>(UI Buttons)<br/>- createButtons()"]
+    sliders.js["sliders.js<br/>(UI Sliders)<br/>- createSliders()"]
     
     %% Knot Implementations
     subgraph "KnotTypes"
@@ -29,8 +29,8 @@ graph LR
     end
     
     %% Utility
-    util.js["util.js<br/>(Utilities)"]
-    definePresets.js["definePresets.js<br/>(Preset Configurations)"]
+    util.js["util.js<br/>(Utilities)<br/>- createUtil()"]
+    definePresets.js["definePresets.js<br/>(Preset Configurations)<br/>- definePresets()"]
     
     %% D3.js Dependency
     D3["D3.js<br/>(External Library)"]
