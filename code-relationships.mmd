@@ -5,56 +5,66 @@ description: Visualization of module relationships and dependencies in the Circl
 
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#f0f0f0', 'primaryTextColor': '#333', 'primaryBorderColor': '#666', 'lineColor': '#999', 'secondaryColor': '#e6e6e6', 'tertiaryColor': '#d9d9d9'}}}%%
 
-graph LR
+graph TD
     %% Main Application File
-    circleMat.js["circleMat.js<br/>(Main Application)"]
+    circleMat["circleMat.js<br/>Main Application"]
     
     %% Core Modules
-    mat.js["mat.js<br/>(Canvas Rendering)<br/>- createMat()"]
-    matPoints.js["matPoints.js<br/>(Mat Geometry)<br/>- createKnotPoints()"]
+    mat["mat.js<br/>Canvas Rendering<br/>- createMat()"]
+    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints()"]
     
     %% UI Components
-    buttons.js["buttons.js<br/>(UI Buttons)<br/>- createButtons()"]
-    sliders.js["sliders.js<br/>(UI Sliders)<br/>- createSliders()"]
+    buttons["buttons.js<br/>UI Buttons<br/>- createButtons()"]
+    sliders["sliders.js<br/>UI Sliders<br/>- createSliders()"]
     
-    %% Knot Implementations
-    subgraph "KnotTypes"
-        Common["Common.js<br/>- KringleKnot()<br/>- RattanKnot()<br/>- PitonKnot()"]
-        Yetter["Yetter.js<br/>- YetterKnot()<br/>- YetterPlusKnot()"]
-        Warlow["Warlow.js<br/>- WarlowKnot()<br/>- Warlow2Knot()"]
-        Vainovska["Vainovska.js<br/>- VainovskaKnot()<br/>- Vainovska2Knot()<br/>- SamebaKnot()"]
-        Struktor["Struktor.js<br/>- StruktorKnot()"]
-        Sardina["Sardina.js<br/>- RadianceKnot()<br/>- SardinaKnot()<br/>- SardinaAltKnot()<br/>- Sardina2Knot()<br/>- Sardina3Knot()<br/>- Sardina4Knot()<br/>- Sardina5Knot()"]
-        Peeso["Peeso.js<br/>- PeesoKnot()"]
-    end
+    %% Knot Types
+    Common["Common.js<br/>- KringleKnot()<br/>- RattanKnot()<br/>- PitonKnot()"]
+    Yetter["Yetter.js<br/>- YetterKnot()<br/>- YetterPlusKnot()"]
+    Warlow["Warlow.js<br/>- WarlowKnot()<br/>- Warlow2Knot()"]
+    Vainovska["Vainovska.js<br/>- VainovskaKnot()<br/>- Vainovska2Knot()<br/>- SamebaKnot()"]
+    Struktor["Struktor.js<br/>- StruktorKnot()"]
+    Sardina["Sardina.js<br/>- RadianceKnot()<br/>- SardinaKnot()<br/>- SardinaAltKnot()<br/>- Sardina2Knot()<br/>- Sardina3Knot()<br/>- Sardina4Knot()<br/>- Sardina5Knot()"]
+    Peeso["Peeso.js<br/>- PeesoKnot()"]
     
     %% Utility
-    util.js["util.js<br/>(Utilities)<br/>- createUtil()"]
-    definePresets.js["definePresets.js<br/>(Preset Configurations)<br/>- definePresets()"]
+    util["util.js<br/>Utilities<br/>- createUtil()"]
+    definePresets["definePresets.js<br/>Preset Configurations<br/>- definePresets()"]
     
     %% D3.js Dependency
-    D3["D3.js<br/>(External Library)"]
+    D3["D3.js<br/>External Library"]
     
     %% Relationships
-    circleMat.js --> D3
-    circleMat.js --> mat.js
-    circleMat.js --> matPoints.js
-    circleMat.js --> buttons.js
-    circleMat.js --> sliders.js
-    circleMat.js --> definePresets.js
+    circleMat --> D3
+    circleMat --> mat
+    circleMat --> matPoints
+    circleMat --> buttons
+    circleMat --> sliders
+    circleMat --> definePresets
     
-    mat.js --> matPoints.js
-    mat.js --> util.js
-    mat.js --> D3
+    mat --> matPoints
+    mat --> util
+    mat --> D3
     
-    buttons.js --> D3
-    sliders.js --> D3
-    matPoints.js --> KnotTypes    
+    buttons --> D3
+    sliders --> D3
+    matPoints --> Common
+    matPoints --> Yetter
+    matPoints --> Warlow
+    matPoints --> Vainovska
+    matPoints --> Struktor
+    matPoints --> Sardina
+    matPoints --> Peeso
     
-    style circleMat.js fill:#f9f,stroke:#333,stroke-width:2px
-    style D3 fill:#f96,stroke:#333,stroke-width:2px
-    style mat.js fill:#9cf,stroke:#333,stroke-width:2px
-    style matPoints.js fill:#9cf,stroke:#333,stroke-width:2px
-    
+    classDef app fill:#f9f,stroke:#333,stroke-width:2px
+    classDef core fill:#9cf,stroke:#333,stroke-width:2px
+    classDef ui fill:#ff9,stroke:#333,stroke-width:2px
     classDef knot fill:#c9f7c9,stroke:#333,stroke-width:1.5px
-    class Common,Yetter,Warlow,Vainovska,Struktor,Sardina,Piton,Peeso knot
+    classDef util fill:#fcc,stroke:#333,stroke-width:2px
+    classDef ext fill:#f96,stroke:#333,stroke-width:2px
+    
+    class circleMat app
+    class mat,matPoints core
+    class buttons,sliders ui
+    class Common,Yetter,Warlow,Vainovska,Struktor,Sardina,Peeso knot
+    class util,definePresets util
+    class D3 ext
