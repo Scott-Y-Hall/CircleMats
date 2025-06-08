@@ -10,8 +10,8 @@ graph TD
     circleMat["circleMat.js<br/>Main Application"]
     
     %% Core Modules
-    mat["mat.js<br/>Canvas Rendering<br/>- createMat()"]
-    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints()"]
+    mat["mat.js<br/>Canvas Rendering<br/>- createMat()<br/>- matCtrl()<br/>- sliderCtrl()<br/>- optionCtrl()"]
+    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints()<br/>- matName()<br/>- setMatType()"]
     
     %% UI Components
     buttons["buttons.js<br/>UI Buttons<br/>- createButtons()"]
@@ -50,23 +50,38 @@ graph TD
     util["util.js<br/>Utilities<br/>- createUtil()"]
     definePresets["definePresets.js<br/>Preset Configurations<br/>- definePresets()"]
     
-    %% D3.js Dependency
-    D3["D3.js<br/>External Library"]
+    %% D3.js Dependencies
+    d3Button["d3.button.js<br/>D3 Button Component"]
+    d3["D3.js<br/>External Library"]
     
-    %% Relationships
-    circleMat --> D3
+    %% Main Dependencies
     circleMat --> mat
     circleMat --> matPoints
     circleMat --> buttons
     circleMat --> sliders
     circleMat --> definePresets
     
+    %% Core Module Dependencies
     mat --> matPoints
     mat --> util
-    mat --> D3
+    mat --> d3
+    mat --> sliders
+    mat --> circleMat    
     
-    buttons --> D3
-    sliders --> D3
+    %% UI Component Dependencies
+    buttons --> d3Button
+    buttons --> matPoints
+    buttons --> mat
+    d3Button --> d3
+    
+    %% Slider Dependencies
+    sliders --> d3
+    sliders --> circleMat
+    sliders --> mat
+    sliders --> matPoints
+    
+    %% Knot Dependencies
+    matPoints --> d3
     matPoints --> CommonSG
     matPoints --> YetterSG
     matPoints --> WarlowSG
@@ -88,9 +103,9 @@ graph TD
     %% Apply Styles
     class circleMat app
     class mat,matPoints core
-    class buttons,sliders ui
+    class buttons,sliders,d3Button ui
     class util,definePresets util
-    class D3 ext
+    class d3Button,d3 ext
     
     %% Apply Knot Subgraph Style
     class CommonSG,YetterSG,WarlowSG,VainovskaSG,StruktorSG,SardinaSG,PeesoSG knot
