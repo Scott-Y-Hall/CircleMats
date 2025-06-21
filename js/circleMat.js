@@ -84,7 +84,7 @@ const initApp = () => {
     const matApi = initMatModule(circle_g, highlights_g, mat_g, segments_g);
     
     // Initialize sliders module with required dependencies
-    const { sliderCtrl: sliderCtrlConfig } = initSlidersModule(presets, slider_g);
+    initSlidersModule(presets, slider_g);
     
     // Initial screen setup
     matApi.svgFullScreen();
@@ -94,13 +94,7 @@ const initApp = () => {
     
     // Set up window resize handler using matApi's svgFullScreen
     window.addEventListener('resize', () => matApi.svgFullScreen());
-    
-    // Return the public API if needed
-    return {
-        matApi,
-        sliderCtrl: sliderCtrlConfig
-    };
 };
 
 // Start the application
-const app = initApp();
+initApp();
