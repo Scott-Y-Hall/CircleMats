@@ -3,7 +3,7 @@ const { select, scaleOrdinal } = d3;
 const { schemeCategory10 } = d3;
 const { ascending } = d3;
 import * as definePresets from './definePresets.js';
-import { createKnotPoints, matName, setMatType } from './matPoints.js';
+import { createKnotPoints, matName } from './matPoints.js';
 import { initMatModule, control_flags } from './mat.js';
 import { initSlidersModule, getSliderDevDefs, loadPreset as loadPresetFn } from './sliders.js';
 import { button, createButtonData } from './buttons.js';

@@ -1,6 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select } = d3;
-import { matName, getMatType } from './matPoints.js';
+import { createKnotPoints, matName, matType } from './matPoints.js';
 import { createPointString } from './util.js';
 import { underOver, intersections, sliderdragstarted } from './sliders.js';
 
@@ -31,20 +31,29 @@ export function initMatModule(circleGroup, colorScale, highlightsGroup, matGroup
 //d3.select("#segment").on("change", function() { updateMat(); });
 //draw_intersections( pathX );
 
-export function updateMat(knotpoints) {
+/**
+ * Updates the mat display with the provided knot points or creates new ones
+ * @param {Array} [knotpoints] - Optional array of knot points to display
+ * @param {string} [newMatType] - Optional mat type to use when creating new knot points
+ */
+export function updateMat(knotpoints, newMatType) {
     if (!circle_g || !highlights_g || !mat_g || !segments_g) {
         console.error('Mat module not properly initialized');
         return;
     }
+    
+    // If no knotpoints provided, create them with optional matType
+    const pointsToUse = knotpoints || createKnotPoints(newMatType);
+    
     showCircles();
-    select('#title').text(matName[getMatType()] + ' Mat');
+    select('#title').text(matName[matType()] + ' Mat');
 
     if (control_flags.CtrlPts) {
-        showControlPoints(knotpoints);
+        showControlPoints(pointsToUse);
     } else {
         showControlPoints([]);
     }
-    updatePaths(knotpoints);
+    updatePaths(pointsToUse);
 }
 
 export function updatePaths(knotpoints) {

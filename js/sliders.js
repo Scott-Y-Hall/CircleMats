@@ -1,6 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import { updateMat, control_flags } from './mat.js';
-import { createKnotPoints, setMatType } from './matPoints.js';
+import { createKnotPoints } from './matPoints.js';
 
 let ppk; // Points per knot - used in getControls and sliderdragged
 
@@ -131,13 +131,13 @@ export function sliderdragged(event, d) {
         g.data(currentData).join('g');
         updateSliders(g);
     }
-    updateMat(createKnotPoints());
+    updateMat();
 }
 export function sliderdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
     control_flags.Int = intersections;
-    updateMat(createKnotPoints());
+    updateMat();
 }
 export const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
 export function loadPreset(matType, variant) {
@@ -145,7 +145,6 @@ export function loadPreset(matType, variant) {
         console.error(`Preset not found: ${matType} variant ${variant}`);
         return;
     }
-    setMatType(matType);
     var sliders = presets[matType].sliders;
     createSliders(slider_g, sliders);
     var g = d3.select('#sliders').selectAll('g');
@@ -160,11 +159,7 @@ export function loadPreset(matType, variant) {
     );
     g.data(currentData).join('g');
     updateSliders(g);
-    //underOver = control_flags.UnderOver;
-    //control_flags.UnderOver = 0;
-    //updateMat();
-    //control_flags.UnderOver = underOver;
-    updateMat(createKnotPoints());
+    updateMat(undefined, matType);
 }
 
 export function getControls(pointsPerKnot) {
