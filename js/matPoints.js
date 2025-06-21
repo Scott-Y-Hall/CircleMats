@@ -1,13 +1,22 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-import { StruktorKnot } from './knots/Struktor.js';
-import { VainovskaKnot, Vainovska2Knot, SamebaKnot } from './knots/Vainovska.js';
-import { WarlowKnot, Warlow2Knot } from './knots/Warlow.js';
-import { YetterKnot, YetterPlusKnot } from './knots/Yetter.js';
-import { PeesoKnot } from './knots/Peeso.js';
-import { KringleKnot, RattanKnot, PitonKnot } from './knots/Common.js';
+import { StruktorKnot }                                                                                      from './knots/Struktor.js';
+import { VainovskaKnot, Vainovska2Knot, SamebaKnot }                                                         from './knots/Vainovska.js';
+import { WarlowKnot, Warlow2Knot }                                                                           from './knots/Warlow.js';
+import { YetterKnot, YetterPlusKnot }                                                                        from './knots/Yetter.js';
+import { PeesoKnot }                                                                                         from './knots/Peeso.js';
+import { KringleKnot, RattanKnot, PitonKnot }                                                                from './knots/Common.js';
 import { RadianceKnot, SardinaKnot, SardinaAltKnot, Sardina2Knot, Sardina3Knot, Sardina4Knot, Sardina5Knot } from './knots/Sardina.js';
 
-export function createKnotPoints() {
+/**
+ * Creates knot points based on the current or provided mat type
+ * @param {string} [newMatType] - Optional mat type to update before creating points
+ * @returns {Array} Array of knot points
+ */
+export function createKnotPoints(newMatType) {
+    // Update _matType if a new type is provided
+    if (newMatType !== undefined) {
+        _matType = newMatType;
+    }
     let nodepoints = [];
     if (_matType == 'K')         { nodepoints = KringleKnot();    }
     if (_matType == 'Y')         { nodepoints = YetterKnot();     }
@@ -40,6 +49,8 @@ export function createKnotPoints() {
     return nodepoints;
 }
 
+// Internal variable to track the current mat type
+// Internal variable to track the current mat type
 let _matType = 'Y'; // Default value
 
 export function setMatType(type) {
