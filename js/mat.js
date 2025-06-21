@@ -320,14 +320,25 @@ function draw_segments(path, qty) {
 }
 
 export function draw_intersections(pts) {
-    highlights.selectAll('circle').remove();
+    if (!highlights_g) {
+        console.error('highlights_g is not initialized');
+        return;
+    }
+    
+    // Clear existing intersection markers
+    highlights_g.selectAll('circle').remove();
+    
+    // Add new intersection markers for each intersection point
     pts.forEach(function (pt) {
-        highlights.append('circle').attr('cx', pt.p1.x).attr('cy', pt.p1.y).attr('r', 8).attr('fill', 'none').attr('stroke', 'red');
-        highlights.append('circle').attr('cx', pt.p2.x).attr('cy', pt.p2.y).attr('r', 8).attr('fill', 'none').attr('stroke', 'green');
-        highlights.append('circle').attr('cx', pt.x).attr('cy', pt.y).attr('r', 8).attr('fill', 'none').attr('stroke', 'steelblue');
-        highlights.append('circle').attr('cx', pt.p1.x).attr('cy', pt.p1.y).attr('r', 2).attr('fill', 'red').attr('stroke', 'none');
-        highlights.append('circle').attr('cx', pt.p2.x).attr('cy', pt.p2.y).attr('r', 2).attr('fill', 'green').attr('stroke', 'none');
-        highlights.append('circle').attr('cx', pt.x).attr('cy', pt.y).attr('r', 2).attr('fill', 'steelblue').attr('stroke', 'none');
+        // Large circles (outlines)
+        highlights_g.append('circle').attr('cx', pt.p1.x).attr('cy', pt.p1.y).attr('r', 8).attr('fill', 'none').attr('stroke', 'red');
+        highlights_g.append('circle').attr('cx', pt.p2.x).attr('cy', pt.p2.y).attr('r', 8).attr('fill', 'none').attr('stroke', 'green');
+        highlights_g.append('circle').attr('cx', pt.x).attr('cy', pt.y).attr('r', 8).attr('fill', 'none').attr('stroke', 'steelblue');
+            
+        // Small filled circles
+        highlights_g.append('circle').attr('cx', pt.p1.x).attr('cy', pt.p1.y).attr('r', 2).attr('fill', 'red').attr('stroke', 'none');
+        highlights_g.append('circle').attr('cx', pt.p2.x).attr('cy', pt.p2.y).attr('r', 2).attr('fill', 'green').attr('stroke', 'none');
+        highlights_g.append('circle').attr('cx', pt.x).attr('cy', pt.y).attr('r', 2).attr('fill', 'steelblue').attr('stroke', 'none');
     });
 }
 
