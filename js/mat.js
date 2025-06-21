@@ -1,6 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select } = d3;
-import { createKnotPoints, matName, matType } from './matPoints.js';
+import { createKnotPoints, matName } from './matPoints.js';
 import { createPointString } from './util.js';
 import { underOver, intersections, sliderdragstarted } from './sliders.js';
 
@@ -46,7 +46,7 @@ export function updateMat(knotpoints, newMatType) {
     const pointsToUse = knotpoints || createKnotPoints(newMatType);
     
     showCircles();
-    select('#title').text(matName[matType()] + ' Mat');
+    select('#title').text(matName());
 
     if (control_flags.CtrlPts) {
         showControlPoints(pointsToUse);

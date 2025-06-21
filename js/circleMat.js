@@ -3,16 +3,15 @@ const { select, scaleOrdinal } = d3;
 const { schemeCategory10 } = d3;
 const { ascending } = d3;
 import * as definePresets from './definePresets.js';
-import { matName } from './matPoints.js';
+import { matNameArray } from './matPoints.js';
 import { initMatModule, control_flags } from './mat.js';
 import { initSlidersModule, getSliderDevDefs, loadPreset as loadPresetFn } from './sliders.js';
 import { button, createButtonData } from './buttons.js';
 
-const matNameArray = Object.keys(matName).map((d) => ({ key: d, value: matName[d] }));
 const presets = definePresets.definePresets();
-const presetArray = Object.keys(matName).map((d) => ({
-    key: d,
-    value: Object.keys(presets[d])
+const presetArray = matNameArray.map((d) => ({
+    key: d.key,
+    value: Object.keys(presets[d.key])
         .map(Number)
         .filter((d) => d)
         .sort(ascending),

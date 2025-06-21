@@ -49,11 +49,7 @@ export function createKnotPoints(newMatType) {
     return nodepoints;
 }
 
-// Internal variable to track the current mat type
-let _matType = 'Y'; // Default value
-export function matType() { return _matType; }
-
-export const matName = {
+const matNameHash = {
     Y:     'Yetter',
     YPlus: 'Yetter+',
     K:     'Kringle',
@@ -74,3 +70,9 @@ export const matName = {
     V2:    'Vainovska2',
     V3:    'Sameba',
 };
+
+// Internal variable to track the current mat type
+let _matType = 'Y'; // Default value
+export function matType() { return _matType; }
+export function matName() { return matNameHash[_matType] + ' Mat'; }
+export const matNameArray = Object.keys(matNameHash).map((d) => ({ key: d, value: matNameHash[d] }));
