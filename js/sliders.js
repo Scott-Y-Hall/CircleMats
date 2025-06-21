@@ -33,6 +33,7 @@ export function createSliders(g, sliders) {
         .domain([d.min, d.max])(d.value)
     );
 }
+
 function getSliderDefs() {
     return [
         { name: 'Knots' },
@@ -44,6 +45,7 @@ function getSliderDefs() {
         { name: 'Segments' },
     ];
 }
+
 export function getSliderDevDefs() {
     return {
         Knots: { min: 3, max: 19 },
@@ -60,6 +62,7 @@ export function getSliderDevDefs() {
         Segments: { min: 2, max: 27 },
     };
 }
+
 export function updateSliders(g) {
     g.select('rect').attr('y', (d) => d.y);
     g.select('text#value').text((d) => d.value);
@@ -93,6 +96,7 @@ export function createSlider(g) {
         .attr('transform', (d) => (d.id == 'value' ? 'translate(50, -20)' : 'translate(50, 0)'))
         .text((d) => d.value);
 }
+
 export let underOver;
 export let intersections;
 export function sliderdragstarted(event) {
@@ -104,6 +108,7 @@ export function sliderdragstarted(event) {
         control_flags.UnderOver = 0;
     }
 }
+
 export function sliderdragged(event, d) {
     d.value = d3
         .scaleLinear()
@@ -132,12 +137,14 @@ export function sliderdragged(event, d) {
     }
     updateMat();
 }
+
 export function sliderdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
     control_flags.Int = intersections;
     updateMat();
 }
+
 export const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
 export function loadPreset(matType, variant) {
     if (!presets[matType] || !presets[matType][variant]) {
@@ -190,5 +197,3 @@ export function getControls(pointsPerKnot) {
     }
     return { knots, angle, show, single, largeCircle, smallCircle, middleCircle, showCircle, startcp, midcp, tilt, extracp, extraCircle, extraAngle, cp1, cp2 };
 }
-
-

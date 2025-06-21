@@ -3,19 +3,11 @@ const { select, scaleOrdinal } = d3;
 const { schemeCategory10 } = d3;
 const { ascending } = d3;
 import * as definePresets from './definePresets.js';
-import { matNameArray } from './matPoints.js';
+import { matNameArray, presets, presetArray } from './matPoints.js';
 import { initMatModule, control_flags } from './mat.js';
-import { initSlidersModule, getSliderDevDefs, loadPreset as loadPresetFn } from './sliders.js';
+import { initSlidersModule, loadPreset as loadPresetFn } from './sliders.js';
 import { button, createButtonData } from './buttons.js';
 
-const presets = definePresets.definePresets();
-const presetArray = matNameArray.map((d) => ({
-    key: d.key,
-    value: Object.keys(presets[d.key])
-        .map(Number)
-        .filter((d) => d)
-        .sort(ascending),
-}));
 const color = scaleOrdinal(schemeCategory10);
 const matCtrl = { width: 800, height: 800, translate: 'translate(0,80)' };
 const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
@@ -95,13 +87,6 @@ const buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('c
 // Unpress all buttons
 buttonData.forEach((d) => (control_flags[d.label] = 0));
 
-function initPresets() {
-    Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
-}
-
-// Initialize presets after all modules are loaded
-initPresets();
-
 // Initialize the application
 const initApp = () => {
     // Initialize mat module with required dependencies
@@ -112,9 +97,6 @@ const initApp = () => {
     
     // Initial screen setup
     matApi.svgFullScreen();
-    
-    // Initialize presets with slider definitions
-    Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
     
     // Load initial preset (which will update the mat)
     loadPresetFn('Y', 4);
