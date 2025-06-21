@@ -50,16 +50,7 @@ export function createKnotPoints(newMatType) {
 }
 
 // Internal variable to track the current mat type
-// Internal variable to track the current mat type
 let _matType = 'Y'; // Default value
-
-export function setMatType(type) {
-    _matType = type;
-}
-
-export function getMatType() {
-    return _matType;
-}
 
 export const matName = {
     Y:     'Yetter',

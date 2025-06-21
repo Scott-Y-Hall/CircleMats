@@ -70,9 +70,7 @@ option_g
     .text((d) => d.value)
     .attr('y', (d, i) => 55 + 18 * i)
     .on('click', (x, d) => {
-        setMatType(d.key);
-        // Use the matApi to update the mat with the new knot points
-        const knotPoints = createKnotPoints();
+        const knotPoints = createKnotPoints(d.key);
         const matApi = initMatModule(circle_g, color, highlights_g, mat_g, segments_g);
         matApi.updateMat(knotPoints);
     });
@@ -122,7 +120,7 @@ const initApp = () => {
     
     // Load initial preset and update the mat
     loadPresetFn('Y', 4);
-    matApi.updateMat(createKnotPoints());
+    matApi.updateMat(createKnotPoints('Y'));
     
     // Set up window resize handler using matApi's svgFullScreen
     window.addEventListener('resize', () => matApi.svgFullScreen());
