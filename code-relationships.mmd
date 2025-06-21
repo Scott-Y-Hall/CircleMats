@@ -7,15 +7,15 @@ description: Visualization of module relationships and dependencies in the Circl
 
 graph TD
     %% Main Application File
-    circleMat["circleMat.js<br/>Main Application"]
+    circleMat["circleMat.js<br/>Main Application<br/>- Initializes all modules<br/>- Manages application state"]
     
     %% Core Modules
-    mat["mat.js<br/>Canvas Rendering<br/>- createMat()<br/>- matCtrl()<br/>- sliderCtrl()<br/>- optionCtrl()"]
-    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints()<br/>- matName()<br/>- setMatType()"]
+    mat["mat.js<br/>Canvas Rendering<br/>- initMatModule()<br/>- updateMat()<br/>- showCircles()<br/>- showControlPoints()"]
+    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints()<br/>- matName()<br/>- getMatType()"]
     
     %% UI Components
-    buttons["buttons.js<br/>UI Buttons<br/>- createButtons()"]
-    sliders["sliders.js<br/>UI Sliders<br/>- createSliders()"]
+    buttons["buttons.js<br/>UI Buttons<br/>- Handles button interactions"]
+    sliders["sliders.js<br/>UI Sliders<br/>- initSlidersModule()<br/>- Handles slider interactions"]
     
     %% Knot Types
     subgraph CommonSG[Common.js]
@@ -54,7 +54,7 @@ graph TD
     d3Button["d3.button.js<br/>D3 Button Component"]
     d3["D3.js<br/>External Library"]
     
-    %% Main Dependencies
+    %% Main Dependencies (circleMat orchestrates everything)
     circleMat --> mat
     circleMat --> matPoints
     circleMat --> buttons
@@ -66,7 +66,6 @@ graph TD
     mat --> util
     mat --> d3
     mat --> sliders
-    mat --> circleMat    
     
     %% UI Component Dependencies
     buttons --> d3Button
@@ -76,9 +75,12 @@ graph TD
     
     %% Slider Dependencies
     sliders --> d3
-    sliders --> circleMat
-    sliders --> mat
     sliders --> matPoints
+    
+    %% Initialization Flow
+    circleMat -- "initSlidersModule()" --> sliders
+    circleMat -- "initMatModule()" --> mat
+    mat -- "updateMat()" --> matPoints
     
     %% Knot Dependencies
     matPoints --> d3
