@@ -1,9 +1,9 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select } = d3;
 import { matNameArray, presets, presetArray } from './matPoints.js';
-import { initMatModule, control_flags } from './mat.js';
+import { initMatModule } from './mat.js';
 import { initSlidersModule, loadPreset as loadPresetFn } from './sliders.js';
-import { button, createButtonData } from './buttons.js';
+import { createButtons } from './buttons.js';
 
 const matCtrl = { width: 800, height: 800, translate: 'translate(0,80)' };
 const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
@@ -76,12 +76,8 @@ presets_g
     .attr('x', (d, i) => 0 + 40 * i)
     .on('click', (x, d) => loadPresetFn(d3.select(x.currentTarget.parentNode).datum().key, d));
 
-// Create button data with the correct height
-const buttonData = createButtonData(optionCtrl.height);
-// Add buttons
-const buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('class', 'button').call(button);
-// Unpress all buttons
-buttonData.forEach((d) => (control_flags[d.label] = 0));
+// Create buttons and add them to options_g
+createButtons(option_g, optionCtrl.height);
 
 // Initialize the application
 const initApp = () => {

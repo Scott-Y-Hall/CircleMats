@@ -17,7 +17,7 @@ const buttonConfig = {
 };
 
 // Create button data with calculated positions
-export function createButtonData(optionCtrlHeight) {
+function createButtonData(optionCtrlHeight) {
     return buttonConfig.buttonPositions.map(btn => ({
         label: btn.label,
         x: btn.x,
@@ -25,12 +25,27 @@ export function createButtonData(optionCtrlHeight) {
     }));
 }
 
-export const button = d3Button()
-    .on('press', (x, d) => {
-        control_flags[d.label] = 1;
-        updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
-    })
-    .on('release', (x, d) => {
-        control_flags[d.label] = 0;
-        updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
-    });
+// Create and return the buttons group
+export function createButtons(container, height) {
+    const button = d3Button()
+        .on('press', (x, d) => {
+            control_flags[d.label] = 1;
+            updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
+        })
+        .on('release', (x, d) => {
+            control_flags[d.label] = 0;
+            updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
+        });
+
+    // Create button data with the correct height
+    const buttonData = createButtonData(height);
+    
+    // Create and return the buttons group
+    return container
+        .selectAll('.button')
+        .data(buttonData)
+        .join('g')
+            .attr('class', 'button')
+            .attr('transform', d => `translate(${d.x},${d.y})`)
+            .call(button);
+}
