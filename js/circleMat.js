@@ -94,7 +94,6 @@ const buttonData = createButtonData(optionCtrl.height);
 const buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('class', 'button').call(button);
 // Unpress all buttons
 buttonData.forEach((d) => (control_flags[d.label] = 0));
-window.addEventListener('resize', svgFullScreenFn);
 
 function initPresets() {
     Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
@@ -118,6 +117,9 @@ const initApp = () => {
     loadPresetFn('Y', 4);
     matApi.updateMat(createKnotPoints());
     
+    // Set up window resize handler using matApi's svgFullScreen
+    window.addEventListener('resize', () => matApi.svgFullScreen());
+    
     // Return the public API if needed
     return {
         matApi,
@@ -126,4 +128,4 @@ const initApp = () => {
 };
 
 // Start the application
-initApp();
+const app = initApp();
