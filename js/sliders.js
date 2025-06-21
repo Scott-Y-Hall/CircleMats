@@ -1,6 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import { updateMat, control_flags } from './mat.js';
-import { createKnotPoints } from './matPoints.js';
 
 let ppk; // Points per knot - used in getControls and sliderdragged
 
