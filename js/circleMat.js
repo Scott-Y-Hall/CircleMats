@@ -43,8 +43,9 @@ var svg = select('body')
     .attr('width', matCtrl.width)
     .attr('height', matCtrl.height)
     .attr('viewBox', '-' + matCtrl.width / 2 + ' -' + matCtrl.height / 2 + ' ' + matCtrl.width + ' ' + matCtrl.height);
-svgFullScreen();
-svg.append('path').attr('id', 'tail').attr('fill', 'none').attr('stroke', '#EE3333').attr('stroke-width', '5');
+
+// Initial screen setup will be handled in initApp
+const svgElement = svg.append('path').attr('id', 'tail').attr('fill', 'none').attr('stroke', '#EE3333').attr('stroke-width', '5');
 svg.append('path').attr('id', 'matpath').attr('fill', 'none').attr('stroke', '#333333').attr('stroke-width', '5');
 const segments_g = svg.append('g');
 const highlights_g = svg.append('g');
@@ -109,6 +110,9 @@ const initApp = () => {
     
     // Initialize sliders module with required dependencies
     const { sliderCtrl: sliderCtrlConfig } = initSlidersModule(presets, slider_g);
+    
+    // Initial screen setup
+    matApi.svgFullScreen();
     
     // Initialize presets with slider definitions
     Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));

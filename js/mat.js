@@ -48,44 +48,56 @@ export function updateMat(knotpoints) {
 }
 
 export function updatePaths(knotpoints) {
+    if (!highlights_g || !segments_g) {
+        console.error('Mat module not properly initialized');
+        return;
+    }
+    
     let tail = [];
-    if (knotpoints[knotpoints.length - 2].mode == 'end2') {
+    if (knotpoints.length > 1 && knotpoints[knotpoints.length - 2].mode == 'end2') {
         tail = JSON.parse(JSON.stringify(knotpoints)); // Deep copy
         knotpoints[knotpoints.length - 2].mode = 'end';
         knotpoints.splice(knotpoints.length - 1);
     }
-    let svg = select('#mat g svg');
-    svg.selectAll('path')
-        .data(
-            [tail, knotpoints]
-        ).join('path')
-        .attr('d', d => d.map((p) => createPointString(p)).toString());
-    let matpath = d3.select('#matpath');
-    let data = d3.select('#sliders').selectAll('g').data();
-    let show = data.find((d) => d.name == 'Segments');
+    
+    const svg = select('#mat g svg');
+    if (!svg.empty()) {
+        svg.selectAll('path')
+            .data([tail, knotpoints])
+            .join('path')
+            .attr('d', d => d.map((p) => createPointString(p)).toString());
+    }
+    
+    const matpath = select('#matpath');
+    const sliderData = select('#sliders').selectAll('g').data();
+    const show = Array.isArray(sliderData) ? sliderData.find((d) => d && d.name === 'Segments') : null;
     let dasharray = '';
 
     PAL = [];
-    if (show.value == show.max) {
+    
+    if (show && show.value === show.max) {
         if (control_flags.UnderOver) {
             dasharray = create_dasharray(path_intersections(matpath));
         }
         svg.selectAll('path').attr('stroke-dasharray', dasharray);
     }
-    //var pathX = path_intersections(matpath);
+    
     if (control_flags.Int) {
         draw_intersections(path_intersections(matpath));
-    } else {
-        highlights.selectAll('circle').remove();
+    } else if (highlights_g) {
+        highlights_g.selectAll('circle').remove();
     }
-    //if (d3.select("#intersect").property("checked")){ draw_intersections(pathX); } else { highlights.selectAll("circle").remove(); }
-    //if (d3.select("#segment").property("checked")){ draw_segments( matpath, 300 ); //d3.select("#slider").node().value); } else { segments_g.selectAll("line").remove(); }
+    
     svgMatZoom();
-
 }
 
 export function showControlPoints(knotpoints) {
-    var matt_cp = mat.selectAll('g').data([knotpoints]).join('g');
+    if (!mat_g) {
+        console.error('mat_g is not initialized');
+        return;
+    }
+    
+    var matt_cp = mat_g.selectAll('g').data([knotpoints]).join('g');
     matt_cp
         .selectAll('g')
         .data((d) => [d, d, d])
@@ -160,34 +172,82 @@ export function showControlPoints(knotpoints) {
 }
 
 export function showCircles() {
-    var data = d3.select('#sliders').selectAll('g').data();
-    var largeCircle = data.find((d) => d.name == 'LargeCircle').value;
-    var smallCircle = data.find((d) => d.name == 'SmallCircle').value;
-    var extraCircle = (data.find((d) => d.name == 'ExtraCircle') ?? { value: 0 }).value;
-    var middleCircle = (largeCircle + smallCircle) / 2;
-    var circles = [];
-    var lines = [];
+    if (!circle_g) {
+        console.error('circle_g is not initialized');
+        return;
+    }
+    
+    const sliderData = select('#sliders').selectAll('g').data();
+    const getSliderValue = (name, defaultValue = 0) => {
+        const slider = Array.isArray(sliderData) ? sliderData.find(d => d && d.name === name) : null;
+        return slider ? slider.value : defaultValue;
+    };
+    
+    const largeCircle = getSliderValue('LargeCircle', 100);
+    const smallCircle = getSliderValue('SmallCircle', 50);
+    const extraCircle = getSliderValue('ExtraCircle', 0);
+    const middleCircle = (largeCircle + smallCircle) / 2;
+    
+    let circles = [];
+    const lines = [];
+    
     if (control_flags.Circles) {
         circles = [
             { x: 0, y: 0, r: smallCircle },
             { x: 0, y: 0, r: middleCircle },
             { x: 0, y: 0, r: largeCircle },
             { x: 0, y: 0, r: extraCircle },
-        ];
-        lines = [
+        ].filter(circle => circle.r !== 0); // Only show circles with non-zero radius
+        
+        lines.push(
             [-390, 0, 390, 0],
-            [0, -390, 0, 390],
-        ];
+            [0, -390, 0, 390]
+        );
     }
+    
+    // Update circles
     circle_g
         .selectAll('circle')
-        .data(circles)
-        .join('circle')
-        .attr('cx', (d) => d.x)
-        .attr('cy', (d) => d.y)
-        .attr('r', (d) => Math.abs(d.r))
-        .attr('fill', 'none')
-        .attr('stroke', (d) => (d.r < 0 ? 'red' : '#181818')); //.call(drag);
+        .data(circles, (d, i) => `${d.r}-${i}`)
+        .join(
+            enter => enter.append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('r', d => Math.abs(d.r))
+                .attr('fill', 'none')
+                .attr('stroke', '#000000'),
+            update => update
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('r', d => Math.abs(d.r)),
+            exit => exit.remove()
+        );
+        
+    // Update crosshair lines
+    const linesGroup = circle_g.selectAll('g.crosshair').data(control_flags.Circles ? [lines] : []);
+    
+    linesGroup.exit().remove();
+    
+    const linesEnter = linesGroup.enter()
+        .append('g')
+        .attr('class', 'crosshair');
+        
+    linesEnter.merge(linesGroup)
+        .selectAll('line')
+        .data(d => d)
+        .join('line')
+        .attr('x1', d => d[0])
+        .attr('y1', d => d[1])
+        .attr('x2', d => d[2])
+        .attr('y2', d => d[3])
+        .attr('stroke', '#000000')
+        .attr('stroke-width', 1);
+    
+    // Style circles with red stroke if radius is negative
+    circle_g.selectAll('circle')
+        .attr('stroke', d => d.r < 0 ? 'red' : '#181818');
+        
+    return { largeCircle, smallCircle, middleCircle, extraCircle };
     circle_g
         .selectAll('line')
         .data(lines)
