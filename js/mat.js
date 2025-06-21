@@ -2,13 +2,40 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select } = d3;
 import { matName, getMatType } from './matPoints.js';
 import { createPointString } from './util.js';
-import { circle_g, color, highlights, mat, segments_g } from './circleMat.js';
 import { underOver, intersections, sliderdragstarted } from './sliders.js';
+
+// These will be initialized by the main application
+let circle_g = null;
+let color = null;
+let highlights_g = null;
+let mat_g = null;
+let segments_g = null;
+
+// Function to initialize mat module with required dependencies
+export function initMatModule(circleGroup, colorScale, highlightsGroup, matGroup, segmentsGroup) {
+    circle_g = circleGroup;
+    color = colorScale;
+    highlights_g = highlightsGroup;
+    mat_g = matGroup;
+    segments_g = segmentsGroup;
+    
+    // Return the public API
+    return {
+        updateMat,
+        svgFullScreen,
+        control_flags,
+        // Export other functions that need to be called from outside
+    };
+}
 
 //d3.select("#segment").on("change", function() { updateMat(); });
 //draw_intersections( pathX );
 
 export function updateMat(knotpoints) {
+    if (!circle_g || !highlights_g || !mat_g || !segments_g) {
+        console.error('Mat module not properly initialized');
+        return;
+    }
     showCircles();
     select('#title').text(matName[getMatType()] + ' Mat');
 
@@ -407,5 +434,12 @@ export function svgMatZoom() {
     }
     select('#mat svg').attr('viewBox', vbox);
 }
-export const control_flags = {};
+export const control_flags = {
+    CtrlPts: false,
+    UnderOver: 0,
+    Int: 0,
+    SingleLoop: false,
+    Circles: false,
+    Dev: false
+};
 

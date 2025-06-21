@@ -1,9 +1,22 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-import { presets, slider_g, sliderCtrl } from './circleMat.js';
 import { updateMat, control_flags } from './mat.js';
 import { createKnotPoints, setMatType } from './matPoints.js';
 
 let ppk; // Points per knot - used in getControls and sliderdragged
+
+// Slider control configuration
+export const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
+
+// Initialize with default values that will be set by the main application
+let presets = {};
+let slider_g = null;
+
+// Function to initialize slider module with required dependencies
+export function initSlidersModule(initialPresets, sliderGroup) {
+    presets = initialPresets;
+    slider_g = sliderGroup;
+    return { sliderCtrl };
+}
 
 export function createSliders(g, sliders) {
     var sl_g = g
@@ -83,7 +96,7 @@ export function createSlider(g) {
 }
 export let underOver;
 export let intersections;
-export function sliderdragstarted() {
+export function sliderdragstarted(event) {
     d3.select(this).raise().classed('on', 1);
     underOver = control_flags.UnderOver;
     intersections = control_flags.Int;
@@ -128,6 +141,10 @@ export function sliderdragended() {
 }
 export const sliderdrag = d3.drag().on('start', sliderdragstarted).on('drag', sliderdragged).on('end', sliderdragended);
 export function loadPreset(matType, variant) {
+    if (!presets[matType] || !presets[matType][variant]) {
+        console.error(`Preset not found: ${matType} variant ${variant}`);
+        return;
+    }
     setMatType(matType);
     var sliders = presets[matType].sliders;
     createSliders(slider_g, sliders);

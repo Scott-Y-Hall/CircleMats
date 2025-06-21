@@ -4,13 +4,12 @@ const { schemeCategory10 } = d3;
 const { ascending } = d3;
 import * as definePresets from './definePresets.js';
 import { createKnotPoints, matName, setMatType } from './matPoints.js';
-import { control_flags } from './mat.js';
-import { getSliderDevDefs, loadPreset } from './sliders.js';
+import { initMatModule, control_flags } from './mat.js';
+import { initSlidersModule, getSliderDevDefs, loadPreset as loadPresetFn } from './sliders.js';
 import { button, createButtonData } from './buttons.js';
-import { svgFullScreen, updateMat } from './mat.js';
 
 const matNameArray = Object.keys(matName).map((d) => ({ key: d, value: matName[d] }));
-export const presets = definePresets.definePresets();
+const presets = definePresets.definePresets();
 const presetArray = Object.keys(matName).map((d) => ({
     key: d,
     value: Object.keys(presets[d])
@@ -18,10 +17,10 @@ const presetArray = Object.keys(matName).map((d) => ({
         .filter((d) => d)
         .sort(ascending),
 }));
-export const color = scaleOrdinal(schemeCategory10);
+const color = scaleOrdinal(schemeCategory10);
 const matCtrl = { width: 800, height: 800, translate: 'translate(0,80)' };
-export const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
-export const optionCtrl = { width: 800, height: 480, translate: 'translate(800,500)' };
+const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
+const optionCtrl = { width: 800, height: 480, translate: 'translate(800,500)' };
 let width;
 let height;
 if (window.innerWidth < window.innerHeight) {
@@ -47,11 +46,11 @@ var svg = select('body')
 svgFullScreen();
 svg.append('path').attr('id', 'tail').attr('fill', 'none').attr('stroke', '#EE3333').attr('stroke-width', '5');
 svg.append('path').attr('id', 'matpath').attr('fill', 'none').attr('stroke', '#333333').attr('stroke-width', '5');
-export var segments_g = svg.append('g');
-export var highlights = svg.append('g');
-export var mat = svg.append('g');
-export var circle_g = svg.append('g');
-export var slider_g = d3.select('svg#mat').append('g').attr('id', 'sliders').attr('transform', sliderCtrl.translate);
+const segments_g = svg.append('g');
+const highlights_g = svg.append('g');
+const mat_g = svg.append('g');
+const circle_g = svg.append('g');
+const slider_g = d3.select('svg#mat').append('g').attr('id', 'sliders').attr('transform', sliderCtrl.translate);
 var option_g = d3.select('svg#mat').append('g').attr('id', 'options').attr('transform', optionCtrl.translate);
 var title_g = d3
     .select('svg#mat')
@@ -87,7 +86,7 @@ presets_g
     .text((d) => '( ' + d + ' )')
     .attr('text-anchor', 'middle')
     .attr('x', (d, i) => 0 + 40 * i)
-    .on('click', (x, d) => loadPreset(d3.select(x.currentTarget.parentNode).datum().key, d));
+    .on('click', (x, d) => loadPresetFn(d3.select(x.currentTarget.parentNode).datum().key, d));
 
 // Create button data with the correct height
 const buttonData = createButtonData(optionCtrl.height);
@@ -95,7 +94,7 @@ const buttonData = createButtonData(optionCtrl.height);
 const buttons = option_g.selectAll('.button').data(buttonData).join('g').attr('class', 'button').call(button);
 // Unpress all buttons
 buttonData.forEach((d) => (control_flags[d.label] = 0));
-window.addEventListener('resize', svgFullScreen);
+window.addEventListener('resize', svgFullScreenFn);
 
 function initPresets() {
     Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
@@ -104,5 +103,27 @@ function initPresets() {
 // Initialize presets after all modules are loaded
 initPresets();
 
-loadPreset('Y', 4);
-updateMat(createKnotPoints());
+// Initialize the application
+const initApp = () => {
+    // Initialize mat module with required dependencies
+    const matApi = initMatModule(circle_g, color, highlights_g, mat_g, segments_g);
+    
+    // Initialize sliders module with required dependencies
+    const { sliderCtrl: sliderCtrlConfig } = initSlidersModule(presets, slider_g);
+    
+    // Initialize presets with slider definitions
+    Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
+    
+    // Load initial preset and update the mat
+    loadPresetFn('Y', 4);
+    matApi.updateMat(createKnotPoints());
+    
+    // Return the public API if needed
+    return {
+        matApi,
+        sliderCtrl: sliderCtrlConfig
+    };
+};
+
+// Start the application
+initApp();
