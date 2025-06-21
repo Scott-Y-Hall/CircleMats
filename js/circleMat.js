@@ -1,14 +1,10 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-const { select, scaleOrdinal } = d3;
-const { schemeCategory10 } = d3;
-const { ascending } = d3;
-import * as definePresets from './definePresets.js';
+const { select } = d3;
 import { matNameArray, presets, presetArray } from './matPoints.js';
 import { initMatModule, control_flags } from './mat.js';
 import { initSlidersModule, loadPreset as loadPresetFn } from './sliders.js';
 import { button, createButtonData } from './buttons.js';
 
-const color = scaleOrdinal(schemeCategory10);
 const matCtrl = { width: 800, height: 800, translate: 'translate(0,80)' };
 const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
 const optionCtrl = { width: 800, height: 480, translate: 'translate(800,500)' };
@@ -61,7 +57,7 @@ option_g
     .text((d) => d.value)
     .attr('y', (d, i) => 55 + 18 * i)
     .on('click', (x, d) => {
-        const matApi = initMatModule(circle_g, color, highlights_g, mat_g, segments_g);
+        const matApi = initMatModule(circle_g, highlights_g, mat_g, segments_g);
         matApi.updateMat(undefined, d.key);
     });
 var presets_g = option_g
@@ -90,7 +86,7 @@ buttonData.forEach((d) => (control_flags[d.label] = 0));
 // Initialize the application
 const initApp = () => {
     // Initialize mat module with required dependencies
-    const matApi = initMatModule(circle_g, color, highlights_g, mat_g, segments_g);
+    const matApi = initMatModule(circle_g, highlights_g, mat_g, segments_g);
     
     // Initialize sliders module with required dependencies
     const { sliderCtrl: sliderCtrlConfig } = initSlidersModule(presets, slider_g);

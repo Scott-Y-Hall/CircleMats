@@ -1,20 +1,19 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-const { select } = d3;
+const { select, scaleOrdinal, schemeCategory10 } = d3;
 import { createKnotPoints, matName } from './matPoints.js';
 import { createPointString } from './util.js';
 import { underOver, intersections, sliderdragstarted } from './sliders.js';
 
+const color = scaleOrdinal(schemeCategory10);
 // These will be initialized by the main application
 let circle_g = null;
-let color = null;
 let highlights_g = null;
 let mat_g = null;
 let segments_g = null;
 
 // Function to initialize mat module with required dependencies
-export function initMatModule(circleGroup, colorScale, highlightsGroup, matGroup, segmentsGroup) {
+export function initMatModule(circleGroup, highlightsGroup, matGroup, segmentsGroup) {
     circle_g = circleGroup;
-    color = colorScale;
     highlights_g = highlightsGroup;
     mat_g = matGroup;
     segments_g = segmentsGroup;
