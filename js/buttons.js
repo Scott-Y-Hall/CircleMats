@@ -1,7 +1,6 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 const { select } = d3;
 import { button as d3Button } from './d3.button.js';
-import { createKnotPoints } from './matPoints.js';
 import { updateMat, control_flags } from './mat.js';
 
 // Button configuration
@@ -29,9 +28,9 @@ export function createButtonData(optionCtrlHeight) {
 export const button = d3Button()
     .on('press', (x, d) => {
         control_flags[d.label] = 1;
-        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : select('#matpath').datum());
+        updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
     })
     .on('release', (x, d) => {
         control_flags[d.label] = 0;
-        updateMat(d.label === 'SingleLoop' ? createKnotPoints() : select('#matpath').datum());
+        updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
     });
