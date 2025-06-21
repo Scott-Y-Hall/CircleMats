@@ -10,8 +10,8 @@ graph TD
     circleMat["circleMat.js<br/>Main Application<br/>- Initializes all modules<br/>- Manages application state"]
     
     %% Core Modules
-    mat["mat.js<br/>Canvas Rendering<br/>- initMatModule()<br/>- updateMat()<br/>- showCircles()<br/>- showControlPoints()"]
-    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints()<br/>- matName()<br/>- getMatType()"]
+    mat["mat.js<br/>Canvas Rendering<br/>- initMatModule()<br/>- updateMat(knotpoints, matType)<br/>- showCircles()<br/>- showControlPoints()"]
+    matPoints["matPoints.js<br/>Mat Geometry<br/>- createKnotPoints(matType)<br/>- matName()<br/>- matType()"]
     
     %% UI Components
     buttons["buttons.js<br/>UI Buttons<br/>- Handles button interactions"]
@@ -55,32 +55,24 @@ graph TD
     d3["D3.js<br/>External Library"]
     
     %% Main Dependencies (circleMat orchestrates everything)
-    circleMat --> mat
-    circleMat --> matPoints
+    circleMat -- "initMatModule()<br/>passes D3 groups" --> mat
+    circleMat -- "initSlidersModule()<br/>passes presets" --> sliders
     circleMat --> buttons
-    circleMat --> sliders
     circleMat --> definePresets
     
     %% Core Module Dependencies
-    mat --> matPoints
+    mat -- "createKnotPoints(matType)" --> matPoints
     mat --> util
     mat --> d3
-    mat --> sliders
     
     %% UI Component Dependencies
+    buttons -- "updateMat()" --> mat
     buttons --> d3Button
-    buttons --> matPoints
-    buttons --> mat
     d3Button --> d3
     
     %% Slider Dependencies
+    sliders -- "updateMat()" --> mat
     sliders --> d3
-    sliders --> matPoints
-    
-    %% Initialization Flow
-    circleMat -- "initSlidersModule()" --> sliders
-    circleMat -- "initMatModule()" --> mat
-    mat -- "updateMat()" --> matPoints
     
     %% Knot Dependencies
     matPoints --> d3
