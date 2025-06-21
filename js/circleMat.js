@@ -40,8 +40,7 @@ const mat_g = svg.append('g');
 const circle_g = svg.append('g');
 const slider_g = d3.select('svg#mat').append('g').attr('id', 'sliders').attr('transform', sliderCtrl.translate);
 var option_g = d3.select('svg#mat').append('g').attr('id', 'options').attr('transform', optionCtrl.translate);
-var title_g = d3
-    .select('svg#mat')
+d3.select('svg#mat')
     .append('text')
     .attr('id', 'title')
     .attr('text-anchor', 'middle')
