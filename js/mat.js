@@ -514,11 +514,12 @@ export function svgMatZoom() {
     select('#mat svg').attr('viewBox', vbox);
 }
 export const control_flags = {
-    CtrlPts: false,
+    CtrlPts: 0,
     UnderOver: 0,
     Int: 0,
-    SingleLoop: false,
-    Circles: false,
-    Dev: false
+    SingleLoop: 0,
+    Circles: 0,
+    Dev: 0,
+    Fit: 0
 };
 
