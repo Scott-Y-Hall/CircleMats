@@ -70,9 +70,8 @@ option_g
     .text((d) => d.value)
     .attr('y', (d, i) => 55 + 18 * i)
     .on('click', (x, d) => {
-        const knotPoints = createKnotPoints(d.key);
         const matApi = initMatModule(circle_g, color, highlights_g, mat_g, segments_g);
-        matApi.updateMat(knotPoints);
+        matApi.updateMat(undefined, d.key);
     });
 var presets_g = option_g
     .append('g')
