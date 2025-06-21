@@ -71,7 +71,10 @@ option_g
     .attr('y', (d, i) => 55 + 18 * i)
     .on('click', (x, d) => {
         setMatType(d.key);
-        updateMat(createKnotPoints());
+        // Use the matApi to update the mat with the new knot points
+        const knotPoints = createKnotPoints();
+        const matApi = initMatModule(circle_g, color, highlights_g, mat_g, segments_g);
+        matApi.updateMat(knotPoints);
     });
 var presets_g = option_g
     .append('g')
