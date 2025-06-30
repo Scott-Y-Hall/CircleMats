@@ -50,3 +50,19 @@ export function SamebaKnot() {
     }
     return nodepoints;
 }
+
+export function Vainovska3Knot() {
+    var c = getControls(4);
+    var nodepoints = [];
+    for (var x = 0; x < c.knots; x++) {
+        nodepoints.push(createPoint(c.smallCircle, 180 + 2 * x * c.angle - c.angle, -c.startcp / 3, -c.startcp / 3));
+        nodepoints.push(createPoint(c.middleCircle, 180 + 2 * x * c.angle - c.angle / 2, c.startcp / 3, c.midcp / 3, 45));
+        nodepoints.push(createPoint(c.largeCircle, 180 + 2 * x * c.angle, -c.midcp / 3, -c.midcp / 3));
+        nodepoints.push(createPoint(c.middleCircle, 180 + 2 * x * c.angle + c.angle / 2, c.midcp / 3, c.startcp / 3, -45));
+    }
+    nodepoints.push(createPoint(c.smallCircle, 180 + 2 * (c.knots - 1) * c.angle + c.angle, -c.startcp / 3, -c.startcp / 3));
+    if (c.single) {
+        nodepoints.splice(c.show);
+    }
+    return nodepoints;
+}
