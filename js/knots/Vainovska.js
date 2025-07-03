@@ -2,9 +2,9 @@ import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
 export function VainovskaKnot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, -x * c.angle + c.angle / 2, c.startcp / 2, c.startcp / 2));
         nodepoints.push(createPoint(c.middleCircle, -x * c.angle + c.angle / 4, -c.startcp / 2, -c.midcp / 2));
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle, c.midcp, c.midcp));
@@ -18,9 +18,9 @@ export function VainovskaKnot() {
 }
 
 export function Vainovska2Knot() {
-    var c = getControls(6);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(6);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.middleCircle, -x * c.angle + c.angle / 2, c.startcp / 3, c.startcp / 3));
         nodepoints.push(createPoint(c.extraCircle, -x * c.angle + c.extraAngle, -c.cp1 * 5, -c.cp2 * 5, c.tilt));
         nodepoints.push(createPoint(c.smallCircle, -x * c.angle - c.angle / 4, c.midcp, c.midcp));
@@ -36,9 +36,9 @@ export function Vainovska2Knot() {
 }
 
 export function SamebaKnot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, x * c.angle - c.angle / 2, -c.startcp / 2, -c.startcp / 2));
         nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp2 * 2, c.cp1 * 2, 135));
         nodepoints.push(createPoint(c.extraCircle, x * c.angle + 0, c.midcp, c.midcp));
@@ -52,9 +52,9 @@ export function SamebaKnot() {
 }
 
 export function Vainovska3Knot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, 180 + 2 * x * c.angle - c.angle, -c.startcp / 3, -c.startcp / 3));
         nodepoints.push(createPoint(c.middleCircle, 180 + 2 * x * c.angle - c.angle / 2, c.startcp / 3, c.midcp / 3, 45));
         nodepoints.push(createPoint(c.largeCircle, 180 + 2 * x * c.angle, -c.midcp / 3, -c.midcp / 3));

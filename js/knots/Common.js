@@ -2,9 +2,9 @@ import { createPoint } from '../util.js';
 import { getControls } from '../sliders.js';
 
 export function PitonKnot() {
-    var c = getControls(2);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(2);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, 180 + 4 * x * c.angle - c.angle * 2, -c.startcp, -c.startcp));
         nodepoints.push(createPoint(c.largeCircle, 180 + (4 - c.knots) * x * c.angle, -c.midcp, -c.midcp));
     }
@@ -16,9 +16,9 @@ export function PitonKnot() {
 }
 
 export function RattanKnot() {
-    var c = getControls(2);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(2);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, -x * c.angle + c.angle / 2, -c.startcp, -c.startcp));
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + 180, -c.midcp, -c.midcp));
     }
@@ -30,9 +30,9 @@ export function RattanKnot() {
 }
 
 export function KringleKnot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 5, c.angle, c.midcp / 2));
         nodepoints.push(createPoint(c.smallCircle, -x * c.angle, -c.midcp, -c.midcp));

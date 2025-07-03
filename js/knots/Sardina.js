@@ -4,10 +4,10 @@ import { control_flags } from '../mat.js';
 
 export function RadianceKnot() {
     control_flags.Fit = 1;
-    var c = getControls(6);
+    const c = getControls(6);
     //c.tilt = 12;
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.largeCircle, x * c.angle - c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(c.smallCircle, x * c.angle - (7 * c.angle) / 4, -c.extracp * 10, -c.midcp, -c.tilt));
         nodepoints.push(createPoint(c.extraCircle, x * c.angle - (0 * c.angle) / 6, -c.midcp / 2, -c.midcp / 2, -40));
@@ -23,9 +23,9 @@ export function RadianceKnot() {
 }
 
 export function SardinaKnot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 5, c.angle, c.midcp / 2));
         if (x % 2) {
@@ -43,9 +43,9 @@ export function SardinaKnot() {
 }
 
 export function SardinaAltKnot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 5, c.angle, c.midcp / 2));
         if (x % 2) {
@@ -63,9 +63,9 @@ export function SardinaAltKnot() {
 }
 
 export function Sardina2Knot() {
-    var c = getControls(4);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(300, -x * c.angle + c.angle / 3, -c.startcp / 3, -c.midcp));
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + 180, -c.midcp, -c.midcp));
@@ -79,9 +79,9 @@ export function Sardina2Knot() {
 }
 
 export function Sardina3Knot() {
-    var c = getControls(2);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(2);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(-c.smallCircle, -x * c.angle + c.angle / 2, c.startcp, c.startcp));
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + 180, c.midcp, c.midcp));
     }
@@ -93,11 +93,11 @@ export function Sardina3Knot() {
 }
 
 export function Sardina4Knot() {
-    var c = getControls(7);
+    const c = getControls(7);
     let skip = Math.ceil(c.knots / 2);
     let factor = (c.knots + 18) / 30;
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.smallCircle, skip * x * c.angle, -c.startcp, -c.startcp));
         nodepoints.push(createPoint(c.largeCircle, 180 + skip * x * c.angle - c.angle / 8, -c.midcp, -c.angle));
         nodepoints.push(createPoint(c.largeCircle * factor, 180 + skip * x * c.angle + (2 * c.angle) / 8, -c.angle, -c.angle));
@@ -114,9 +114,9 @@ export function Sardina4Knot() {
 }
 
 export function Sardina5Knot() {
-    var c = getControls(6);
-    var nodepoints = [];
-    for (var x = 0; x < c.knots; x++) {
+    const c = getControls(6);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
         nodepoints.push(createPoint(c.largeCircle, -x * c.angle + c.angle / 2, 30 + c.angle, 30 + c.angle));
         nodepoints.push(createPoint(300, -x * c.angle - c.angle / 5, c.angle, c.midcp / 2));
         nodepoints.push(createPoint(c.extraCircle, -x * c.angle - c.extraAngle - c.angle / 5, c.extracp, c.extracp, c.tilt));
