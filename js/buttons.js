@@ -30,11 +30,19 @@ export function createButtons(container, height) {
     const button = d3Button()
         .on('press', (x, d) => {
             control_flags[d.label] = 1;
-            updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
+            updateMat(d.label === 'SingleLoop'
+                ? undefined
+                : select('#tail').datum().length > 0
+                    ? select('#tail').datum()
+                    : select('#matpath').datum());
         })
         .on('release', (x, d) => {
             control_flags[d.label] = 0;
-            updateMat(d.label === 'SingleLoop' ? undefined : select('#matpath').datum());
+            updateMat(d.label === 'SingleLoop'
+                ? undefined
+                : select('#tail').datum().length > 0
+                    ? select('#tail').datum()
+                    : select('#matpath').datum());
         });
 
     // Create button data with the correct height

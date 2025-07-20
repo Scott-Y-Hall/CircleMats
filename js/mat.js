@@ -268,7 +268,9 @@ export function showCircles() {
 }
 
 function pointdragged(event, d) {
-    let knotpoints = d3.select('#matpath').datum();
+    let knotpoints = d3.select('#tail').datum().length > 0
+        ? d3.select('#tail').datum()
+        : d3.select('#matpath').datum();
     let index = d3.select(this).attr('index');
     d3.select(this).attr('cx', knotpoints[index].p.x = event.x).attr('cy', knotpoints[index].p.y = event.y);
     d3.select(this.parentNode.parentNode).selectAll("line[index='" + index + "']").attr('x1', event.x).attr('y1', event.y);
@@ -277,7 +279,9 @@ function pointdragged(event, d) {
 }
 
 function cp1dragged(event, d) {
-    let knotpoints = d3.select('#matpath').datum();
+    let knotpoints = d3.select('#tail').datum().length > 0
+        ? d3.select('#tail').datum()
+        : d3.select('#matpath').datum();
     let index = d3.select(this).attr('index');
     d3.select(this).attr('cx', knotpoints[index].cp1.x = event.x).attr('cy', knotpoints[index].cp1.y = event.y);
     d3.select(this.parentNode).selectAll("line[index='" + index + "']").attr('x2', event.x).attr('y2', event.y);
@@ -286,7 +290,9 @@ function cp1dragged(event, d) {
 }
 
 function cp2dragged(event, d) {
-    let knotpoints = d3.select('#matpath').datum();
+    let knotpoints = d3.select('#tail').datum().length > 0
+        ? d3.select('#tail').datum()
+        : d3.select('#matpath').datum();
     let index = d3.select(this).attr('index');
     d3.select(this).attr('cx', knotpoints[index].cp2.x = event.x).attr('cy', knotpoints[index].cp2.y = event.y);
     d3.select(this.parentNode).selectAll("line[index='" + index + "']").attr('x2', event.x).attr('y2', event.y);
@@ -298,7 +304,9 @@ function cpdragended() {
     d3.select(this).classed('on', 0);
     control_flags.UnderOver = underOver;
     control_flags.Int = intersections;
-    let knotpoints = d3.select('#matpath').datum();
+    let knotpoints = d3.select('#tail').datum().length > 0
+        ? d3.select('#tail').datum()
+        : d3.select('#matpath').datum();
     updatePaths(knotpoints);
 }
 
