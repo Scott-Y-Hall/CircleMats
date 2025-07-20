@@ -4,7 +4,7 @@ import { definePresets } from './definePresets.js';
 import { getSliderDevDefs } from './sliders.js';    
 
 import { StruktorKnot }                                                                                      from './knots/Struktor.js';
-import { VainovskaKnot, Vainovska2Knot, Vainovska3Knot, SamebaKnot }                                         from './knots/Vainovska.js';
+import { VainovskaKnot, Vainovska2Knot, Vainovska3Knot, Vainovska4Knot, Vainovska5Knot, SamebaKnot }             from './knots/Vainovska.js';
 import { WarlowKnot, Warlow2Knot }                                                                           from './knots/Warlow.js';
 import { YetterKnot, YetterPlusKnot }                                                                        from './knots/Yetter.js';
 import { PeesoKnot }                                                                                         from './knots/Peeso.js';
@@ -41,7 +41,9 @@ export function createKnotPoints(newMatType) {
     if (_matType == 'V')         { nodepoints = VainovskaKnot();  }
     if (_matType == 'V2')        { nodepoints = Vainovska2Knot(); }
     if (_matType == 'V3')        { nodepoints = Vainovska3Knot(); }
-    if (_matType == 'V4')        { nodepoints = SamebaKnot();     }
+    if (_matType == 'V4')        { nodepoints = Vainovska4Knot(); }
+    if (_matType == 'V5')        { nodepoints = Vainovska5Knot(); }
+    if (_matType == 'VS')        { nodepoints = SamebaKnot();     }
     if (nodepoints.length == 0)  { nodepoints = YetterPlusKnot(); }
     let data = d3.select('#sliders').selectAll('g').data();
     let show = data.find((d) => d.name == 'Segments').value;
@@ -74,7 +76,9 @@ const matNameHash = {
     V:     'Vainovska',
     V2:    'Vainovska2',
     V3:    'Vainovska3',
-    V4:    'Sameba',
+    V4:    'Vainovska4',
+    V5:    'Vainovska5',
+    VS:    'Sameba',
 };
 
 // Internal variable to track the current mat type

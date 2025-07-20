@@ -35,22 +35,6 @@ export function Vainovska2Knot() {
     return nodepoints;
 }
 
-export function SamebaKnot() {
-    const c = getControls(4);
-    const nodepoints = [];
-    for (let x = 0; x < c.knots; x++) {
-        nodepoints.push(createPoint(c.smallCircle, x * c.angle - c.angle / 2, -c.startcp / 2, -c.startcp / 2));
-        nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp2 * 2, c.cp1 * 2, 135));
-        nodepoints.push(createPoint(c.extraCircle, x * c.angle + 0, c.midcp, c.midcp));
-        nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp1 * 2, c.cp2 * 2, -135));
-    }
-    nodepoints.push(createPoint(c.smallCircle, (c.knots - 1) * c.angle + c.angle / 2, -c.startcp / 2, -c.startcp / 2));
-    if (c.single) {
-        nodepoints.splice(c.show);
-    }
-    return nodepoints;
-}
-
 export function Vainovska3Knot() {
     const c = getControls(4);
     const nodepoints = [];
@@ -61,6 +45,54 @@ export function Vainovska3Knot() {
         nodepoints.push(createPoint(c.middleCircle, 180 + 2 * x * c.angle + c.angle / 2, c.midcp / 3, c.startcp / 3, -45));
     }
     nodepoints.push(createPoint(c.smallCircle, 180 + 2 * (c.knots - 1) * c.angle + c.angle, -c.startcp / 3, -c.startcp / 3));
+    if (c.single) {
+        nodepoints.splice(c.show);
+    }
+    return nodepoints;
+}
+
+export function Vainovska4Knot() {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
+        nodepoints.push(createPoint(c.smallCircle, 3 * x * c.angle, -c.startcp / 3, -c.startcp / 3));
+        nodepoints.push(createPoint(c.extraCircle, 3 * x * c.angle + c.angle * 1.5, c.cp2, c.cp1, c.tilt));
+        nodepoints.push(createPoint(c.largeCircle, 3 * x * c.angle + c.angle * 1.5, c.midcp / 3, c.midcp / 3));
+        nodepoints.push(createPoint(c.extraCircle, 3 * x * c.angle + c.angle * 1.5, c.cp1, c.cp2, -c.tilt));
+    }
+    nodepoints.push(createPoint(c.smallCircle, 3 * (c.knots) * c.angle, -c.startcp / 3, -c.startcp / 3));
+    if (c.single) {
+        nodepoints.splice(c.show);
+    }
+    return nodepoints;
+}
+
+export function Vainovska5Knot() {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
+        nodepoints.push(createPoint(c.smallCircle, 5 * x * c.angle, -c.startcp / 3, -c.startcp / 3));
+        nodepoints.push(createPoint(c.extraCircle, 5 * x * c.angle + c.angle * 2.5, c.cp2, c.cp1, c.tilt));
+        nodepoints.push(createPoint(c.largeCircle, 5 * x * c.angle + c.angle * 2.5, c.midcp / 3, c.midcp / 3));
+        nodepoints.push(createPoint(c.extraCircle, 5 * x * c.angle + c.angle * 2.5, c.cp1, c.cp2, -c.tilt));
+    }
+    nodepoints.push(createPoint(c.smallCircle, 5 * (c.knots) * c.angle, -c.startcp / 3, -c.startcp / 3));
+    if (c.single) {
+        nodepoints.splice(c.show);
+    }
+    return nodepoints;
+}
+
+export function SamebaKnot() {
+    const c = getControls(4);
+    const nodepoints = [];
+    for (let x = 0; x < c.knots; x++) {
+        nodepoints.push(createPoint(c.smallCircle, x * c.angle - c.angle / 2, -c.startcp / 2, -c.startcp / 2));
+        nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp2 * 2, c.cp1 * 2, 135));
+        nodepoints.push(createPoint(c.extraCircle, x * c.angle + 0, c.midcp, c.midcp));
+        nodepoints.push(createPoint(c.largeCircle, x * c.angle, c.cp1 * 2, c.cp2 * 2, -135));
+    }
+    nodepoints.push(createPoint(c.smallCircle, (c.knots - 1) * c.angle + c.angle / 2, -c.startcp / 2, -c.startcp / 2));
     if (c.single) {
         nodepoints.splice(c.show);
     }
