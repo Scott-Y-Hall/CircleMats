@@ -7,7 +7,7 @@ import { createButtons } from './buttons.js';
 
 const matCtrl = { width: 800, height: 800, translate: 'translate(0,80)' };
 const sliderCtrl = { width: 800, height: 400, translate: 'translate(0,940)' };
-const optionCtrl = { width: 800, height: 480, translate: 'translate(800,500)' };
+const optionCtrl = { width: 800, height: 518, translate: 'translate(800,500)' };
 let width;
 let height;
 if (window.innerWidth < window.innerHeight) {
