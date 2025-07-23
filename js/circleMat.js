@@ -1,8 +1,13 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-const { select } = d3;
-import { matNameArray, presets, presetArray } from './matPoints.js';
+const { select, ascending } = d3;
+import { matType, matNameArray, presets } from './matPoints.js';
 import { initMatModule } from './mat.js';
-import { initSlidersModule, loadPreset as loadPresetFn } from './sliders.js';
+import { 
+    initSlidersModule, 
+    loadPreset as loadPresetFn, 
+    saveCurrentToPreset, 
+    exportPresets 
+} from './sliders.js';
 import { createButtons } from './buttons.js';
 
 const matCtrl = { width: 800, height: 800, translate: 'translate(0,80)' };
@@ -59,6 +64,19 @@ option_g
         const matApi = initMatModule(circle_g, highlights_g, mat_g, segments_g);
         matApi.updateMat(undefined, d.key);
     });
+
+function getPresetArray() {
+    return matNameArray.map((d) => ({
+    key: d.key,
+    value: Object.keys(presets[d.key])
+        .map(Number)
+        .filter((d) => d)
+        .sort(ascending),
+    }));
+}
+
+let presetArray = getPresetArray();
+
 var presets_g = option_g
     .append('g')
     .attr('id', 'presets')
@@ -96,5 +114,61 @@ const initApp = () => {
     window.addEventListener('resize', () => matApi.svgFullScreen());
 };
 
+// Create control panel for preset management
+function createPresetControls() {
+    const controlsDiv = d3.select('body').append('div')
+        .attr('class', 'preset-controls')
+        .style('position', 'fixed')
+        .style('bottom', '20px')
+        .style('left', '20px')
+        .style('background', 'rgba(255, 255, 255, 0.9)')
+        .style('padding', '10px')
+        .style('border-radius', '5px')
+        .style('box-shadow', '0 0 10px rgba(0,0,0,0.2)');
+
+    // Add save preset button
+    controlsDiv.append('button')
+        .text('Save Current to Preset')
+        .style('margin-right', '10px')
+        .on('click', () => {
+            // Get current mat type and variant from the URL or default to 'V' and 3
+            const _matType = matType() || 'X';
+            const variant = d3.select('#sliders').selectAll('g').data().find((d) => d.name == 'Knots').value;
+            
+            // Save the current slider values to the preset
+            const success = saveCurrentToPreset(presets, _matType, variant);
+            
+            if (success) {
+                //alert(`Preset ${_matType} variant ${variant} updated!`);
+                // Reload preset section
+                presetArray = getPresetArray();
+                d3.selectAll('#presets').selectAll('g')
+                    .data(presetArray)
+                    .join('g')
+                    .attr('transform', (d, i) => 'translate(98,' + (55 + i * 18) + ')')
+                    .selectAll('text')
+                    .data((d) => d.value)
+                    .join('text')
+                    .text((d) => '( ' + d + ' )')
+                    .attr('text-anchor', 'middle')
+                    .attr('x', (d, i) => 0 + 40 * i)
+                    .on('click', (x, d) => loadPresetFn(d3.select(x.currentTarget.parentNode).datum().key, d));
+            } else {
+                alert('Failed to update preset. Check console for details.');
+            }
+        });
+
+    // Add export presets button
+    controlsDiv.append('button')
+        .text('Export All Presets')
+        .on('click', () => {
+            exportPresets(presets, 'circle-mats-presets');
+        });
+}
+
 // Start the application
 initApp();
+
+// Create preset controls after the app is initialized
+setTimeout(createPresetControls, 1000);
+

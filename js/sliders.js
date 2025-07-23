@@ -168,6 +168,87 @@ export function loadPreset(matType, variant) {
     updateMat(undefined, matType);
 }
 
+/**
+ * Gets the current values of all sliders
+ * @returns {Object} Object containing all slider names and their current values
+ */
+export function getCurrentSliderValues() {
+    const sliders = d3.select('#sliders').selectAll('g').data();
+    const values = {};
+    sliders.forEach(slider => {
+        values[slider.name] = slider.value;
+    });
+    return values;
+}
+
+/**
+ * Saves the current slider values to the specified preset
+ * @param {Object} presets - The presets object to update
+ * @param {string} matType - The mat type (e.g., 'V', 'V2', 'Y', etc.)
+ * @param {number|string} variant - The variant number (e.g., 3, 4, 5, '4.1')
+ * @returns {boolean} True if the preset was updated, false otherwise
+ */
+export function saveCurrentToPreset(presets, matType, variant) {
+    if (!presets[matType]) {
+        console.error(`Invalid mat type: ${matType}`);
+        return false;
+    }
+    
+    // Get the current slider values
+    const currentValues = getCurrentSliderValues();
+    
+    // Ensure the variant exists in the preset
+    if (!presets[matType]) {
+        console.error(`Invalid mat type: ${matType}`);
+        return false;
+    }
+
+    //Create variant if it doesn't exist
+    if (!presets[matType][variant]) {
+        presets[matType][variant] = {};
+    }
+    
+    // Update the preset values
+    Object.entries(currentValues).forEach(([name, value]) => {
+        if (presets[matType][variant][name]) {
+            presets[matType][variant][name].value = value;
+        } else {
+            presets[matType][variant][name] = { value };
+        }
+    });
+    
+    console.log(`Updated preset ${matType} variant ${variant}`);
+    return true;
+}
+
+/**
+ * Exports the current presets to a downloadable JSON file
+ * @param {Object} presets - The presets object to export
+ * @param {string} filename - The name of the file to save (without extension)
+ */
+export function exportPresets(presets, filename = 'circle-mats-presets') {
+    // Create a deep clone of the presets to avoid modifying the original
+    const presetsCopy = JSON.parse(JSON.stringify(presets));
+    
+    // Convert the presets to a JSON string with nice formatting
+    const dataStr = JSON.stringify(presetsCopy, null, 2);
+    
+    // Create a data URI for the JSON content
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+    
+    // Create a temporary link element to trigger the download
+    const exportLink = document.createElement('a');
+    exportLink.setAttribute('href', dataUri);
+    exportLink.setAttribute('download', `${filename}.json`);
+    
+    // Trigger the download
+    document.body.appendChild(exportLink);
+    exportLink.click();
+    document.body.removeChild(exportLink);
+    
+    console.log(`Exported presets to ${filename}.json`);
+}
+
 export function getControls(pointsPerKnot) {
     ppk = pointsPerKnot;
     var data = d3.select('#sliders').selectAll('g').data();

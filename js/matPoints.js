@@ -1,5 +1,4 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-const { ascending } = d3;
 import { definePresets } from './definePresets.js';
 import { getSliderDevDefs } from './sliders.js';    
 
@@ -83,16 +82,10 @@ const matNameHash = {
 
 // Internal variable to track the current mat type
 let _matType = 'Y'; // Default value
+export function matType() { return _matType; }
 export function matName() { return matNameHash[_matType] + ' Mat'; }
 export const matNameArray = Object.keys(matNameHash).map((d) => ({ key: d, value: matNameHash[d] }));
 export const presets = definePresets();
-export const presetArray = matNameArray.map((d) => ({
-    key: d.key,
-    value: Object.keys(presets[d.key])
-        .map(Number)
-        .filter((d) => d)
-        .sort(ascending),
-}));
 
 // Initialize presets with slider definitions
 Object.keys(presets).forEach((d) => (presets[d].dev = getSliderDevDefs()));
