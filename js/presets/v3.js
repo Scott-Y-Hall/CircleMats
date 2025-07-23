@@ -1,0 +1,51 @@
+// V3 Presets
+export const v3Presets = {
+    sliders: [
+        { name: 'Knots' },
+        { name: 'LargeCircle' },
+        { name: 'SmallCircle' },
+        { name: 'StartCP' },
+        { name: 'MiddleCP' },
+        { name: 'Segments' },
+    ],
+    mat: {
+        Knots:       { min: 3, max: 9     },
+        LargeCircle: { min: 50, max: 400   },
+        SmallCircle: { min: 1, max: 200    },
+        StartCP:     { min: 0, max: 70     },
+        MiddleCP:    { min: 0, max: 80     },
+        Segments:    { min: 2, max: 17     },
+    },
+    3: {
+        Knots:       { value: 3           },
+        LargeCircle: { value: 350         },
+        SmallCircle: { value: 30          },
+        StartCP:     { value: 30          },
+        MiddleCP:    { value: 80          },
+        Segments:    { value: 13, max: 13 },
+    },
+    5: {
+        Knots:       { value: 5           },
+        LargeCircle: { value: 350         },
+        SmallCircle: { value: 30          },
+        StartCP:     { value: 20          },
+        MiddleCP:    { value: 50          },
+        Segments:    { value: 21, max: 21 },
+    },
+    7: {
+        Knots:       { value: 7           },
+        LargeCircle: { value: 350         },
+        SmallCircle: { value: 50          },
+        StartCP:     { value: 20          },
+        MiddleCP:    { value: 50          },
+        Segments:    { value: 29, max: 29 },
+    },
+    9: {
+        Knots:       { value: 9           },
+        LargeCircle: { value: 350         },
+        SmallCircle: { value: 70          },
+        StartCP:     { value: 20          },
+        MiddleCP:    { value: 30          },
+        Segments:    { value: 37, max: 37 },
+    },
+};

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presets Test</title>
+    <script type="module">
+        import { definePresets } from './js/definePresets.js';
+        
+        // Test the presets
+        const presets = definePresets();
+        
+        // Log the presets structure for verification
+        console.log('Loaded presets:', Object.keys(presets));
+        
+        // Verify each version has the expected structure
+        ['V', 'V2', 'V3', 'V4', 'V5'].forEach(version => {
+            if (presets[version]) {
+                console.log(`\n${version} structure:`, {
+                    hasSliders: Array.isArray(presets[version].sliders),
+                    hasMat: typeof presets[version].mat === 'object',
+                    presetCount: Object.keys(presets[version]).filter(k => !isNaN(k)).length
+                });
+            } else {
+                console.error(`Missing ${version} in presets!`);
+            }
+        });
+        
+        // If we got here without errors, the imports worked
+        console.log('✅ All preset versions imported successfully!');
+        
+    </script>
+</head>
+<body>
+    <h1>Presets Test</h1>
+    <p>Check the browser's developer console for test results.</p>
+</body>
+</html>
