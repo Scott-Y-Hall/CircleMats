@@ -36,18 +36,6 @@ export const v5Presets = {
         Tilt:        { value: 45          },
         Segments:    { value: 17, max: 17 },
     },
-    5: {
-        Knots:       { value: 5           },
-        ExtraCircle: { value: 120         },
-        LargeCircle: { value: 351         },
-        SmallCircle: { value: 45          },
-        StartCP:     { value: 36          },
-        MiddleCP:    { value: 30          },
-        CP1:         { value: 52          },
-        CP2:         { value: 62          },
-        Tilt:        { value: 45          },
-        Segments:    { value: 21, max: 21 },
-    },
     7: {
         Knots:       { value: 7           },
         ExtraCircle: { value: 160         },
